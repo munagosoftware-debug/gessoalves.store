@@ -3,7 +3,7 @@ import { Resend } from 'resend';
 import { z } from 'zod';
 import { createAdminClient } from '@/lib/supabase';
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+// Instanciado dinamicamente no POST para evitar erro no build do Next.js se a chave não existir
 
 const formSchema = z.object({
   name: z.string().min(3),
@@ -78,23 +78,28 @@ export async function POST(req) {
       }
     }
 
-    // Envia e-mail via Resend
-    await resend.emails.send({
-      from: 'Gessoalves Site <onboarding@resend.dev>', // Modifique para o seu domínio verificado no Resend
-      to: [process.env.ADMIN_EMAIL || 'admin@gessoalves.store'],
-      subject: `[Site] Novo Orçamento: ${validatedData.subject}`,
-      html: `
-        <h2>Novo Contato pelo Site</h2>
-        <p><strong>Nome:</strong> ${validatedData.name}</p>
-        <p><strong>E-mail:</strong> ${validatedData.email}</p>
-        <p><strong>Telefone/WhatsApp:</strong> ${validatedData.phone}</p>
-        <p><strong>Assunto:</strong> ${validatedData.subject}</p>
-        <br/>
-        <p><strong>Mensagem:</strong></p>
-        <p>${validatedData.message.replace(/\n/g, '<br/>')}</p>
-        ${fileUrl ? `<br/><p><strong>Arquivo em Anexo (Planta):</strong> <a href="${fileUrl}">Clique aqui para baixar</a></p>` : ''}
-      `,
-    });
+    // Envia e-mail via Resend se a API Key estiver configurada
+    if (process.env.RESEND_API_KEY) {
+      const resend = new Resend(process.env.RESEND_API_KEY);
+      await resend.emails.send({
+        from: 'Gessoalves Site <onboarding@resend.dev>', // Modifique para o seu domínio verificado no Resend
+        to: [process.env.ADMIN_EMAIL || 'admin@gessoalves.store'],
+        subject: `[Site] Novo Orçamento: ${validatedData.subject}`,
+        html: `
+          <h2>Novo Contato pelo Site</h2>
+          <p><strong>Nome:</strong> ${validatedData.name}</p>
+          <p><strong>E-mail:</strong> ${validatedData.email}</p>
+          <p><strong>Telefone/WhatsApp:</strong> ${validatedData.phone}</p>
+          <p><strong>Assunto:</strong> ${validatedData.subject}</p>
+          <br/>
+          <p><strong>Mensagem:</strong></p>
+          <p>${validatedData.message.replace(/\n/g, '<br/>')}</p>
+          ${fileUrl ? `<br/><p><strong>Arquivo em Anexo (Planta):</strong> <a href="${fileUrl}">Clique aqui para baixar</a></p>` : ''}
+        `,
+      });
+    } else {
+      console.warn('⚠️ RESEND_API_KEY não configurada. E-mail de notificação não enviado.');
+    }
 
     return NextResponse.json({ success: true });
   } catch (error) {
