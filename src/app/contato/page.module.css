@@ -1,0 +1,77 @@
+.container {
+  padding: 5rem 5%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.title {
+  text-align: center;
+  font-size: 2.5rem;
+  color: var(--color-text-dark);
+  margin-bottom: 3rem;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+}
+
+@media (max-width: 768px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.infoSection h2 {
+  font-size: 1.8rem;
+  color: var(--color-primary);
+  margin-bottom: 1.5rem;
+}
+
+.infoItem {
+  margin-bottom: 1.5rem;
+}
+
+.infoItem h3 {
+  font-size: 1.2rem;
+  color: var(--color-text-dark);
+  margin-bottom: 0.5rem;
+}
+
+.infoItem p {
+  color: var(--color-text);
+  line-height: 1.6;
+}
+
+.mapContainer {
+  margin-top: 2rem;
+  width: 100%;
+  height: 250px;
+  background-color: var(--color-border);
+  border-radius: 12px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: var(--color-text);
+  text-align: center;
+  padding: 1rem;
+}
+
+.formPlaceholder {
+  background: white;
+  padding: 3rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  border: 2px dashed var(--color-border);
+}
+
+.formPlaceholder h3 {
+  color: var(--color-text-dark);
+  margin-bottom: 1rem;
+}

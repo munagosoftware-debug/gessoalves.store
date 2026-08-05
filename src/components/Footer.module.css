@@ -1,0 +1,179 @@
+.footerContainer {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Parte Superior (Fundo Azul Marinho) */
+.footerTop {
+  background-color: var(--color-navy, #1e2640); /* Azul Marinho da marca */
+  padding: 4rem 2rem 8rem 2rem; /* Espaço extra na base para o FixedCTABar não cobrir o texto */
+  position: relative;
+  overflow: hidden;
+}
+
+/* Estrela/Sparkle no fundo (opcional, igual a imagem) */
+.footerTop::after {
+  content: '';
+  position: absolute;
+  bottom: 20px;
+  right: 50px;
+  width: 40px;
+  height: 40px;
+  background-image: url('data:image/svg+xml;utf8,<svg viewBox="0 0 24 24" fill="%23ffffff" opacity="0.3" xmlns="http://www.w3.org/2000/svg"><path d="M12 2L14.2 9.8L22 12L14.2 14.2L12 22L9.8 14.2L2 12L9.8 9.8L12 2Z"/></svg>');
+  background-size: cover;
+  pointer-events: none;
+  animation: twinkle 3s ease-in-out infinite;
+}
+
+@keyframes twinkle {
+  0% { opacity: 0.2; transform: scale(0.9); filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.2)); }
+  50% { opacity: 1; transform: scale(1.1); filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.8)); }
+  100% { opacity: 0.2; transform: scale(0.9); filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.2)); }
+}
+
+.footerContent {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 2rem;
+  flex-wrap: wrap;
+}
+
+.footerSection {
+  flex: 1;
+  min-width: 200px;
+  color: #fff;
+  z-index: 1; /* Acima do brilho de fundo */
+}
+
+.sectionTitle {
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+  color: #fff;
+}
+
+.footerLinks {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.footerLinks li,
+.footerLinks a {
+  color: #d1d5db;
+  text-decoration: none;
+  font-size: 0.95rem;
+  transition: color 0.2s ease;
+}
+
+.footerLinks a:hover {
+  color: #fff;
+}
+
+.socials {
+  display: flex;
+  gap: 1.2rem;
+  margin-top: 1.5rem;
+}
+
+.socials a {
+  color: #d1d5db;
+  transition: color 0.2s ease;
+}
+
+.socials a:hover {
+  color: #fff;
+}
+
+/* Gráfico 3D Central */
+.wireframeContainer {
+  flex: 1.5;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-width: 280px;
+  position: relative;
+}
+
+.wireframeImage {
+  max-width: 100%;
+  height: auto;
+  max-height: 250px;
+  object-fit: contain;
+  /* Um leve mix-blend-mode se quiser que o fundo escuro da imagem se funda com o azul. 
+     Como o fundo da imagem deve ser azul, screen ou lighten funciona bem para imagens de wireframe */
+  mix-blend-mode: screen; 
+  opacity: 0.9;
+  filter: drop-shadow(0 0 20px rgba(56, 189, 248, 0.4));
+  animation: float 6s ease-in-out infinite;
+}
+
+@keyframes float {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+  100% { transform: translateY(0px); }
+}
+
+/* Faixa Inferior Branca (CTA) */
+.footerBottomCta {
+  background-color: #ffffff;
+  padding: 1.5rem 2rem;
+  border-top: 1px solid #e5e7eb;
+}
+
+.ctaContent {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 2rem;
+  flex-wrap: wrap;
+}
+
+.ctaText {
+  color: var(--color-graphite, #333);
+  font-size: 1.1rem;
+  font-weight: 500;
+  text-align: center;
+}
+
+.ctaButton {
+  background-color: #1e5dd1; /* Azul chamativo */
+  color: #fff;
+  padding: 0.8rem 1.8rem;
+  border-radius: 8px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+  box-shadow: 0 4px 10px rgba(30, 93, 209, 0.3);
+}
+
+.ctaButton:hover {
+  background-color: #164bb0;
+  transform: translateY(-2px);
+}
+
+/* Responsividade */
+@media (max-width: 900px) {
+  .wireframeContainer {
+    order: -1; /* Joga a imagem pra cima no mobile */
+    width: 100%;
+    margin-bottom: 2rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .ctaContent {
+    flex-direction: column;
+    gap: 1rem;
+    text-align: center;
+  }
+}
