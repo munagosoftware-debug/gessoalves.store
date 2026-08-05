@@ -43,7 +43,7 @@ export default function Blog() {
               <span className={styles.postDate}>{post.date}</span>
               <h2>{post.title}</h2>
               <p>{post.excerpt}</p>
-              <Link href="#" className="btn-3d" style={{ textAlign: 'center', width: '100%' }}>
+              <Link href="/blog/drywall-vs-gesso-acartonado" className="btn-3d" style={{ textAlign: 'center', width: '100%' }}>
                 Ler Artigo
               </Link>
             </div>

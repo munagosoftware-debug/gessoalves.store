@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import styles from './page.module.css';
+import ContactForm from '@/components/ContactForm';
 
 export const metadata = {
   title: 'Fale Conosco e Solicite seu Orçamento | Gessoalves',
@@ -17,7 +18,7 @@ export default function Contato() {
           
           <div className={styles.infoItem}>
             <h3>WhatsApp</h3>
-            <p><Link href="https://wa.me/5511937086879" target="_blank" style={{color: 'var(--color-primary)'}}>(11) 93708-6879</Link></p>
+            <p><Link href="https://wa.me/5511961155049" target="_blank" style={{color: 'var(--color-primary)'}}>(11) 96115-5049</Link></p>
           </div>
           
           <div className={styles.infoItem}>
@@ -37,12 +38,7 @@ export default function Contato() {
 
         <div className={styles.formPlaceholder}>
           <h3>Formulário de Orçamento</h3>
-          <p style={{ color: 'var(--color-text)', marginBottom: '1.5rem' }}>
-            O formulário interativo de contato será implementado na Etapa 6.
-          </p>
-          <Link href="https://wa.me/5511937086879" target="_blank" className="btn-3d">
-            Fale conosco pelo WhatsApp enquanto isso
-          </Link>
+          <ContactForm />
         </div>
       </div>
     </main>

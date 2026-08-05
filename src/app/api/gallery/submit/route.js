@@ -1,0 +1,104 @@
+import { NextResponse } from 'next/server';
+import { createAdminClient, supabase } from '@/lib/supabase';
+
+// Rate limiting simples em memória (reinicia com o servidor)
+const ipSubmissions = new Map();
+const RATE_LIMIT_WINDOW_MS = 60 * 60 * 1000; // 1 hora
+const MAX_SUBMISSIONS_PER_IP = 3;
+
+export async function POST(request) {
+  const ip = request.headers.get('x-forwarded-for') || 'unknown';
+
+  // ── Rate Limiting ──
+  const now = Date.now();
+  const ipData = ipSubmissions.get(ip) || { count: 0, firstTime: now };
+  if (now - ipData.firstTime > RATE_LIMIT_WINDOW_MS) {
+    ipData.count = 0;
+    ipData.firstTime = now;
+  }
+  if (ipData.count >= MAX_SUBMISSIONS_PER_IP) {
+    return NextResponse.json(
+      { error: 'Muitas tentativas. Tente novamente em 1 hora.' },
+      { status: 429 }
+    );
+  }
+
+  const formData = await request.formData();
+
+  // ── Honeypot anti-spam ──
+  const honeypot = formData.get('website');
+  if (honeypot) {
+    // Bot preencheu o campo oculto — fingir sucesso
+    return NextResponse.json({ success: true });
+  }
+
+  const name = formData.get('name')?.trim();
+  const contact = formData.get('contact')?.trim() || null;
+  const service = formData.get('service');
+  const bairro = formData.get('bairro')?.trim();
+  const authorized = formData.get('authorized');
+  const images = formData.getAll('images');
+
+  // ── Validações ──
+  if (!name || !service || !bairro) {
+    return NextResponse.json({ error: 'Campos obrigatórios incompletos.' }, { status: 400 });
+  }
+  if (!authorized || authorized !== 'true') {
+    return NextResponse.json({ error: 'Autorização de publicação é obrigatória.' }, { status: 400 });
+  }
+  if (images.length === 0 || images.length > 3) {
+    return NextResponse.json({ error: 'Envie entre 1 e 3 fotos.' }, { status: 400 });
+  }
+
+  const ALLOWED_TYPES = ['image/jpeg', 'image/png', 'image/webp'];
+  const MAX_SIZE_MB = 5;
+
+  try {
+    const adminClient = createAdminClient();
+    const imageUrls = [];
+
+    for (const image of images) {
+      if (!ALLOWED_TYPES.includes(image.type)) {
+        return NextResponse.json({ error: 'Apenas JPG, PNG e WebP são aceitos.' }, { status: 400 });
+      }
+      if (image.size > MAX_SIZE_MB * 1024 * 1024) {
+        return NextResponse.json({ error: `Imagem muito grande. Máximo ${MAX_SIZE_MB}MB por foto.` }, { status: 400 });
+      }
+
+      const fileBuffer = Buffer.from(await image.arrayBuffer());
+      const ext = image.type.split('/')[1];
+      const fileName = `${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`;
+
+      const { error: uploadError } = await adminClient.storage
+        .from('gallery')
+        .upload(fileName, fileBuffer, { contentType: image.type, upsert: false });
+
+      if (uploadError) throw uploadError;
+
+      const { data: urlData } = adminClient.storage.from('gallery').getPublicUrl(fileName);
+      imageUrls.push(urlData.publicUrl);
+    }
+
+    // ── Salvar no banco como 'pending' ──
+    const { error: dbError } = await adminClient.from('gallery_submissions').insert({
+      name,
+      contact,
+      service,
+      bairro,
+      image_urls: imageUrls,
+      ip_address: ip,
+      status: 'pending',
+    });
+
+    if (dbError) throw dbError;
+
+    // Atualizar rate limit
+    ipData.count += 1;
+    ipSubmissions.set(ip, ipData);
+
+    return NextResponse.json({ success: true });
+  } catch (err) {
+    console.error('Gallery submit error:', err);
+    return NextResponse.json({ error: 'Erro interno ao processar envio.' }, { status: 500 });
+  }
+}

@@ -43,29 +43,178 @@ a {
   text-decoration: none;
 }
 
-/* Estilos Globais para Componentes 3D */
+/* Estilos Globais para Componentes 3D e Animações */
 .btn-3d {
   display: inline-block;
   background: linear-gradient(145deg, var(--color-navy), var(--color-graphite));
   color: var(--color-white);
-  padding: 12px 24px;
+  padding: 14px 28px;
   font-weight: 600;
   border-radius: 8px;
   border: 1px solid var(--color-silver-dark);
-  box-shadow: 4px 4px 10px rgba(0,0,0,0.15), 
-              inset 2px 2px 4px rgba(255,255,255,0.1);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 0 4px 0 #121c3d, 0 6px 12px rgba(0,0,0,0.25), inset 0 1px 0 rgba(255,255,255,0.2);
+  transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.2s ease;
   cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  user-select: none;
 }
 
 .btn-3d:hover {
   transform: translateY(-2px);
-  box-shadow: 6px 6px 15px rgba(0,0,0,0.2), 
-              inset 2px 2px 4px rgba(255,255,255,0.2);
+  box-shadow: 0 6px 0 #121c3d, 0 10px 20px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.3);
+  background: linear-gradient(145deg, #233570, var(--color-graphite));
 }
 
 .btn-3d:active {
-  transform: translateY(1px);
-  box-shadow: 2px 2px 5px rgba(0,0,0,0.1), 
-              inset -2px -2px 4px rgba(255,255,255,0.1);
+  transform: translateY(3px);
+  box-shadow: 0 1px 0 #121c3d, 0 3px 6px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.1);
 }
+
+/* 3D Metallic Card & Flip Styles */
+.perspective-container {
+  perspective: 1200px;
+}
+
+.metallic-card {
+  position: relative;
+  background: linear-gradient(135deg, #ffffff 0%, #f4f5f7 50%, #e2e5eb 100%);
+  border: 2px solid var(--color-silver-light);
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.12), inset 0 1px 1px rgba(255,255,255,0.8), inset 0 -1px 2px rgba(0,0,0,0.05);
+  transition: box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+.metallic-card:hover {
+  border-color: var(--color-silver-dark);
+  box-shadow: 0 15px 35px rgba(27, 42, 92, 0.18), inset 0 1px 2px rgba(255,255,255,0.9);
+}
+
+/* Screw Detail for 3D Cards */
+.metallic-screw {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #e6e8ec 20%, #9096a2 80%, #525660 100%);
+  box-shadow: inset 1px 1px 2px rgba(0,0,0,0.5), 1px 1px 2px rgba(255,255,255,0.8);
+  z-index: 5;
+}
+.metallic-screw::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 15%;
+  right: 15%;
+  height: 1.5px;
+  background: #3e424a;
+  transform: translateY(-50%) rotate(45deg);
+}
+
+.screw-tl { top: 10px; left: 10px; }
+.screw-tr { top: 10px; right: 10px; }
+.screw-bl { bottom: 10px; left: 10px; }
+.screw-br { bottom: 10px; right: 10px; }
+
+/* Flip 3D Card Structure */
+.flip-card {
+  background-color: transparent;
+  width: 100%;
+  min-height: 280px;
+  perspective: 1000px;
+}
+
+.flip-card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  transform-style: preserve-3d;
+}
+
+.flip-card.is-flipped .flip-card-inner,
+.flip-card:hover .flip-card-inner {
+  transform: rotateY(180deg);
+}
+
+.flip-card-front,
+.flip-card-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  border-radius: 16px;
+  padding: 1.8rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.flip-card-front {
+  background: linear-gradient(135deg, #ffffff 0%, #f6f8fb 100%);
+  border: 1px solid var(--color-silver-light);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+}
+
+.flip-card-back {
+  background: linear-gradient(135deg, var(--color-navy) 0%, var(--color-graphite) 100%);
+  color: var(--color-white);
+  transform: rotateY(180deg);
+  border: 1px solid var(--color-silver-dark);
+  box-shadow: 0 12px 32px rgba(0,0,0,0.25);
+}
+
+.flip-card-back h3,
+.flip-card-back p {
+  color: var(--color-white);
+}
+
+/* GSAP Reveal Helper */
+.gsap-reveal {
+  will-change: transform, opacity;
+}
+
+/* Swiper Custom Styling overrides */
+.swiper-pagination-bullet-active {
+  background: var(--color-navy) !important;
+}
+.swiper-button-next, .swiper-button-prev {
+  color: var(--color-navy) !important;
+  background: rgba(255,255,255,0.85);
+  width: 44px !important;
+  height: 44px !important;
+  border-radius: 50%;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  backdrop-filter: blur(4px);
+}
+.swiper-button-next::after, .swiper-button-prev::after {
+  font-size: 1.1rem !important;
+  font-weight: bold;
+}
+
+/* Prefers Reduced Motion Accessibility */
+@media (prefers-reduced-motion: reduce) {
+  *, ::before, ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .flip-card:hover .flip-card-inner {
+    transform: none !important;
+  }
+  .flip-card-back {
+    display: none;
+  }
+}
+
+/* Premium Form Inputs Focus State */
+.premium-input:focus {
+  border-color: var(--color-navy) !important;
+  box-shadow: 0 0 0 3px rgba(27, 42, 92, 0.1) !important;
+  background: #ffffff !important;
+}
+

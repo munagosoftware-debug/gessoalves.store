@@ -14,7 +14,7 @@ export default function Header() {
     <header className={styles.header}>
       <Link href="/" className={styles.logoContainer}>
         <div style={{ fontWeight: 'bold', fontSize: '1.5rem', color: 'var(--color-navy)' }}>
-          GA <span style={{ color: 'var(--color-graphite)' }}>GESSO</span>ALVES
+          G.A <span style={{ color: 'var(--color-graphite)' }}>GESSO</span> ALVES
         </div>
         {/* Futuramente: <Image src="/logo.png" alt="Gessoalves Logo" width={150} height={50} className={styles.logo} /> */}
       </Link>
