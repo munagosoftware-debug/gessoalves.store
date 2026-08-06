@@ -7,7 +7,7 @@
 /* Parte Superior (Fundo Azul Marinho) */
 .footerTop {
   background-color: var(--color-navy, #1e2640); /* Azul Marinho da marca */
-  padding: 4rem 2rem 8rem 2rem; /* Espaço extra na base para o FixedCTABar não cobrir o texto */
+  padding: 4rem clamp(1rem, 5vw, 5%) 8rem clamp(1rem, 5vw, 5%); /* Espaço extra na base para o FixedCTABar não cobrir o texto */
   position: relative;
   overflow: hidden;
 }
@@ -124,7 +124,7 @@
 /* Faixa Inferior Branca (CTA) */
 .footerBottomCta {
   background-color: #ffffff;
-  padding: 1.5rem 2rem;
+  padding: 1.5rem clamp(1rem, 5vw, 5%);
   border-top: 1px solid #e5e7eb;
 }
 

@@ -77,28 +77,29 @@ export default function PinnedBeforeAfter() {
         overflow: 'hidden',
       }}
     >
-      <div style={{ textAlign: 'center', marginBottom: '1.5rem', zIndex: 10 }}>
+      <div style={{ textAlign: 'center', marginBottom: '1.5rem', zIndex: 10, padding: '0 1rem' }}>
         <span
           style={{
             background: 'rgba(255,255,255,0.15)',
             padding: '4px 12px',
             borderRadius: '20px',
-            fontSize: '0.85rem',
+            fontSize: 'clamp(0.7rem, 2vw, 0.85rem)',
             textTransform: 'uppercase',
             letterSpacing: '1px',
+            display: 'inline-block',
           }}
         >
           Transformação Real (Scroll Interativo)
         </span>
-        <h2 style={{ fontSize: '2.2rem', color: '#fff', marginTop: '0.5rem' }}>
+        <h2 style={{ fontSize: 'clamp(1.5rem, 5vw, 2.5rem)', color: '#fff', marginTop: '0.8rem', lineHeight: '1.2' }}>
           {current.title}
         </h2>
-        <p style={{ color: 'var(--color-silver-light)', fontSize: '1rem' }}>
-          {current.subtitle} (Faça o scroll para revelar o resultado final)
+        <p style={{ color: 'var(--color-silver-light)', fontSize: 'clamp(0.85rem, 3vw, 1rem)', marginTop: '0.5rem' }}>
+          {current.subtitle} <br className="mobile-break" style={{ display: 'none' }}/> (Faça o scroll para revelar o resultado)
         </p>
 
         {/* Tabs switcher */}
-        <div style={{ display: 'flex', gap: '10px', justifyContent: 'center', marginTop: '1rem' }}>
+        <div style={{ display: 'flex', gap: '10px', justifyContent: 'center', marginTop: '1.2rem', flexWrap: 'wrap' }}>
           {samples.map((s, idx) => (
             <button
               key={idx}
@@ -126,7 +127,7 @@ export default function PinnedBeforeAfter() {
         style={{
           width: '100%',
           maxWidth: '960px',
-          height: '450px',
+          height: 'clamp(250px, 50vw, 450px)',
           position: 'relative',
           borderRadius: '16px',
           overflow: 'hidden',
@@ -152,7 +153,7 @@ export default function PinnedBeforeAfter() {
             style={{
               position: 'absolute',
               top: '20px',
-              left: '20px',
+              right: '20px',
               background: 'rgba(0,0,0,0.7)',
               color: '#fff',
               padding: '6px 14px',
@@ -182,7 +183,7 @@ export default function PinnedBeforeAfter() {
             style={{
               position: 'absolute',
               top: '20px',
-              right: '20px',
+              left: '20px',
               background: 'var(--color-navy)',
               color: '#fff',
               padding: '6px 14px',
