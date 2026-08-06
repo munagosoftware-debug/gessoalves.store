@@ -1,12 +1,11 @@
 'use client';
 
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { Autoplay, Pagination, Navigation } from 'swiper/modules';
+import { Autoplay, Pagination } from 'swiper/modules';
 import { Star } from 'lucide-react';
 
 import 'swiper/css';
 import 'swiper/css/pagination';
-import 'swiper/css/navigation';
 
 const testimonials = [
   {
@@ -75,7 +74,7 @@ export default function TestimonialsSwiper() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(reviewSchema) }}
       />
       <Swiper
-        modules={[Autoplay, Pagination, Navigation]}
+        modules={[Autoplay, Pagination]}
         spaceBetween={24}
         slidesPerView={1}
         breakpoints={{
@@ -85,7 +84,6 @@ export default function TestimonialsSwiper() {
         }}
         autoplay={{ delay: 4500, disableOnInteraction: false }}
         pagination={{ clickable: true }}
-        navigation
         style={{ paddingBottom: '3.5rem' }}
       >
         {testimonials.map((t, idx) => (

@@ -3,7 +3,6 @@ import { servicesData } from '@/lib/servicesData';
 import styles from './page.module.css';
 import GsapProvider from '@/components/GsapProvider';
 import HeroSwiper from '@/components/HeroSwiper';
-import DrywallHero3D from '@/components/DrywallHero3D';
 import ServiceCard3D from '@/components/ServiceCard3D';
 import CounterUp from '@/components/CounterUp';
 import PinnedBeforeAfter from '@/components/PinnedBeforeAfter';
@@ -11,6 +10,54 @@ import BeforeAfterSlider from '@/components/BeforeAfterSlider';
 import TestimonialsSwiper from '@/components/TestimonialsSwiper';
 import FAQAccordion from '@/components/FAQAccordion';
 import CoverageMap from '@/components/CoverageMap';
+import PhotoCarousel from '@/components/PhotoCarousel';
+import MarqueeBanner from '@/components/MarqueeBanner';
+import HeroVideo from '@/components/HeroVideo';
+
+const MOCK_PHOTOS = [
+  {
+    id: 1,
+    image_urls: ['https://images.unsplash.com/photo-1513694203232-719a280e022f?w=800&q=80'],
+    client_name: 'João Carlos',
+    service_type: 'Sanca de Gesso',
+    bairro: 'Vila Mariana'
+  },
+  {
+    id: 2,
+    image_urls: ['https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=800&q=80'],
+    client_name: 'Mariana Silva',
+    service_type: 'Forro Acartonado',
+    bairro: 'Itaim Bibi'
+  },
+  {
+    id: 3,
+    image_urls: ['https://images.unsplash.com/photo-1600607686527-6fb886090705?w=800&q=80'],
+    client_name: 'Roberto Nunes',
+    service_type: 'Parede de Drywall',
+    bairro: 'Moema'
+  },
+  {
+    id: 4,
+    image_urls: ['https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800&q=80'],
+    client_name: 'Amanda Costa',
+    service_type: 'Molduras de Gesso',
+    bairro: 'Pinheiros'
+  },
+  {
+    id: 5,
+    image_urls: ['https://images.unsplash.com/photo-1600121848594-d8644e57abab?w=800&q=80'],
+    client_name: 'Carlos Mendes',
+    service_type: 'Forro Modular',
+    bairro: 'Santo Amaro'
+  },
+  {
+    id: 6,
+    image_urls: ['https://images.unsplash.com/photo-1582268611958-ebfd161ef9cf?w=800&q=80'],
+    client_name: 'Luciana Farias',
+    service_type: 'Rebaixamento de Teto',
+    bairro: 'Tatuapé'
+  }
+];
 
 export const metadata = {
   title: 'Gessoalves | Instalação de Gesso, Drywall e Sancas em SP',
@@ -19,29 +66,60 @@ export const metadata = {
 
 export default function Home() {
   const bairros = ['Morumbi', 'Santo Amaro', 'Granja Julieta', 'Chácara Santo Antônio', 'Saúde', 'Interlagos', 'Campo Belo'];
+  const photos = MOCK_PHOTOS;
+
+  const bannerItemsDark = [
+    'ORÇAMENTO RÁPIDO',
+    'QUALIDADE PREMIUM',
+    'DRYWALL',
+    'SANCAS DE GESSO',
+    'ILUMINAÇÃO DECORATIVA',
+    'PROJETOS 3D'
+  ];
+
+  const bannerItemsLight = [
+    'TRANSFORME SEU AMBIENTE',
+    'ATENDIMENTO VIA WHATSAPP',
+    'OBRA LIMPA E ORGANIZADA',
+    'MATERIAIS CERTIFICADOS',
+    'PONTUALIDADE'
+  ];
 
   return (
     <GsapProvider>
       <main style={{ overflowX: 'hidden' }}>
-        {/* HERO SECTION COM SWIPER + ELEMENTO 3D LEVE (THREE.JS) */}
-        <section className={styles.heroSection} style={{ padding: '2rem 1.5rem', maxWidth: '1280px', margin: '0 auto' }}>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '2rem', alignItems: 'center' }}>
-            <div className="gsap-reveal">
+        {/* HERO SECTION COM SWIPER E VIDEO */}
+        <section className={styles.heroSection} style={{ padding: '2rem 2rem', maxWidth: '1600px', margin: '0 auto' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '2rem', alignItems: 'stretch' }}>
+            <div className="gsap-reveal" style={{ display: 'flex' }}>
               <HeroSwiper />
             </div>
-            <div className="gsap-reveal" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-              <DrywallHero3D />
-              <p style={{ fontSize: '0.85rem', color: '#666', marginTop: '0.5rem', textAlign: 'center' }}>
-                Modelo 3D interativo • Placa de Gesso Acartonado Gessoalves
-              </p>
+            <div className="gsap-reveal" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%', height: '100%' }}>
+              <HeroVideo />
             </div>
           </div>
         </section>
+
+        {/* FAIXA HORIZONTAL - LETREIRO ANIMADO (DARK) */}
+        <MarqueeBanner items={bannerItemsDark} variant="dark" />
 
         {/* CONTADORES NUMÉRICOS ANIMADOS VIA SCROLLTRIGGER */}
         <section style={{ maxWidth: '1280px', margin: '0 auto', padding: '0 1.5rem' }}>
           <CounterUp />
         </section>
+
+        {/* CARROSSEL DE FOTOS EM DESTAQUE */}
+        {photos && photos.length > 0 && (
+          <section style={{ padding: '2rem 0', background: '#f6f8fb' }}>
+            <div style={{ maxWidth: '1280px', margin: '0 auto', padding: '0 1.5rem', overflow: 'hidden' }}>
+              <div style={{ textAlign: 'center', marginBottom: '1.5rem' }} className="gsap-reveal">
+                <h2 className={styles.sectionTitle}>Nossas Obras Recentes</h2>
+                <p style={{ color: '#666' }}>Deslize para ver detalhes dos nossos acabamentos premium.</p>
+              </div>
+              <PhotoCarousel photos={photos} />
+            </div>
+          </section>
+        )}
 
         {/* SERVIÇOS EM DESTAQUE COM TILT 3D & FLIP 3D CARD */}
         <section className={styles.section} style={{ background: '#ffffff' }}>
@@ -66,6 +144,7 @@ export default function Home() {
                   description={service.description}
                   iconIndex={idx}
                   slug={service.slug}
+                  image={service.placeholderImg}
                 />
               ))}
             </div>
@@ -129,6 +208,9 @@ export default function Home() {
             <CoverageMap />
           </div>
         </section>
+
+        {/* FAIXA HORIZONTAL - LETREIRO ANIMADO (LIGHT) */}
+        <MarqueeBanner items={bannerItemsLight} variant="light" />
 
         {/* DEPOIMENTOS COM ESTRELAS (SWIPER.JS) */}
         <section className={styles.section} style={{ background: '#f6f8fb' }}>

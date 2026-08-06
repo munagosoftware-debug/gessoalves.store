@@ -1,0 +1,52 @@
+.marqueeContainer {
+  overflow: hidden;
+  white-space: nowrap;
+  background: linear-gradient(90deg, var(--color-navy) 0%, var(--color-graphite) 100%);
+  color: #fff;
+  padding: 1.5rem 0;
+  position: relative;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.marqueeContent {
+  display: inline-block;
+  white-space: nowrap;
+  animation: scroll 35s linear infinite;
+}
+
+.marqueeContent span {
+  display: inline-flex;
+  align-items: center;
+  font-size: 1.25rem;
+  font-weight: 600;
+  letter-spacing: 1px;
+  margin: 0 1rem;
+}
+
+.star {
+  color: #FACC15;
+  margin: 0 1rem;
+  font-size: 1.5rem;
+}
+
+@keyframes scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.marqueeContainer.light {
+  background: var(--color-beige-dark);
+  color: var(--color-navy);
+  border-top: 1px solid rgba(27, 42, 92, 0.1);
+  border-bottom: 1px solid rgba(27, 42, 92, 0.1);
+}
+
+.marqueeContainer.light .star {
+  color: var(--color-navy);
+}

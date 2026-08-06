@@ -2,12 +2,16 @@
   position: sticky;
   top: 0;
   z-index: 1000;
-  background-color: var(--color-white);
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  padding: 1rem 5%;
+  background-color: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+  padding: 0.8rem 5%;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  transition: all 0.3s ease;
 }
 
 .logoContainer {
@@ -16,23 +20,67 @@
 }
 
 .logo {
-  height: 50px;
+  height: auto;
+  max-height: 55px;
   width: auto;
+  object-fit: contain;
+}
+
+.navContainer {
+  display: flex;
+  align-items: center;
+  gap: 3rem;
 }
 
 .nav {
   display: flex;
-  gap: 2rem;
+  gap: 2.5rem;
+  align-items: center;
 }
 
 .navLink {
   color: var(--color-navy);
   font-weight: 600;
+  font-size: 1.05rem;
+  position: relative;
   transition: color 0.3s ease;
+  padding: 0.5rem 0;
 }
 
-.navLink:hover {
+.navLink::after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 2px;
+  bottom: 0;
+  left: 0;
+  background-color: var(--color-navy);
+  transition: width 0.3s ease;
+}
+
+.navLink:hover, .navLinkActive {
   color: var(--color-graphite);
+}
+
+.navLink:hover::after, .navLinkActive::after {
+  width: 100%;
+}
+
+.ctaBtn {
+  background: linear-gradient(135deg, var(--color-navy), var(--color-graphite));
+  color: #fff;
+  font-weight: 600;
+  padding: 0.7rem 1.5rem;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 0 4px 12px rgba(27, 42, 92, 0.2);
+}
+
+.ctaBtn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(27, 42, 92, 0.3);
+  color: #fff;
 }
 
 .mobileMenuBtn {
@@ -40,9 +88,23 @@
   background: none;
   border: none;
   cursor: pointer;
+  padding: 0.5rem;
+}
+
+@media (max-width: 1024px) {
+  .navContainer {
+    gap: 1.5rem;
+  }
+  .nav {
+    gap: 1.5rem;
+  }
 }
 
 @media (max-width: 768px) {
+  .navContainer {
+    gap: 1rem;
+  }
+  
   .nav {
     display: none;
     flex-direction: column;
@@ -50,13 +112,20 @@
     top: 100%;
     left: 0;
     width: 100%;
-    background-color: var(--color-white);
-    padding: 1rem 5%;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    background-color: rgba(255, 255, 255, 0.98);
+    backdrop-filter: blur(10px);
+    padding: 1.5rem 5%;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
+    border-bottom: 1px solid rgba(0,0,0,0.05);
   }
 
   .nav.open {
     display: flex;
+    gap: 1.5rem;
+  }
+
+  .ctaBtn {
+    display: none; /* Can hide on mobile or show inside menu */
   }
 
   .mobileMenuBtn {

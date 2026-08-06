@@ -22,56 +22,161 @@ export default function DrywallHero3D() {
     const container = mountRef.current;
     if (!container) return;
 
-    // Scene, Camera, Renderer
+    // 1. Scene, Camera, Renderer
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(45, container.clientWidth / container.clientHeight, 0.1, 1000);
-    camera.position.z = 6;
+    camera.position.set(0, -5, 7);
+    camera.lookAt(0, 0, 0);
 
     const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
     renderer.setSize(container.clientWidth, container.clientHeight);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    
+    renderer.shadowMap.enabled = true;
+    renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+    renderer.toneMapping = THREE.ACESFilmicToneMapping;
+    renderer.toneMappingExposure = 1.0;
+    
     container.appendChild(renderer.domElement);
 
-    // Geometria: Placa estilizada de Drywall com cantos chanfrados
-    const geometry = new THREE.BoxGeometry(3.2, 2.2, 0.2);
+    const ceilingGroup = new THREE.Group();
+    scene.add(ceilingGroup);
 
-    // Material com bisel metálico/gesso refletivo
-    const material = new THREE.MeshPhysicalMaterial({
-      color: 0xf1e9dc,
-      roughness: 0.3,
-      metalness: 0.2,
-      clearcoat: 0.4,
-      clearcoatRoughness: 0.1,
-      reflectivity: 0.8,
+    // 2. Materiais
+    const gessoMaterial = new THREE.MeshStandardMaterial({
+      color: 0xfffafa,
+      roughness: 0.95,
+      metalness: 0.0,
     });
+    
+    // 3. Geometrias (Sanca Invertida)
+    
+    // Placa Base (Teto principal maior)
+    const baseWidth = 5.0;
+    const baseDepth = 5.0;
+    const baseHeight = 0.1;
+    const baseGeometry = new THREE.BoxGeometry(baseWidth, baseHeight, baseDepth);
+    const baseMesh = new THREE.Mesh(baseGeometry, gessoMaterial);
+    
+    // Posições Base
+    const baseTargetY = 0.4;
+    baseMesh.position.set(0, baseTargetY + 5, 0); // Começa 5 unidades acima (invisível/fora da tela)
+    baseMesh.receiveShadow = true;
+    ceilingGroup.add(baseMesh);
 
-    const drywallPanel = new THREE.Mesh(geometry, material);
-    scene.add(drywallPanel);
+    // Placa "Ilha" (Rebaixamento flutuante)
+    const ilhaWidth = 3.5;
+    const ilhaDepth = 3.5;
+    const ilhaHeight = 0.15;
+    const ilhaGeometry = new THREE.BoxGeometry(ilhaWidth, ilhaHeight, ilhaDepth);
+    const ilhaMesh = new THREE.Mesh(ilhaGeometry, gessoMaterial);
+    
+    // Posições Ilha
+    const ilhaTargetY = 0;
+    ilhaMesh.position.set(0, ilhaTargetY + 5, 0); // Começa acima também
+    ilhaMesh.castShadow = true;
+    ilhaMesh.receiveShadow = true;
+    ceilingGroup.add(ilhaMesh);
 
-    // Bordas chanfradas prateadas
-    const edges = new THREE.EdgesGeometry(geometry);
-    const lineMaterial = new THREE.LineBasicMaterial({ color: 0x1b2a5c, linewidth: 2 });
-    const wireframe = new THREE.LineSegments(edges, lineMaterial);
-    drywallPanel.add(wireframe);
+    // Borda interna simulando o tubo/fita de LED na sanca
+    const ledGeometry = new THREE.BoxGeometry(ilhaWidth - 0.1, 0.05, ilhaDepth - 0.1);
+    const ledMaterial = new THREE.MeshBasicMaterial({ color: 0xffddaa });
+    const ledMesh = new THREE.Mesh(ledGeometry, ledMaterial);
+    
+    const ledTargetY = 0.1;
+    ledMesh.position.set(0, ledTargetY + 5, 0);
+    ceilingGroup.add(ledMesh);
 
-    // Iluminação
-    const ambientLight = new THREE.AmbientLight(0xffffff, 0.8);
+    // 4. Iluminação
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.1);
     scene.add(ambientLight);
 
-    const directionalLight = new THREE.DirectionalLight(0xffffff, 1.2);
-    directionalLight.position.set(5, 5, 5);
-    scene.add(directionalLight);
+    const fillLight = new THREE.DirectionalLight(0xffffff, 0.3);
+    fillLight.position.set(2, -5, 5);
+    scene.add(fillLight);
 
-    const pointLight = new THREE.PointLight(0x1b2a5c, 2, 10);
-    pointLight.position.set(-3, -2, 3);
-    scene.add(pointLight);
+    // Luzes da Fita de LED (Sanca)
+    const sancaLights = [];
+    const createSancaLight = (x, z) => {
+      const light = new THREE.PointLight(0xffddaa, 0, 4); // Inicia com intensidade 0
+      light.position.set(x, 0.2, z);
+      ceilingGroup.add(light);
+      sancaLights.push(light);
+    };
+    
+    createSancaLight(1.5, 1.5);
+    createSancaLight(-1.5, 1.5);
+    createSancaLight(1.5, -1.5);
+    createSancaLight(-1.5, -1.5);
+    createSancaLight(0, 1.5);
+    createSancaLight(0, -1.5);
+    createSancaLight(1.5, 0);
+    createSancaLight(-1.5, 0);
 
-    // Loop de Animação
+    // Spots Embutidos na Ilha (Dicroicas)
+    const spotLights = [];
+    const createSpot = (x, z) => {
+      const spot = new THREE.SpotLight(0xffeedd, 0, 10, Math.PI / 6, 0.5, 1);
+      spot.position.set(x, -0.05, z);
+      spot.target.position.set(x, -10, z);
+      spot.castShadow = true;
+      spot.shadow.bias = -0.001;
+      
+      ceilingGroup.add(spot);
+      scene.add(spot.target);
+      spotLights.push(spot);
+    };
+
+    createSpot(1.2, 1.2);
+    createSpot(-1.2, 1.2);
+    createSpot(1.2, -1.2);
+    createSpot(-1.2, -1.2);
+
+    // 5. Animação e Interação
     let animationFrameId;
+    const startTime = Date.now();
+    
+    // Fases da Animação (Timings em ms)
+    const T_BASE_START = 200;
+    const T_ILHA_START = 800;
+    const T_LIGHTS_START = 1600;
+    
     const animate = () => {
       animationFrameId = requestAnimationFrame(animate);
-      drywallPanel.rotation.y += 0.008;
-      drywallPanel.rotation.x = Math.sin(Date.now() * 0.001) * 0.15;
+      
+      const now = Date.now();
+      const elapsed = now - startTime;
+      
+      // 1. Descer a Placa Base suavemente
+      if (elapsed > T_BASE_START) {
+        baseMesh.position.y = THREE.MathUtils.lerp(baseMesh.position.y, baseTargetY, 0.05);
+      }
+      
+      // 2. Descer a Ilha (Sanca Invertida) e os LEDs estruturais suavemente
+      if (elapsed > T_ILHA_START) {
+        ilhaMesh.position.y = THREE.MathUtils.lerp(ilhaMesh.position.y, ilhaTargetY, 0.04);
+        ledMesh.position.y = THREE.MathUtils.lerp(ledMesh.position.y, ledTargetY, 0.04);
+      }
+      
+      // 3. Efeito de "Fade In" das luzes apenas após a estrutura estar praticamente montada
+      if (elapsed > T_LIGHTS_START) {
+        const progress = Math.min((elapsed - T_LIGHTS_START) / 1500, 1.0); // 1.5s para acender tudo
+        const easeInOut = progress < 0.5 ? 2 * progress * progress : 1 - Math.pow(-2 * progress + 2, 2) / 2;
+        
+        sancaLights.forEach(light => {
+          light.intensity = easeInOut * 2.5;
+        });
+        
+        spotLights.forEach(spot => {
+          spot.intensity = easeInOut * 8.0;
+        });
+      }
+
+      // Flutuação extremamente suave do grupo todo
+      ceilingGroup.rotation.y = Math.sin(now * 0.0003) * 0.10;
+      ceilingGroup.rotation.x = Math.sin(now * 0.0004) * 0.05;
+      ceilingGroup.position.y = Math.sin(now * 0.0005) * 0.15;
+
       renderer.render(scene, camera);
     };
 
@@ -92,8 +197,13 @@ export default function DrywallHero3D() {
       if (container && renderer.domElement) {
         container.removeChild(renderer.domElement);
       }
-      geometry.dispose();
-      material.dispose();
+      
+      // Limpeza de memória
+      baseGeometry.dispose();
+      ilhaGeometry.dispose();
+      ledGeometry.dispose();
+      gessoMaterial.dispose();
+      ledMaterial.dispose();
     };
   }, []);
 
@@ -125,7 +235,7 @@ export default function DrywallHero3D() {
           <div className="metallic-screw screw-bl" />
           <div className="metallic-screw screw-br" />
           <h4 style={{ color: 'var(--color-navy)', fontSize: '1.2rem', textAlign: 'center' }}>
-            Placa Gessoalves 3D
+            Teto Gessoalves 3D Premium
           </h4>
         </div>
       </div>

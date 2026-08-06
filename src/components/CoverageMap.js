@@ -25,33 +25,34 @@ export default function CoverageMap() {
           boxShadow: '0 4px 20px rgba(0,0,0,0.05)',
           border: '1px solid var(--color-silver-light)'
         }}>
-          <h4 style={{ color: 'var(--color-navy)', fontSize: '1.2rem', marginBottom: '16px', borderBottom: '2px solid var(--color-cyan)', paddingBottom: '8px' }}>Principais Bairros</h4>
+          <h4 style={{ color: 'var(--color-navy)', fontSize: '1.2rem', marginBottom: '8px', borderBottom: '2px solid var(--color-cyan)', paddingBottom: '8px' }}>Nossa Base</h4>
+          <p style={{ color: 'var(--color-graphite)', marginBottom: '16px', fontWeight: 'bold' }}>
+            📍 Rua Inquiririm, 687 - Vila Indiana (Butantã)
+          </p>
+          
+          <h4 style={{ color: 'var(--color-navy)', fontSize: '1.1rem', marginBottom: '12px' }}>Raio de Atendimento</h4>
+          <p style={{ color: 'var(--color-graphite)', marginBottom: '16px' }}>
+            Atendemos <strong>exclusivamente num raio de até 20km</strong> a partir do nosso endereço.
+          </p>
           <ul style={{ 
             listStyle: 'none', 
             padding: 0, 
             margin: 0, 
             display: 'grid', 
-            gridTemplateColumns: '1fr 1fr', 
-            gap: '12px',
-            color: 'var(--color-graphite)'
+            gridTemplateColumns: '1fr', 
+            gap: '8px',
+            color: '#666',
+            fontSize: '0.95rem'
           }}>
-            <li>📍 Santo Amaro</li>
-            <li>📍 Morumbi</li>
-            <li>📍 Vila Mariana</li>
-            <li>📍 Saúde</li>
-            <li>📍 Jabaquara</li>
-            <li>📍 Ipiranga</li>
-            <li>📍 Campo Belo</li>
-            <li>📍 Moema</li>
-            <li>📍 Interlagos</li>
-            <li>📍 Socorro</li>
+            <li>✓ Butantã e Região</li>
+            <li>✓ Morumbi</li>
+            <li>✓ Pinheiros</li>
+            <li>✓ Vila Mariana</li>
+            <li>✓ E demais regiões dentro dos 20km</li>
           </ul>
-          <p style={{ marginTop: '24px', fontSize: '0.9rem', color: '#666', fontStyle: 'italic' }}>
-            * Caso seu bairro não esteja na lista, entre em contato.
-          </p>
         </div>
 
-        {/* Coluna do Mapa (Embed Google Maps via iframe usando 'Zona Sul de Sao Paulo') */}
+        {/* Coluna do Mapa */}
         <div style={{
           width: '100%',
           height: '100%',
@@ -61,8 +62,8 @@ export default function CoverageMap() {
           boxShadow: '0 4px 20px rgba(0,0,0,0.05)',
         }}>
           <iframe
-            title="Área de Atuação Gessoalves - Zona Sul SP"
-            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d116987.89269557404!2d-46.73278854406206!3d-23.6139151838615!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94ce5a7f6cd004fd%3A0xc6c4f0b784a0d810!2sZona%20Sul%20de%20S%C3%A3o%20Paulo%2C%20S%C3%A3o%20Paulo%20-%20SP!5e0!3m2!1spt-BR!2sbr!4v1714578120300!5m2!1spt-BR!2sbr"
+            title="Área de Atuação Gessoalves - Raio de 20km"
+            src="https://maps.google.com/maps?q=Rua%20Inquiririm,%20687%20-%20Vila%20Indiana,%20São%20Paulo&t=&z=11&ie=UTF8&iwloc=&output=embed"
             width="100%"
             height="100%"
             style={{ border: 0, minHeight: '350px' }}

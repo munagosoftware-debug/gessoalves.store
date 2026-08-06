@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay, EffectCoverflow, Pagination } from 'swiper/modules';
 
@@ -41,11 +42,13 @@ export default function PhotoCarousel({ photos = [] }) {
           return (
             <SwiperSlide key={`${item.id}-${index}`} style={{ width: '320px', height: '420px' }}>
               <div className="carousel-card">
-                <img 
+                <Image 
                   src={imageUrl} 
                   alt={`Obra de ${item.client_name}`}
                   className="carousel-image"
-                  loading="lazy"
+                  fill
+                  sizes="(max-width: 768px) 100vw, 320px"
+                  style={{ objectFit: 'cover' }}
                 />
                 <div className="carousel-overlay">
                   <h3 className="carousel-title">{item.service_type}</h3>
@@ -61,7 +64,7 @@ export default function PhotoCarousel({ photos = [] }) {
           );
         })}
       </Swiper>
-
+      
       <style jsx global>{`
         /* Movimento contínuo linear sem pausas */
         .coverflow-swiper .swiper-wrapper {
@@ -79,7 +82,7 @@ export default function PhotoCarousel({ photos = [] }) {
           padding-bottom: 3rem !important; /* espaço pra paginação */
           --swiper-theme-color: var(--color-navy);
         }
-        
+
         .carousel-card {
           position: relative;
           width: 100%;

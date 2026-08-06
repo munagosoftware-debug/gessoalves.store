@@ -4,7 +4,6 @@ import { z } from 'zod';
 import { createAdminClient } from '@/lib/supabase';
 
 // Instanciado dinamicamente no POST para evitar erro no build do Next.js se a chave não existir
-
 const formSchema = z.object({
   name: z.string().min(3),
   email: z.string().email(),

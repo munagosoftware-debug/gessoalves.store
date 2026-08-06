@@ -28,7 +28,11 @@ export default function Footer() {
           <div className={styles.footerSection}>
             <h3 className={styles.sectionTitle}>Contato</h3>
             <ul className={styles.footerLinks}>
-              <li style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+              <li style={{ display: 'flex', alignItems: 'flex-start', gap: '0.5rem', lineHeight: '1.4' }}>
+                <span style={{ marginTop: '2px' }}>📍</span>
+                Rua Inquiririm, 687<br />Vila Indiana, Butantã - SP
+              </li>
+              <li style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginTop: '0.5rem' }}>
                 <Phone size={18} /> (11) 4213-2271
               </li>
               <li style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>

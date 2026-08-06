@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import Image from 'next/image';
 import { X, ZoomIn } from 'lucide-react';
 
 export default function GalleryGrid({ items }) {
@@ -82,11 +83,12 @@ export default function GalleryGrid({ items }) {
                   }}
                 >
                   <div style={{ position: 'relative', width: '100%', height: '200px' }}>
-                    <img
+                    <Image
                       src={url}
                       alt={`${item.service_type} por ${item.client_name}`}
-                      style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
-                      loading="lazy"
+                      fill
+                      sizes="(max-width: 768px) 100vw, 300px"
+                      style={{ objectFit: 'cover', display: 'block' }}
                     />
                     {/* Botão Ampliar sempre visível */}
                     <div 
@@ -172,11 +174,15 @@ export default function GalleryGrid({ items }) {
               animation: 'slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards'
             }}
           >
-            <img
-              src={lightbox.currentUrl}
-              alt={lightbox.service_type}
-              style={{ width: '100%', maxHeight: '480px', objectFit: 'cover', display: 'block' }}
-            />
+            <div style={{ position: 'relative', width: '100%', height: '50vh', minHeight: '300px' }}>
+              <Image
+                src={lightbox.currentUrl}
+                alt={lightbox.service_type}
+                fill
+                sizes="(max-width: 768px) 100vw, 700px"
+                style={{ objectFit: 'contain' }}
+              />
+            </div>
             <div style={{ padding: '20px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
               <div>
                 <h3 style={{ color: 'var(--color-navy)', margin: 0, fontSize: '1.2rem' }}>{lightbox.client_name}</h3>

@@ -7,6 +7,7 @@ import * as z from 'zod';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useGoogleReCaptcha } from 'react-google-recaptcha-v3';
 import { Send, CheckCircle, AlertCircle, Paperclip } from 'lucide-react';
+import { toast } from 'react-hot-toast';
 
 const formSchema = z.object({
   name: z.string().min(3, 'Nome deve ter no mínimo 3 caracteres'),
@@ -35,6 +36,8 @@ export default function ContactForm() {
     setIsSubmitting(true);
     setSubmitStatus(null);
 
+    const loadingToast = toast.loading('Enviando sua mensagem...');
+
     try {
       if (!executeRecaptcha) {
         throw new Error('ReCaptcha não está disponível');
@@ -57,6 +60,7 @@ export default function ContactForm() {
       const result = await response.json();
 
       if (response.ok) {
+        toast.success('Mensagem enviada com sucesso!', { id: loadingToast });
         setSubmitStatus('success');
         reset();
         setFile(null);
@@ -65,6 +69,7 @@ export default function ContactForm() {
       }
     } catch (error) {
       console.error(error);
+      toast.error(error.message || 'Ocorreu um erro ao enviar. Tente novamente.', { id: loadingToast });
       setSubmitStatus('error');
     } finally {
       setIsSubmitting(false);
@@ -101,13 +106,6 @@ export default function ContactForm() {
             onSubmit={handleSubmit(onSubmit)}
             style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}
           >
-            {submitStatus === 'error' && (
-              <div style={{ background: '#FEE2E2', color: '#DC2626', padding: '1rem', borderRadius: '8px', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                <AlertCircle size={20} />
-                <span>Ocorreu um erro ao enviar. Tente novamente.</span>
-              </div>
-            )}
-
             <div>
               <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: '500', color: 'var(--color-navy)' }}>Nome</label>
               <input

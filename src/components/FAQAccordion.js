@@ -2,7 +2,8 @@
 
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ChevronDown } from 'lucide-react';
+import { Plus } from 'lucide-react';
+import styles from './FAQAccordion.module.css';
 
 const faqs = [
   {
@@ -45,51 +46,36 @@ export default function FAQAccordion() {
   };
 
   return (
-    <div style={{ maxWidth: '800px', margin: '0 auto', width: '100%' }}>
+    <div style={{ maxWidth: '850px', margin: '0 auto', width: '100%' }}>
       {/* Schema Markup for SEO */}
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
       />
 
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
         {faqs.map((faq, index) => {
           const isOpen = openIndex === index;
           return (
             <div
               key={index}
-              style={{
-                backgroundColor: '#FFF',
-                borderRadius: '8px',
-                border: '1px solid var(--color-silver-light)',
-                overflow: 'hidden',
-                boxShadow: '0 2px 10px rgba(0,0,0,0.02)'
-              }}
+              className={`${styles.faqItem} ${isOpen ? styles.active : ''}`}
             >
               <button
                 onClick={() => toggleFAQ(index)}
-                style={{
-                  width: '100%',
-                  padding: '20px',
-                  display: 'flex',
-                  justifyContent: 'space-between',
-                  alignItems: 'center',
-                  background: 'transparent',
-                  border: 'none',
-                  cursor: 'pointer',
-                  textAlign: 'left',
-                  color: 'var(--color-navy)',
-                  fontWeight: '600',
-                  fontSize: '1.1rem'
-                }}
+                className={styles.faqButton}
+                aria-expanded={isOpen}
               >
-                {faq.question}
-                <motion.div
-                  animate={{ rotate: isOpen ? 180 : 0 }}
-                  transition={{ duration: 0.3 }}
-                >
-                  <ChevronDown color="var(--color-cyan)" />
-                </motion.div>
+                <span>{faq.question}</span>
+                <div className={styles.iconWrapper}>
+                  <motion.div
+                    style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '100%', height: '100%' }}
+                    animate={{ rotate: isOpen ? 135 : 0 }}
+                    transition={{ duration: 0.3, ease: 'easeInOut' }}
+                  >
+                    <Plus size={20} color={isOpen ? "#fff" : "var(--color-cyan)"} strokeWidth={2.5} />
+                  </motion.div>
+                </div>
               </button>
 
               <AnimatePresence>
@@ -100,8 +86,10 @@ export default function FAQAccordion() {
                     exit={{ height: 0, opacity: 0 }}
                     transition={{ duration: 0.3, ease: "easeInOut" }}
                   >
-                    <div style={{ padding: '0 20px 20px 20px', color: 'var(--color-graphite)', lineHeight: '1.6' }}>
-                      {faq.answer}
+                    <div className={styles.faqAnswer}>
+                      <div style={{ borderTop: '1px solid rgba(27, 42, 92, 0.1)', paddingTop: '20px', marginTop: '-4px' }}>
+                        {faq.answer}
+                      </div>
                     </div>
                   </motion.div>
                 )}

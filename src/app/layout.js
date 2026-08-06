@@ -1,10 +1,19 @@
 import './globals.css';
+import { Outfit } from 'next/font/google';
+import { Toaster } from 'react-hot-toast';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import FloatingWhatsApp from '../components/FloatingWhatsApp';
 import FixedCTABar from '../components/FixedCTABar';
 import CaptchaProvider from '../components/CaptchaProvider';
 import JsonLd from '../components/JsonLd';
+
+const outfit = Outfit({
+  subsets: ['latin'],
+  weight: ['300', '400', '600', '700'],
+  display: 'swap',
+  variable: '--font-primary',
+});
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000';
 
@@ -41,30 +50,31 @@ export const metadata = {
 };
 
 export default function RootLayout({ children }) {
-  const localBusinessSchema = {
-    "@context": "https://schema.org",
-    "@type": "LocalBusiness",
-    "name": "Gessoalves",
-    "image": `${siteUrl}/logo.png`,
-    "description": "Especialistas em instalação de forro de gesso, drywall e sancas na Zona Sul de SP.",
-    "address": {
-      "@type": "PostalAddress",
-      "addressLocality": "São Paulo",
-      "addressRegion": "SP",
-      "addressCountry": "BR"
-    },
-    "geo": {
-      "@type": "GeoCoordinates",
-      "latitude": -23.6500,
-      "longitude": -46.7000
-    },
-    "telephone": "+5511961155049",
-    "priceRange": "$$",
-    "areaServed": "Zona Sul de São Paulo"
-  };
+    const localBusinessSchema = {
+      "@context": "https://schema.org",
+      "@type": "LocalBusiness",
+      "name": "Gessoalves",
+      "image": `${siteUrl}/logo.png`,
+      "description": "Especialistas em instalação de forro de gesso, drywall e sancas no Butantã e região num raio de 20km.",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "Rua Inquiririm, 687 - Vila Indiana",
+        "addressLocality": "São Paulo",
+        "addressRegion": "SP",
+        "addressCountry": "BR"
+      },
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": -23.5855,
+        "longitude": -46.7262
+      },
+      "telephone": "+5511961155049",
+      "priceRange": "$$",
+      "areaServed": "Butantã e raio de 20km (São Paulo)"
+    };
 
   return (
-    <html lang="pt-BR">
+    <html lang="pt-BR" className={outfit.variable}>
       <body>
         <CaptchaProvider>
           <JsonLd data={localBusinessSchema} />
@@ -73,6 +83,7 @@ export default function RootLayout({ children }) {
           <Footer />
           <FloatingWhatsApp />
           <FixedCTABar />
+          <Toaster position="bottom-right" />
         </CaptchaProvider>
       </body>
     </html>
