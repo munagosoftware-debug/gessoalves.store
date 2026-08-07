@@ -1,13 +1,12 @@
 'use client';
 
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { Autoplay, Pagination, Navigation, EffectFade } from 'swiper/modules';
+import { Autoplay, Pagination, EffectFade } from 'swiper/modules';
 import Link from 'next/link';
 
 // Swiper styles
 import 'swiper/css';
 import 'swiper/css/pagination';
-import 'swiper/css/navigation';
 import 'swiper/css/effect-fade';
 
 const slides = [
@@ -38,12 +37,11 @@ export default function HeroSwiper() {
   return (
     <div style={{ position: 'relative', width: '100%', borderRadius: '20px', overflow: 'hidden', boxShadow: '0 20px 40px rgba(27, 42, 92, 0.25)', border: '1px solid rgba(255,255,255,0.2)' }}>
       <Swiper
-        modules={[Autoplay, Pagination, Navigation, EffectFade]}
+        modules={[Autoplay, Pagination, EffectFade]}
         effect="fade"
         speed={1200}
         autoplay={{ delay: 6000, disableOnInteraction: false }}
         pagination={{ clickable: true, dynamicBullets: true }}
-        navigation
         loop
         style={{ width: '100%', height: '600px' }}
       >
@@ -170,25 +168,7 @@ export default function HeroSwiper() {
           width: 24px;
           border-radius: 4px;
         }
-        /* Custom Navigation Arrows */
-        .swiper-button-next, .swiper-button-prev {
-          background: rgba(255, 255, 255, 0.1) !important;
-          backdrop-filter: blur(8px);
-          border: 1px solid rgba(255, 255, 255, 0.2);
-          color: white !important;
-          border-radius: 50% !important;
-          width: 36px !important;
-          height: 36px !important;
-          transition: all 0.3s ease;
-        }
-        .swiper-button-next:hover, .swiper-button-prev:hover {
-          background: rgba(255, 255, 255, 0.25) !important;
-          transform: scale(1.05);
-        }
-        .swiper-button-next::after, .swiper-button-prev::after {
-          font-size: 1rem !important;
-          font-weight: 900;
-        }
+
         /* Mobile padding adjustment */
         @media (max-width: 768px) {
           .swiper-slide > div {

@@ -6,12 +6,12 @@ import styles from './page.module.css';
 
 // TODO: substituir por foto real antes do lançamento (em cada item abaixo)
 const portfolioData = [
-  { id: 1, type: 'forro', title: 'Forro de Gesso com Sanca', client: 'Residência Morumbi', img: 'https://via.placeholder.com/600x400/2B2E38/FFFFFF?text=Forro+1' }, // TODO: substituir por foto real antes do lançamento
-  { id: 2, type: 'drywall', title: 'Divisória Corporativa', client: 'Escritório Berrini', img: 'https://via.placeholder.com/600x400/2B2E38/FFFFFF?text=Drywall+1' }, // TODO: substituir por foto real antes do lançamento
-  { id: 3, type: 'moldura', title: 'Molduras Clássicas', client: 'Apartamento Saúde', img: 'https://via.placeholder.com/600x400/2B2E38/FFFFFF?text=Moldura+1' }, // TODO: substituir por foto real antes do lançamento
-  { id: 4, type: 'forro', title: 'Rebaixamento com Led', client: 'Sala de Estar Moema', img: 'https://via.placeholder.com/600x400/2B2E38/FFFFFF?text=Forro+2' }, // TODO: substituir por foto real antes do lançamento
-  { id: 5, type: 'drywall', title: 'Parede Acústica', client: 'Estúdio Granja Julieta', img: 'https://via.placeholder.com/600x400/2B2E38/FFFFFF?text=Drywall+2' }, // TODO: substituir por foto real antes do lançamento
-  { id: 6, type: 'sanca', title: 'Sanca Invertida', client: 'Quarto Casal Vila Mariana', img: 'https://via.placeholder.com/600x400/2B2E38/FFFFFF?text=Sanca+1' }, // TODO: substituir por foto real antes do lançamento
+  { id: 1, type: 'forro', title: 'Forro de Gesso com Sanca', client: 'Residência Morumbi', img: '/servicos/forro-acartonado.webp' },
+  { id: 2, type: 'drywall', title: 'Divisória Corporativa', client: 'Escritório Berrini', img: '/servicos/parede-drywall.webp' },
+  { id: 3, type: 'moldura', title: 'Molduras Clássicas', client: 'Apartamento Saúde', img: '/servicos/molduras.webp' },
+  { id: 4, type: 'forro', title: 'Rebaixamento com Led', client: 'Sala de Estar Moema', img: '/servicos/rebaixamento-teto.webp' },
+  { id: 5, type: 'drywall', title: 'Parede Acústica', client: 'Estúdio Granja Julieta', img: '/servicos/forro-modular.webp' },
+  { id: 6, type: 'sanca', title: 'Sanca Invertida', client: 'Quarto Casal Vila Mariana', img: '/servicos/sanca-gesso.webp' },
 ];
 
 export default function Portfolio() {

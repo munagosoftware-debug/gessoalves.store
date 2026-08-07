@@ -20,62 +20,225 @@
 
 .tabsContainer {
   background: white;
-  border-radius: 12px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  border-radius: 20px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
   overflow: hidden;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.tabButtonsWrapper {
+  background: var(--color-bg);
+  padding: 1.5rem;
+  border-bottom: 1px solid var(--color-border);
 }
 
 .tabButtons {
   display: flex;
-  border-bottom: 1px solid var(--color-border);
+  gap: 1rem;
+  background: white;
+  padding: 0.5rem;
+  border-radius: 12px;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.02);
 }
 
 .tabButton {
   flex: 1;
-  padding: 1.5rem;
-  background: none;
+  padding: 1rem;
+  background: transparent;
   border: none;
+  border-radius: 8px;
   font-size: 1.1rem;
   font-weight: 600;
   cursor: pointer;
   color: var(--color-text);
-  transition: all 0.3s ease;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
 }
 
-/* Fallback/Initial state before JS interactivity (Etapa 3) */
-.tabButton.active,
 .tabButton:hover {
-  background: var(--color-bg);
-  color: var(--color-primary);
-  border-bottom: 3px solid var(--color-primary);
+  background: rgba(27, 42, 92, 0.05);
+  color: var(--color-navy);
+}
+
+.tabButton.active {
+  background: var(--color-navy);
+  color: white;
+  box-shadow: 0 4px 12px rgba(27, 42, 92, 0.3);
+  transform: translateY(-2px);
 }
 
 .tabContent {
-  padding: 3rem;
-  min-height: 200px;
+  padding: 3.5rem;
+  min-height: 250px;
+  background: white;
 }
 
 .tabPanel {
-  display: none; /* Will be managed via state later */
-  animation: fadeIn 0.5s ease;
+  display: none;
+  animation: slideUpFade 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
 }
 
 .tabPanel.active {
   display: block;
 }
 
+.panelHeader {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.iconBox {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 50px;
+  height: 50px;
+  background: rgba(27, 42, 92, 0.05);
+  color: var(--color-navy);
+  border-radius: 12px;
+}
+
 .tabPanel h3 {
-  color: var(--color-primary);
-  margin-bottom: 1rem;
-  font-size: 1.5rem;
+  color: var(--color-navy);
+  font-size: 1.8rem;
+  margin: 0;
 }
 
 .tabPanel p {
-  line-height: 1.6;
+  line-height: 1.8;
   color: var(--color-text);
+  font-size: 1.1rem;
 }
 
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
+.valoresList {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.valoresList li {
+  position: relative;
+  padding-left: 2rem;
+  line-height: 1.6;
+  color: var(--color-text);
+  font-size: 1.1rem;
+}
+
+.valoresList li::before {
+  content: '✓';
+  position: absolute;
+  left: 0;
+  top: 0;
+  color: var(--color-navy);
+  font-weight: bold;
+  font-size: 1.2rem;
+}
+
+@keyframes slideUpFade {
+  from { 
+    opacity: 0; 
+    transform: translateY(15px); 
+  }
+  to { 
+    opacity: 1; 
+    transform: translateY(0); 
+  }
+}
+
+.socialContainer {
+  margin-top: 5rem;
+  text-align: center;
+}
+
+.socialTitle {
+  font-size: 2rem;
+  color: var(--color-navy);
+  margin-bottom: 2rem;
+}
+
+.socialGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 2rem;
+}
+
+.socialCard {
+  background: white;
+  border-radius: 20px;
+  padding: 2.5rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.socialCard::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0));
+  z-index: 1;
+  pointer-events: none;
+}
+
+.socialCard:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 40px rgba(27, 42, 92, 0.12);
+  border-color: rgba(27, 42, 92, 0.15);
+}
+
+.socialIcon {
+  width: 70px;
+  height: 70px;
+  border-radius: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1.5rem;
+  color: white;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+  transition: transform 0.3s ease;
+  z-index: 2;
+}
+
+.socialCard:hover .socialIcon {
+  transform: scale(1.1) rotate(5deg);
+}
+
+.instagram {
+  background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+}
+
+.facebook {
+  background: linear-gradient(135deg, #1877F2, #0b5fc9);
+}
+
+.youtube {
+  background: linear-gradient(135deg, #FF0000, #c40000);
+}
+
+.socialCard h3 {
+  color: var(--color-graphite);
+  font-size: 1.4rem;
+  margin-bottom: 0.5rem;
+  z-index: 2;
+}
+
+.socialCard p {
+  color: var(--color-text);
+  font-size: 1rem;
+  z-index: 2;
 }

@@ -27,10 +27,6 @@ export default function Contato() {
             <p>(11) 4213-2271</p>
           </div>
           
-          <div className={styles.infoItem}>
-            <h3>Área de Atendimento</h3>
-            <p>Butantã, Vila Indiana e região (raio de 20km em São Paulo).</p>
-          </div>
 
           <div className={styles.mapContainer}>
             <CoverageMap />

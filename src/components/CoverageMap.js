@@ -18,13 +18,7 @@ export default function CoverageMap() {
         alignItems: 'start'
       }}>
         {/* Coluna dos Bairros */}
-        <div style={{ 
-          backgroundColor: '#FFF', 
-          padding: '24px', 
-          borderRadius: '12px',
-          boxShadow: '0 4px 20px rgba(0,0,0,0.05)',
-          border: '1px solid var(--color-silver-light)'
-        }}>
+        <div className="metallic-card" style={{ padding: '24px' }}>
           <h4 style={{ color: 'var(--color-navy)', fontSize: '1.2rem', marginBottom: '8px', borderBottom: '2px solid var(--color-cyan)', paddingBottom: '8px' }}>Nossa Base</h4>
           <p style={{ color: 'var(--color-graphite)', marginBottom: '16px', fontWeight: 'bold' }}>
             📍 Rua Inquiririm, 687 - Vila Indiana (Butantã)

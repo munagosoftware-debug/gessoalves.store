@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
-import { Facebook, Instagram, Youtube, Phone, MessageCircle, Camera } from 'lucide-react';
+import { Facebook, Instagram, Phone, MessageCircle, Camera } from 'lucide-react';
 import styles from './Footer.module.css';
 
 export default function Footer() {
@@ -46,14 +46,13 @@ export default function Footer() {
             <div className={styles.socials}>
               <a href="#" aria-label="Facebook"><Facebook size={20} /></a>
               <a href="#" aria-label="Instagram"><Instagram size={20} /></a>
-              <a href="#" aria-label="YouTube"><Youtube size={20} /></a>
             </div>
           </div>
 
           {/* Coluna 3: Gráfico 3D Central */}
           <div className={styles.wireframeContainer}>
             <Image 
-              src="/footer-wireframe.webp" 
+              src="/footer-wireframe-gesso.png" 
               alt="Projeto 3D Gesso" 
               width={1000}
               height={1000}
