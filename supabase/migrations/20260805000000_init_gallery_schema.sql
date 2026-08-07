@@ -22,14 +22,10 @@ INSERT INTO storage.buckets (id, name, public)
 VALUES ('gallery', 'gallery', true)
 ON CONFLICT DO NOTHING;
 
--- 4. Policies de Storage (permitir upload anônimo, leitura pública)
+-- 4. Policies de Storage (leitura pública; upload feito só pelo backend com service_role)
 CREATE POLICY "Public read gallery images"
   ON storage.objects FOR SELECT
   USING (bucket_id = 'gallery');
-
-CREATE POLICY "Anyone can upload gallery images"
-  ON storage.objects FOR INSERT
-  WITH CHECK (bucket_id = 'gallery');
 
 -- 5. Policies da tabela (anon só lê aprovadas; apenas service_role gerencia tudo)
 ALTER TABLE gallery_submissions ENABLE ROW LEVEL SECURITY;
