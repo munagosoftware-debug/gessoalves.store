@@ -95,6 +95,9 @@ export default function AdminGaleriaPage() {
       <div className={styles.loginContainer}>
         <div className={styles.loginCard}>
           <div className={styles.loginHeader}>
+            <div className="logo-highlight" style={{ margin: '0 auto 1rem', display: 'inline-block' }}>
+              <Image src="/logo-v2.png" alt="Gessoalves Logo" width={240} height={80} style={{ display: 'block', objectFit: 'contain' }} />
+            </div>
             <h1 className={styles.loginTitle}>Painel Admin</h1>
             <p className={styles.loginSubtitle}>Gessoalves · Moderação de Galeria</p>
           </div>

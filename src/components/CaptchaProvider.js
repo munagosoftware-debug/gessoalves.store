@@ -3,12 +3,8 @@
 import { GoogleReCaptchaProvider } from 'react-google-recaptcha-v3';
 
 export default function CaptchaProvider({ children }) {
-  const siteKey = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY;
-  
-  if (!siteKey) {
-    // Se a chave não existir, renderiza os filhos sem o provider para evitar quebrar a página
-    return <>{children}</>;
-  }
+  // Usa uma chave dummy caso não exista no .env, garantindo que o contexto do React não quebre
+  const siteKey = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY || 'chave_nao_definida';
 
   return (
     <GoogleReCaptchaProvider

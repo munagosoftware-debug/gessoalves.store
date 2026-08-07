@@ -58,10 +58,10 @@ export default function BeforeAfterSlider() {
                 <div className="metallic-screw screw-bl" />
                 <div className="metallic-screw screw-br" />
 
-                <h3 style={{ fontSize: '1.4rem', color: 'var(--color-navy)', marginBottom: '0.4rem' }}>
+                <h3 style={{ fontSize: '1.4rem', color: '#ffffff', marginBottom: '0.4rem' }}>
                   {proj.title}
                 </h3>
-                <p style={{ color: '#666', fontSize: '0.95rem', marginBottom: '1.2rem' }}>
+                <p style={{ color: 'var(--color-silver-light)', fontSize: '0.95rem', marginBottom: '1.2rem' }}>
                   {proj.details}
                 </p>
 

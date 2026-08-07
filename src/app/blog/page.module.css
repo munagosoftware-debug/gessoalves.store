@@ -7,59 +7,105 @@
 .title {
   text-align: center;
   font-size: 2.5rem;
-  color: var(--color-text-dark);
+  color: var(--color-navy);
   margin-bottom: 3rem;
+  font-weight: 800;
 }
 
 .grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  grid-template-columns: 1fr;
   gap: 2.5rem;
 }
 
+@media (min-width: 768px) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
 .postCard {
-  background: white;
-  border-radius: 12px;
+  background: var(--color-white, #ffffff);
+  border-radius: 16px;
   overflow: hidden;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
-  transition: transform 0.3s ease;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.04);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  transition: transform 0.4s cubic-bezier(0.2, 1, 0.3, 1), box-shadow 0.4s cubic-bezier(0.2, 1, 0.3, 1);
   display: flex;
   flex-direction: column;
 }
 
 .postCard:hover {
-  transform: translateY(-5px);
+  transform: translateY(-8px);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.08);
 }
 
 .postImage {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  background-color: var(--color-border);
+  background-color: var(--color-beige-dark);
+  transition: transform 0.6s cubic-bezier(0.2, 1, 0.3, 1);
+}
+
+.postCard:hover .postImage {
+  transform: scale(1.05);
 }
 
 .postContent {
-  padding: 2rem;
+  padding: 1.5rem;
   display: flex;
   flex-direction: column;
   flex-grow: 1;
 }
 
 .postDate {
-  font-size: 0.9rem;
-  color: var(--color-primary);
-  margin-bottom: 0.5rem;
+  font-size: 0.85rem;
+  color: var(--color-silver-dark);
+  margin-bottom: 0.6rem;
   font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
 }
 
 .postContent h2 {
-  font-size: 1.4rem;
-  margin-bottom: 1rem;
-  color: var(--color-text-dark);
+  font-size: 1.25rem;
+  margin-bottom: 0.8rem;
+  color: var(--color-navy);
+  font-weight: 700;
+  line-height: 1.4;
 }
 
 .postContent p {
-  color: var(--color-text);
+  color: var(--color-graphite);
   margin-bottom: 1.5rem;
   flex-grow: 1;
+  line-height: 1.6;
+  font-size: 0.95rem;
+}
+
+.readBtn {
+  margin-top: auto;
+  display: block;
+  text-align: center;
+  padding: 0.75rem 1.5rem;
+  background: var(--color-navy);
+  color: #ffffff;
+  font-weight: 600;
+  text-decoration: none;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  transition: all 0.3s ease;
+  border: none;
+}
+
+.readBtn:hover {
+  background: var(--color-graphite);
+  transform: translateY(-2px);
 }

@@ -1,23 +1,23 @@
 .faqItem {
-  background: linear-gradient(145deg, #ffffff, #f8fafc);
+  background: linear-gradient(145deg, #2B2E38, #20222a);
   border-radius: 12px;
-  border: 1px solid rgba(27, 42, 92, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   overflow: hidden;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
   transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
   position: relative;
 }
 
 .faqItem:hover {
   transform: translateY(-2px);
-  box-shadow: 0 8px 25px rgba(27, 42, 92, 0.08);
-  border-color: rgba(27, 42, 92, 0.2);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+  border-color: rgba(255, 255, 255, 0.3);
 }
 
 .faqItem.active {
-  background: #ffffff;
-  border-color: var(--color-cyan);
-  box-shadow: 0 8px 30px rgba(0, 180, 216, 0.1);
+  background: #2B2E38;
+  border-color: var(--color-cyan, #4cc9f0);
+  box-shadow: 0 8px 30px rgba(0, 180, 216, 0.2);
 }
 
 .faqButton {
@@ -30,21 +30,21 @@
   border: none;
   cursor: pointer;
   text-align: left;
-  color: var(--color-navy);
+  color: #ffffff;
   font-weight: 700;
   font-size: 1.15rem;
   transition: color 0.3s ease;
 }
 
 .faqButton:hover {
-  color: var(--color-cyan);
+  color: var(--color-cyan, #4cc9f0);
 }
 
 .iconWrapper {
   width: 32px;
   height: 32px;
   border-radius: 50%;
-  background: rgba(27, 42, 92, 0.05);
+  background: rgba(255, 255, 255, 0.1);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -54,7 +54,7 @@
 }
 
 .faqItem.active .iconWrapper {
-  background: var(--color-navy);
+  background: var(--color-cyan, #4cc9f0);
 }
 
 .faqItem.active .iconWrapper svg {
@@ -63,7 +63,7 @@
 
 .faqAnswer {
   padding: 0 clamp(16px, 4vw, 24px) clamp(16px, 4vw, 24px) clamp(16px, 4vw, 24px);
-  color: var(--color-graphite);
+  color: var(--color-silver-light);
   line-height: 1.7;
   font-size: 1rem;
 }

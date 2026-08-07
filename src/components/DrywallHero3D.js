@@ -88,12 +88,16 @@ export default function DrywallHero3D() {
     ceilingGroup.add(ledMesh);
 
     // 4. Iluminação
-    const ambientLight = new THREE.AmbientLight(0xffffff, 0.1);
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
     scene.add(ambientLight);
 
-    const fillLight = new THREE.DirectionalLight(0xffffff, 0.3);
+    const fillLight = new THREE.DirectionalLight(0xffffff, 1.0);
     fillLight.position.set(2, -5, 5);
     scene.add(fillLight);
+
+    const topLight = new THREE.DirectionalLight(0xffeedd, 0.5);
+    topLight.position.set(0, 10, 0);
+    scene.add(topLight);
 
     // Luzes da Fita de LED (Sanca)
     const sancaLights = [];
@@ -234,7 +238,7 @@ export default function DrywallHero3D() {
           <div className="metallic-screw screw-tr" />
           <div className="metallic-screw screw-bl" />
           <div className="metallic-screw screw-br" />
-          <h4 style={{ color: 'var(--color-navy)', fontSize: '1.2rem', textAlign: 'center' }}>
+          <h4 style={{ color: '#ffffff', fontSize: '1.2rem', textAlign: 'center' }}>
             Teto Gessoalves 3D Premium
           </h4>
         </div>

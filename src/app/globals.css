@@ -11,6 +11,7 @@
   /* Cores Metálicas 3D (para gradientes e sombras) */
   --color-silver-light: #C9CDD3;
   --color-silver-dark: #8A8F98;
+  --color-cyan: #4cc9f0;
 
   /* Tipografia */
   --font-primary: 'Outfit', sans-serif;
@@ -26,6 +27,8 @@
 html, body {
   overflow-x: hidden;
   max-width: 100vw;
+  -webkit-overflow-scrolling: touch;
+  -webkit-tap-highlight-color: transparent;
 }
 
 img, video, canvas, svg {
@@ -38,10 +41,13 @@ body {
   color: var(--color-graphite);
   background-color: var(--color-beige-light);
   line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  padding-bottom: env(safe-area-inset-bottom, 0px);
 }
 
 h1, h2, h3, h4, h5, h6 {
-  color: var(--color-navy);
+  color: inherit;
   font-weight: 700;
   margin-bottom: 1rem;
 }
@@ -86,16 +92,16 @@ a {
 
 .metallic-card {
   position: relative;
-  background: linear-gradient(135deg, #ffffff 0%, #f4f5f7 50%, #e2e5eb 100%);
-  border: 2px solid var(--color-silver-light);
+  background: linear-gradient(135deg, #2B2E38 0%, #20222a 50%, #15161c 100%);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 16px;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.12), inset 0 1px 1px rgba(255,255,255,0.8), inset 0 -1px 2px rgba(0,0,0,0.05);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.5), inset 0 1px 1px rgba(255,255,255,0.05), inset 0 -1px 2px rgba(0,0,0,0.2);
   transition: box-shadow 0.3s ease, border-color 0.3s ease;
 }
 
 .metallic-card:hover {
-  border-color: var(--color-silver-dark);
-  box-shadow: 0 15px 35px rgba(27, 42, 92, 0.18), inset 0 1px 2px rgba(255,255,255,0.9);
+  border-color: rgba(255, 255, 255, 0.3);
+  box-shadow: 0 15px 35px rgba(0,0,0,0.7), inset 0 1px 2px rgba(255,255,255,0.1);
 }
 
 /* Screw Detail for 3D Cards */
@@ -128,29 +134,42 @@ a {
 .flip-card {
   background-color: transparent;
   width: 100%;
-  min-height: 280px;
+  min-height: 340px;
   perspective: 1000px;
+  -webkit-perspective: 1000px;
 }
 
 .flip-card-inner {
   position: relative;
   width: 100%;
   height: 100%;
+  min-height: 340px;
   text-align: center;
   transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
   transform-style: preserve-3d;
+  -webkit-transform-style: preserve-3d;
 }
 
-.flip-card.is-flipped .flip-card-inner,
-.flip-card:hover .flip-card-inner {
+.flip-card.is-flipped .flip-card-inner {
   transform: rotateY(180deg);
+  -webkit-transform: rotateY(180deg);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .flip-card:hover .flip-card-inner {
+    transform: rotateY(180deg);
+    -webkit-transform: rotateY(180deg);
+  }
 }
 
 .flip-card-front,
 .flip-card-back {
   position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
   height: 100%;
+  min-height: 340px;
   -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
   border-radius: 16px;
@@ -159,20 +178,27 @@ a {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  transform: translate3d(0, 0, 0);
+  -webkit-transform: translate3d(0, 0, 0);
 }
 
 .flip-card-front {
-  background: linear-gradient(135deg, #ffffff 0%, #f6f8fb 100%);
-  border: 1px solid var(--color-silver-light);
-  box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+  background: linear-gradient(135deg, var(--color-navy) 0%, #1a2444 100%);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+  z-index: 2;
+  transform: rotateY(0deg);
+  -webkit-transform: rotateY(0deg);
 }
 
 .flip-card-back {
   background: linear-gradient(135deg, var(--color-navy) 0%, var(--color-graphite) 100%);
   color: var(--color-white);
   transform: rotateY(180deg);
+  -webkit-transform: rotateY(180deg);
   border: 1px solid var(--color-silver-dark);
   box-shadow: 0 12px 32px rgba(0,0,0,0.25);
+  z-index: 1;
 }
 
 .flip-card-back h3,
@@ -185,9 +211,20 @@ a {
   will-change: transform, opacity;
 }
 
+/* Seções escuras: força texto branco em todos os elementos filhos */
+.section-dark,
+.section-dark h1,
+.section-dark h2,
+.section-dark h3,
+.section-dark h4,
+.section-dark p,
+.section-dark span {
+  color: #ffffff !important;
+}
+
 /* Swiper Custom Styling overrides */
 .swiper-pagination-bullet-active {
-  background: var(--color-navy) !important;
+  background: var(--color-cyan, #4cc9f0) !important;
 }
 .swiper-button-next, .swiper-button-prev {
   color: var(--color-navy) !important;
@@ -211,18 +248,27 @@ a {
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
-  .flip-card:hover .flip-card-inner {
-    transform: none !important;
-  }
-  .flip-card-back {
-    display: none;
-  }
 }
 
 /* Premium Form Inputs Focus State */
 .premium-input:focus {
-  border-color: var(--color-navy) !important;
-  box-shadow: 0 0 0 3px rgba(27, 42, 92, 0.1) !important;
-  background: #ffffff !important;
+  border-color: var(--color-cyan, #4cc9f0) !important;
+  box-shadow: 0 0 0 3px rgba(76, 201, 240, 0.2) !important;
+  background: rgba(255, 255, 255, 0.1) !important;
+  color: #fff !important;
+}
+
+/* Logo Background for Dark Themes */
+.logo-highlight {
+  display: inline-block;
+  transition: transform 0.3s ease;
+  border-radius: 12px;
+  overflow: hidden;
+}
+.logo-highlight img {
+  border-radius: 12px;
+}
+.logo-highlight:hover {
+  transform: scale(1.02);
 }
 

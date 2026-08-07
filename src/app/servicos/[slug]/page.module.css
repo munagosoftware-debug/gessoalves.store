@@ -6,7 +6,7 @@
 
 .title {
   font-size: 2.5rem;
-  color: var(--color-text-dark);
+  color: #1e293b;
   margin-bottom: 1.5rem;
 }
 
@@ -16,27 +16,29 @@
   object-fit: cover;
   border-radius: 12px;
   margin-bottom: 3rem;
-  background-color: var(--color-border);
+  background-color: rgba(255,255,255,0.05);
 }
 
 .content {
-  background: white;
-  padding: 3rem;
-  border-radius: 12px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  background: transparent;
+  padding: 0;
+  border-radius: 0;
+  box-shadow: none;
+  border: none;
 }
 
 .description {
   font-size: 1.2rem;
   line-height: 1.8;
-  color: var(--color-text);
+  color: var(--color-silver-light);
   margin-bottom: 3rem;
 }
 
 .featuresTitle {
   font-size: 1.8rem;
-  color: var(--color-primary);
+  color: #1e293b;
   margin-bottom: 1.5rem;
+  font-weight: 700;
 }
 
 .featuresList {
@@ -47,34 +49,55 @@
 
 .featuresList li {
   font-size: 1.1rem;
-  color: var(--color-text);
+  color: #475569;
   margin-bottom: 1rem;
   padding-left: 2rem;
   position: relative;
 }
 
 .featuresList li::before {
-  content: "✓";
-  color: var(--color-primary);
+  content: "\2713";
+  color: #1e293b;
   position: absolute;
   left: 0;
   font-weight: bold;
 }
 
 .ctaBox {
-  background: var(--color-bg);
+  background: #f8fafc;
   padding: 3rem;
-  border-radius: 8px;
+  border-radius: 16px;
   text-align: center;
+  border: 1px solid rgba(0,0,0,0.05);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.03);
 }
 
 .ctaBox h3 {
   font-size: 1.5rem;
   margin-bottom: 1rem;
-  color: var(--color-text-dark);
+  color: #1e293b;
 }
 
 .ctaBox p {
   margin-bottom: 2rem;
-  color: var(--color-text);
+  color: #475569;
+}
+
+.premiumBtn {
+  display: inline-block;
+  padding: 1rem 2rem;
+  border: 2px solid #1e293b;
+  background: transparent;
+  color: #1e293b;
+  font-weight: 600;
+  text-decoration: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+}
+
+.premiumBtn:hover {
+  background: #1e293b;
+  color: #ffffff;
 }

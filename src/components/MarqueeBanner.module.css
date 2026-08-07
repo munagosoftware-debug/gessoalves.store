@@ -13,7 +13,7 @@
 .marqueeContent {
   display: inline-block;
   white-space: nowrap;
-  animation: scroll 35s linear infinite;
+  animation: scroll 60s linear infinite;
 }
 
 .marqueeContent span {

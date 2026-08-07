@@ -44,7 +44,7 @@ export default function TestimonialsSwiper() {
     "@context": "https://schema.org",
     "@type": "LocalBusiness",
     "name": "Gessoalves",
-    "image": "https://gessoalves.store/logo.png",
+    "image": "https://gessoalves.store/logo-v2.png",
     "aggregateRating": {
       "@type": "AggregateRating",
       "ratingValue": "5",
@@ -109,16 +109,16 @@ export default function TestimonialsSwiper() {
                     <Star key={i} size={18} fill="#f59e0b" stroke="none" />
                   ))}
                 </div>
-                <p style={{ fontSize: '0.95rem', color: '#444', fontStyle: 'italic', lineHeight: '1.6' }}>
+                <p style={{ fontSize: '0.95rem', color: '#e2e8f0', fontStyle: 'italic', lineHeight: '1.6' }}>
                   &quot;{t.text}&quot;
                 </p>
               </div>
 
-              <div style={{ marginTop: '1.5rem', borderTop: '1px solid var(--color-silver-light)', paddingTop: '1rem' }}>
-                <h4 style={{ fontSize: '1.05rem', color: 'var(--color-navy)', margin: 0 }}>
+              <div style={{ marginTop: '1.5rem', borderTop: '1px solid rgba(255, 255, 255, 0.15)', paddingTop: '1rem' }}>
+                <h4 style={{ fontSize: '1.1rem', color: '#ffffff', margin: 0, fontWeight: '700' }}>
                   {t.name}
                 </h4>
-                <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.8rem', color: '#777', marginTop: '2px' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.85rem', color: '#cbd5e1', marginTop: '4px' }}>
                   <span>{t.bairro}</span>
                   <span>{t.date}</span>
                 </div>

@@ -3,8 +3,10 @@ import { Outfit } from 'next/font/google';
 import { Toaster } from 'react-hot-toast';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
+import Preloader from '../components/Preloader';
 import FloatingWhatsApp from '../components/FloatingWhatsApp';
 import FixedCTABar from '../components/FixedCTABar';
+import { WhatsAppModalProvider } from '../context/WhatsAppModalContext';
 import CaptchaProvider from '../components/CaptchaProvider';
 import JsonLd from '../components/JsonLd';
 
@@ -16,6 +18,14 @@ const outfit = Outfit({
 });
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000';
+
+export const viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 5,
+  viewportFit: 'cover',
+  themeColor: '#1B2A5C',
+};
 
 export const metadata = {
   metadataBase: new URL(siteUrl),
@@ -54,7 +64,7 @@ export default function RootLayout({ children }) {
       "@context": "https://schema.org",
       "@type": "LocalBusiness",
       "name": "Gessoalves",
-      "image": `${siteUrl}/logo.png`,
+      "image": `${siteUrl}/logo-v2.png`,
       "description": "Especialistas em instalação de forro de gesso, drywall e sancas no Butantã e região num raio de 20km.",
       "address": {
         "@type": "PostalAddress",
@@ -77,13 +87,16 @@ export default function RootLayout({ children }) {
     <html lang="pt-BR" className={outfit.variable}>
       <body>
         <CaptchaProvider>
-          <JsonLd data={localBusinessSchema} />
-          <Header />
-          <main>{children}</main>
-          <Footer />
-          <FloatingWhatsApp />
-          <FixedCTABar />
-          <Toaster position="bottom-right" />
+          <WhatsAppModalProvider>
+            <Preloader />
+            <JsonLd data={localBusinessSchema} />
+            <Header />
+            <main>{children}</main>
+            <Footer />
+            <FloatingWhatsApp />
+            <FixedCTABar />
+            <Toaster position="bottom-right" />
+          </WhatsAppModalProvider>
         </CaptchaProvider>
       </body>
     </html>
