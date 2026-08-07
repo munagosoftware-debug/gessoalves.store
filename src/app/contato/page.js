@@ -4,7 +4,7 @@ import ContactForm from '@/components/ContactForm';
 
 export const metadata = {
   title: 'Fale Conosco e Solicite seu Orçamento | Gessoalves',
-  description: 'Entre em contato com a Gessoalves. Atendemos toda a Zona Sul de SP. Peça seu orçamento de gesso e drywall pelo WhatsApp ou telefone.',
+  description: 'Entre em contato com a Gessoalves. Atendemos o Butantã e região de São Paulo. Peça seu orçamento de gesso e drywall pelo WhatsApp ou telefone.',
 };
 
 export default function Contato() {
@@ -28,7 +28,7 @@ export default function Contato() {
           
           <div className={styles.infoItem}>
             <h3>Área de Atendimento</h3>
-            <p>Morumbi, Santo Amaro, Granja Julieta, Chácara Santo Antônio, Saúde e bairros vizinhos (Zona Sul SP).</p>
+            <p>Butantã, Vila Indiana e região (raio de 20km em São Paulo).</p>
           </div>
 
           <div className={styles.mapContainer}>
