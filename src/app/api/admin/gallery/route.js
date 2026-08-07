@@ -1,16 +1,17 @@
 import { NextResponse } from 'next/server';
 import { createAdminClient } from '@/lib/supabase';
+import { verifyAdminSession, COOKIE_NAME } from '@/lib/adminAuth';
 
-// Middleware de autenticação simples via Authorization header (Bearer token = service_role_key)
-function isAuthorized(request) {
-  const auth = request.headers.get('authorization');
-  const adminToken = process.env.SUPABASE_SERVICE_ROLE_KEY;
-  return auth === `Bearer ${adminToken}`;
+// Autenticação via cookie httpOnly de sessão admin (JWT assinado).
+async function isAuthorized(request) {
+  const token = request.cookies.get(COOKIE_NAME)?.value;
+  const session = await verifyAdminSession(token);
+  return !!session;
 }
 
 // GET /api/admin/gallery — listar submissões pendentes
 export async function GET(request) {
-  if (!isAuthorized(request)) {
+  if (!(await isAuthorized(request))) {
     return NextResponse.json({ error: 'Não autorizado.' }, { status: 401 });
   }
   const { searchParams } = new URL(request.url);
@@ -33,7 +34,7 @@ export async function GET(request) {
 
 // PATCH /api/admin/gallery — aprovar ou rejeitar
 export async function PATCH(request) {
-  if (!isAuthorized(request)) {
+  if (!(await isAuthorized(request))) {
     return NextResponse.json({ error: 'Não autorizado.' }, { status: 401 });
   }
   const { id, status } = await request.json();
