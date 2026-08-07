@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import styles from './page.module.css';
 import ContactForm from '@/components/ContactForm';
+import CoverageMap from '@/components/CoverageMap';
 
 export const metadata = {
   title: 'Fale Conosco e Solicite seu Orçamento | Gessoalves',
@@ -32,7 +33,7 @@ export default function Contato() {
           </div>
 
           <div className={styles.mapContainer}>
-            <p>[Mapa da Zona Sul será renderizado aqui na Etapa 6]</p>
+            <CoverageMap />
           </div>
         </div>
 
