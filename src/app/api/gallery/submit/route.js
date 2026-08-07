@@ -1,22 +1,19 @@
 import { NextResponse } from 'next/server';
 import { createAdminClient, supabase } from '@/lib/supabase';
+import { checkRateLimit } from '@/lib/rateLimit';
 
-// Rate limiting simples em memória (reinicia com o servidor)
-const ipSubmissions = new Map();
-const RATE_LIMIT_WINDOW_MS = 60 * 60 * 1000; // 1 hora
+const RATE_LIMIT_WINDOW_SECONDS = 60 * 60; // 1 hora
 const MAX_SUBMISSIONS_PER_IP = 3;
 
 export async function POST(request) {
   const ip = request.headers.get('x-forwarded-for') || 'unknown';
 
-  // ── Rate Limiting ──
-  const now = Date.now();
-  const ipData = ipSubmissions.get(ip) || { count: 0, firstTime: now };
-  if (now - ipData.firstTime > RATE_LIMIT_WINDOW_MS) {
-    ipData.count = 0;
-    ipData.firstTime = now;
-  }
-  if (ipData.count >= MAX_SUBMISSIONS_PER_IP) {
+  // ── Rate Limiting (durável, via Supabase) ──
+  const allowed = await checkRateLimit(ip, 'gallery_submit', {
+    windowSeconds: RATE_LIMIT_WINDOW_SECONDS,
+    max: MAX_SUBMISSIONS_PER_IP,
+  });
+  if (!allowed) {
     return NextResponse.json(
       { error: 'Muitas tentativas. Tente novamente em 1 hora.' },
       { status: 429 }
@@ -91,10 +88,6 @@ export async function POST(request) {
     });
 
     if (dbError) throw dbError;
-
-    // Atualizar rate limit
-    ipData.count += 1;
-    ipSubmissions.set(ip, ipData);
 
     return NextResponse.json({ success: true });
   } catch (err) {
