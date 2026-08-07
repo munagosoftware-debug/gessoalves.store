@@ -56,7 +56,6 @@ export default function TestimonialsSwiper() {
         "@type": "Person",
         "name": t.name
       },
-      "datePublished": "2023-10-01", // Placeholder
       "reviewBody": t.text,
       "reviewRating": {
         "@type": "Rating",

@@ -3,6 +3,16 @@ import { Resend } from 'resend';
 import { z } from 'zod';
 import { createAdminClient } from '@/lib/supabase';
 
+// Tipos aceitos pelo input (accept=".pdf,.jpg,.jpeg,.png,.doc,.docx")
+const ALLOWED_TYPES = [
+  'image/jpeg',
+  'image/png',
+  'application/pdf',
+  'application/msword',
+  'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+];
+const MAX_SIZE_MB = 5;
+
 // Instanciado dinamicamente no POST para evitar erro no build do Next.js se a chave não existir
 const formSchema = z.object({
   name: z.string().min(3),
@@ -50,6 +60,19 @@ export async function POST(req) {
     let fileUrl = '';
 
     if (file && file.size > 0) {
+      if (!ALLOWED_TYPES.includes(file.type)) {
+        return NextResponse.json(
+          { error: 'Formato de arquivo não suportado. Envie PDF, JPG, PNG, DOC ou DOCX.' },
+          { status: 400 }
+        );
+      }
+      if (file.size > MAX_SIZE_MB * 1024 * 1024) {
+        return NextResponse.json(
+          { error: `Arquivo muito grande. Máximo ${MAX_SIZE_MB}MB.` },
+          { status: 400 }
+        );
+      }
+
       try {
         const supabase = createAdminClient();
         const fileExt = file.name.split('.').pop();

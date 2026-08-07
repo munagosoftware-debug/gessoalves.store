@@ -6,11 +6,11 @@
 
 # 🏛️ Gessoalves — Site Institucional
 
-### Forro de Gesso, Drywall e Acabamentos Premium · Zona Sul de São Paulo
+### Forro de Gesso, Drywall e Acabamentos Premium · Butantã e Região, São Paulo
 
 [![Status](https://img.shields.io/badge/status-em%20desenvolvimento-F1E9DC?style=for-the-badge&labelColor=2B2E38)](#)
 [![Domínio](https://img.shields.io/badge/domínio-gessoalves.store-1B2A5C?style=for-the-badge&labelColor=2B2E38&color=1B2A5C)](https://gessoalves.store)
-[![WhatsApp](https://img.shields.io/badge/WhatsApp-fale%20agora-25D366?style=for-the-badge&logo=whatsapp&logoColor=white)](https://wa.me/5511937086879)
+[![WhatsApp](https://img.shields.io/badge/WhatsApp-fale%20agora-25D366?style=for-the-badge&logo=whatsapp&logoColor=white)](https://wa.me/5511961155049)
 
 Este repositório contém o código-fonte do site institucional moderno da **Gessoalves**, construído com foco em alta performance, animações premium e geração de leads.
 
@@ -35,14 +35,14 @@ Este repositório contém o código-fonte do site institucional moderno da **Ges
 <a id="sobre-o-negocio"></a>
 ## 🏢 Sobre o Negócio
 
-A **Gessoalves** é especializada em instalação de forro de gesso acartonado, drywall e acabamentos em gesso, atendendo toda a **Zona Sul de São Paulo** (Morumbi, Santo Amaro, Granja Julieta, Chácara Santo Antônio, Saúde e bairros vizinhos).
+A **Gessoalves** é especializada em instalação de forro de gesso acartonado, drywall e acabamentos em gesso, atendendo o **Butantã e região de São Paulo** (raio de 20km).
 
 | | |
 |---|---|
 | 🌐 **Domínio** | [`gessoalves.store`](https://gessoalves.store) |
 | ☎️ **Telefone fixo** | (11) 4213-2271 |
-| 💬 **WhatsApp** | [(11) 93708-6879](https://wa.me/5511937086879) |
-| 📍 **Área de atuação** | Zona Sul de São Paulo |
+| 💬 **WhatsApp** | [(11) 96115-5049](https://wa.me/5511961155049) |
+| 📍 **Área de atuação** | Butantã e região (raio de 20km) |
 | 📱 **Redes sociais** | Facebook · Instagram · YouTube |
 
 **Missão:** oferecer aos clientes e parceiros comerciais total tranquilidade em logística, gestão e execução de cada projeto, com foco na satisfação do cliente.
@@ -51,7 +51,7 @@ A **Gessoalves** é especializada em instalação de forro de gesso acartonado, 
 
 - ⚡ Rapidez de instalação
 - 🛡️ Materiais de alta qualidade com garantia
-- 🗺️ Atendimento em toda a Zona Sul
+- 🗺️ Atendimento no Butantã e região
 - 📝 Orçamento sem compromisso
 
 ---
@@ -186,7 +186,7 @@ O contexto de desenvolvimento é mantido por agentes de IA com base nas regras d
 
 **Fale com a Gessoalves agora mesmo:**
 
-[![WhatsApp](https://img.shields.io/badge/Chamar%20no%20WhatsApp-25D366?style=for-the-badge&logo=whatsapp&logoColor=white)](https://wa.me/5511937086879)
+[![WhatsApp](https://img.shields.io/badge/Chamar%20no%20WhatsApp-25D366?style=for-the-badge&logo=whatsapp&logoColor=white)](https://wa.me/5511961155049)
 
 ☎️ (11) 4213-2271 &nbsp;·&nbsp; 🌐 [gessoalves.store](https://gessoalves.store)
 

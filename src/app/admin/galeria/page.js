@@ -1,10 +1,11 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
-import { CheckCircle, XCircle, LogIn } from 'lucide-react';
+import { CheckCircle, XCircle, LogIn, LogOut } from 'lucide-react';
 
 export default function AdminGaleriaPage() {
-  const [token, setToken] = useState(null);
+  // authed: null = verificando sessão, true = autenticado, false = não autenticado
+  const [authed, setAuthed] = useState(null);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loginError, setLoginError] = useState('');
@@ -12,7 +13,7 @@ export default function AdminGaleriaPage() {
   const [loading, setLoading] = useState(false);
   const [filter, setFilter] = useState('pending');
 
-  // Autenticação simples via service_role_key armazenado no sessionStorage
+  // Autenticação via cookie httpOnly de sessão (definido pelo servidor)
   const handleLogin = async (e) => {
     e.preventDefault();
     setLoginError('');
@@ -22,20 +23,28 @@ export default function AdminGaleriaPage() {
       body: JSON.stringify({ email, password }),
     });
     const data = await res.json();
-    if (res.ok && data.token) {
-      setToken(data.token);
-      sessionStorage.setItem('adminToken', data.token);
+    if (res.ok && data.success) {
+      setAuthed(true);
     } else {
       setLoginError(data.error || 'Credenciais inválidas.');
     }
   };
 
-  const fetchSubmissions = useCallback(async (t, f) => {
+  const handleLogout = async () => {
+    await fetch('/api/admin/logout', { method: 'POST' });
+    setAuthed(false);
+    setSubmissions([]);
+  };
+
+  const fetchSubmissions = useCallback(async (f) => {
     setLoading(true);
     try {
-      const res = await fetch(`/api/admin/gallery?status=${f}`, {
-        headers: { 'Authorization': `Bearer ${t}` }
-      });
+      const res = await fetch(`/api/admin/gallery?status=${f}`);
+      if (res.status === 401) {
+        setAuthed(false);
+        setSubmissions([]);
+        return;
+      }
       const { data } = await res.json();
       setSubmissions(data || []);
     } catch {
@@ -44,26 +53,42 @@ export default function AdminGaleriaPage() {
     setLoading(false);
   }, []);
 
+  // Ao montar, tenta usar a sessão (cookie httpOnly) já existente
   useEffect(() => {
-    const saved = sessionStorage.getItem('adminToken');
-    if (saved) setToken(saved);
+    fetchSubmissions('pending').then(() => {
+      setAuthed((prev) => (prev === false ? false : true));
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
-    if (token) fetchSubmissions(token, filter);
-  }, [token, filter, fetchSubmissions]);
+    if (authed) fetchSubmissions(filter);
+  }, [authed, filter, fetchSubmissions]);
 
   const handleModerate = async (id, status) => {
-    await fetch('/api/admin/gallery', {
+    const res = await fetch('/api/admin/gallery', {
       method: 'PATCH',
-      headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ id, status }),
     });
-    fetchSubmissions(token, filter);
+    if (res.status === 401) {
+      setAuthed(false);
+      return;
+    }
+    fetchSubmissions(filter);
   };
 
+  // Aguardando verificação inicial da sessão
+  if (authed === null) {
+    return (
+      <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#f6f8fb' }}>
+        <p style={{ color: '#888' }}>Carregando...</p>
+      </div>
+    );
+  }
+
   // Tela de Login
-  if (!token) {
+  if (!authed) {
     return (
       <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#f6f8fb' }}>
         <div style={{ background: '#fff', padding: '2.5rem', borderRadius: '16px', boxShadow: '0 8px 30px rgba(0,0,0,0.1)', width: '100%', maxWidth: '420px' }}>
@@ -89,12 +114,15 @@ export default function AdminGaleriaPage() {
       <div style={{ maxWidth: '1100px', margin: '0 auto' }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2rem', flexWrap: 'wrap', gap: '12px' }}>
           <h1 style={{ color: 'var(--color-navy)', fontSize: '1.8rem' }}>Moderação de Galeria</h1>
-          <div style={{ display: 'flex', gap: '8px' }}>
+          <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
             {['pending', 'approved', 'rejected'].map(f => (
               <button key={f} onClick={() => setFilter(f)} style={{ padding: '8px 18px', borderRadius: '20px', border: '1px solid var(--color-navy)', background: filter === f ? 'var(--color-navy)' : '#fff', color: filter === f ? '#fff' : 'var(--color-navy)', cursor: 'pointer', fontWeight: '600', fontSize: '0.85rem', textTransform: 'capitalize' }}>
                 {f === 'pending' ? 'Pendentes' : f === 'approved' ? 'Aprovados' : 'Rejeitados'}
               </button>
             ))}
+            <button onClick={handleLogout} style={{ display: 'flex', alignItems: 'center', gap: '6px', padding: '8px 16px', borderRadius: '20px', border: '1px solid #dc2626', background: '#fff', color: '#dc2626', cursor: 'pointer', fontWeight: '600', fontSize: '0.85rem' }}>
+              <LogOut size={16} /> Sair
+            </button>
           </div>
         </div>
 
