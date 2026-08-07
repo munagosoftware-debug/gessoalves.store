@@ -219,7 +219,7 @@ export default function PortfolioClient() {
           <div className={styles.emptyState}>
             <h3 className={styles.emptyTitle}>Nenhum projeto encontrado</h3>
             <p className={styles.emptySubtitle}>
-              Tente buscar por outro termo ou selecione a categoria "Todos os Projetos".
+              Tente buscar por outro termo ou selecione a categoria &quot;Todos os Projetos&quot;.
             </p>
             <button
               onClick={() => {
