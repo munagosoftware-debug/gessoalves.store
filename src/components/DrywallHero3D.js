@@ -245,6 +245,7 @@ export default function DrywallHero3D() {
   return (
     <div
       ref={mountRef}
+      aria-hidden="true"
       style={{
         width: '100%',
         height: '350px',

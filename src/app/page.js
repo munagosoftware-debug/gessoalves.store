@@ -12,7 +12,7 @@ import FAQAccordion from '@/components/FAQAccordion';
 import CoverageMap from '@/components/CoverageMap';
 import PhotoCarousel from '@/components/PhotoCarousel';
 import MarqueeBanner from '@/components/MarqueeBanner';
-import HeroVideo from '@/components/HeroVideo';
+import WhatsAppCTAButton from '@/components/WhatsAppCTAButton';
 
 const MOCK_PHOTOS = [
   {
@@ -56,6 +56,34 @@ const MOCK_PHOTOS = [
     client_name: 'Luciana Farias',
     service_type: 'Rebaixamento de Teto',
     bairro: 'Tatuapé'
+  },
+  {
+    id: 7,
+    image_urls: ['https://images.unsplash.com/photo-1505691938895-1758d7feb511?w=800&q=80'],
+    client_name: 'Paulo Gustavo',
+    service_type: 'Projeto de Iluminação Embutida',
+    bairro: 'Vila Madalena'
+  },
+  {
+    id: 8,
+    image_urls: ['https://images.unsplash.com/photo-1497366216548-37526070297c?w=800&q=80'],
+    client_name: 'Empresa Alpha',
+    service_type: 'Forro Comercial Acartonado',
+    bairro: 'Av. Paulista'
+  },
+  {
+    id: 9,
+    image_urls: ['https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?w=800&q=80'],
+    client_name: 'Camila Rodrigues',
+    service_type: 'Sanca Invertida com LED',
+    bairro: 'Jardins'
+  },
+  {
+    id: 10,
+    image_urls: ['https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?w=800&q=80'],
+    client_name: 'Pedro Álvares',
+    service_type: 'Acabamento Liso em Gesso',
+    bairro: 'Morumbi'
   }
 ];
 
@@ -88,33 +116,28 @@ export default function Home() {
   return (
     <GsapProvider>
       <main style={{ overflowX: 'hidden' }}>
-        {/* HERO SECTION COM SWIPER E VIDEO */}
-        <section className={styles.heroSection} style={{ padding: '2rem 2rem', maxWidth: '1600px', margin: '0 auto' }}>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '2rem', alignItems: 'stretch' }}>
-            <div className="gsap-reveal" style={{ display: 'flex' }}>
-              <HeroSwiper />
-            </div>
-            <div className="gsap-reveal" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%', height: '100%' }}>
-              <HeroVideo />
-            </div>
+        {/* HERO SECTION COM SWIPER */}
+        <section className={styles.heroSection} style={{ width: '100vw', margin: 0, padding: 0 }}>
+          <div className="gsap-reveal" style={{ display: 'flex', width: '100%' }}>
+            <HeroSwiper />
           </div>
+        </section>
+
+        {/* CONTADORES NUMÉRICOS ANIMADOS VIA SCROLLTRIGGER */}
+        <section style={{ width: '100%', padding: '0' }}>
+          <CounterUp />
         </section>
 
         {/* FAIXA HORIZONTAL - LETREIRO ANIMADO (DARK) */}
         <MarqueeBanner items={bannerItemsDark} variant="dark" />
 
-        {/* CONTADORES NUMÉRICOS ANIMADOS VIA SCROLLTRIGGER */}
-        <section style={{ maxWidth: '1280px', margin: '0 auto', padding: '0 1.5rem' }}>
-          <CounterUp />
-        </section>
-
         {/* CARROSSEL DE FOTOS EM DESTAQUE */}
         {photos && photos.length > 0 && (
-          <section style={{ padding: '2rem 0', background: '#f6f8fb' }}>
+          <section style={{ padding: '4rem 0 2rem 0', background: 'var(--color-navy)' }}>
             <div style={{ maxWidth: '1280px', margin: '0 auto', padding: '0 1.5rem', overflow: 'hidden' }}>
-              <div style={{ textAlign: 'center', marginBottom: '1.5rem' }} className="gsap-reveal">
-                <h2 className={styles.sectionTitle}>Nossas Obras Recentes</h2>
-                <p style={{ color: '#666' }}>Deslize para ver detalhes dos nossos acabamentos premium.</p>
+              <div style={{ textAlign: 'center', marginBottom: '2.5rem' }} className="gsap-reveal">
+                <h2 className={styles.sectionTitle} style={{ color: '#ffffff', marginBottom: '0.5rem' }}>Nossas Obras Recentes</h2>
+                <p style={{ color: 'var(--color-silver-light)' }}>Deslize para ver detalhes dos nossos acabamentos premium.</p>
               </div>
               <PhotoCarousel photos={photos} />
             </div>
@@ -122,16 +145,16 @@ export default function Home() {
         )}
 
         {/* SERVIÇOS EM DESTAQUE COM TILT 3D & FLIP 3D CARD */}
-        <section className={styles.section} style={{ background: '#ffffff' }}>
+        <section className={styles.section} style={{ background: 'var(--color-graphite)' }}>
           <div style={{ maxWidth: '1280px', margin: '0 auto', padding: '1rem 0' }}>
             <div style={{ textAlign: 'center', marginBottom: '2.5rem' }} className="gsap-reveal">
-              <span style={{ background: 'var(--color-navy)', color: '#fff', padding: '4px 12px', borderRadius: '20px', fontSize: '0.85rem' }}>
+              <span style={{ background: 'var(--color-navy)', color: '#fff', padding: '4px 12px', borderRadius: '20px', fontSize: '0.85rem', border: '1px solid var(--color-silver-dark)' }}>
                 Especialidades
               </span>
-              <h2 className={styles.sectionTitle} style={{ marginTop: '0.5rem' }}>
+              <h2 className={styles.sectionTitle} style={{ marginTop: '0.5rem', color: '#fff' }}>
                 Nossos Serviços (Passe o mouse ou toque para girar em 3D)
               </h2>
-              <p style={{ color: '#666', maxWidth: '600px', margin: '0 auto' }}>
+              <p style={{ color: 'var(--color-silver-light)', maxWidth: '600px', margin: '0 auto' }}>
                 Conheça nossas soluções completas com acabamento metálico de alta durabilidade e isolamento acústico.
               </p>
             </div>
@@ -155,20 +178,20 @@ export default function Home() {
         <PinnedBeforeAfter />
 
         {/* CARROSSEL COMPARATIVO ANTES / DEPOIS POR OBRA */}
-        <section className={styles.section} style={{ background: '#f6f8fb' }}>
+        <section className={styles.section} style={{ background: 'var(--color-navy)' }}>
           <div style={{ maxWidth: '1280px', margin: '0 auto' }}>
             <div style={{ textAlign: 'center', marginBottom: '2rem' }} className="gsap-reveal">
-              <h2 className={styles.sectionTitle}>Antes & Depois Interativo por Obra</h2>
-              <p style={{ color: '#666' }}>Arraste o divisor central para comparar a transformação de nossas obras.</p>
+              <h2 className={styles.sectionTitle} style={{ color: '#fff' }}>Antes & Depois Interativo por Obra</h2>
+              <p style={{ color: 'var(--color-silver-light)' }}>Arraste o divisor central para comparar a transformação de nossas obras.</p>
             </div>
             <BeforeAfterSlider />
           </div>
         </section>
 
         {/* POR QUE ESCOLHER A GESSOALVES */}
-        <section className={styles.section}>
+        <section className={styles.section} style={{ background: 'var(--color-graphite)' }}>
           <div style={{ maxWidth: '1280px', margin: '0 auto' }}>
-            <h2 className={styles.sectionTitle} style={{ textAlign: 'center' }}>
+            <h2 className={styles.sectionTitle} style={{ textAlign: 'center', color: '#fff' }}>
               Por que a Gessoalves é a melhor escolha?
             </h2>
             <div className="gsap-stagger-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '2rem', marginTop: '2rem' }}>
@@ -177,8 +200,8 @@ export default function Home() {
                 <div className="metallic-screw screw-tr" />
                 <div className="metallic-screw screw-bl" />
                 <div className="metallic-screw screw-br" />
-                <h3 style={{ color: 'var(--color-navy)', marginBottom: '0.8rem' }}>⚡ Pontualidade Rigorosa</h3>
-                <p>Cumprimento estrito do cronograma combinado sem atrasos surpresa na sua reforma.</p>
+                <h3 style={{ color: '#fff', marginBottom: '0.8rem' }}>⚡ Pontualidade Rigorosa</h3>
+                <p style={{ color: 'var(--color-silver-light)' }}>Cumprimento estrito do cronograma combinado sem atrasos surpresa na sua reforma.</p>
               </div>
 
               <div className="metallic-card" style={{ padding: '2rem' }}>
@@ -186,8 +209,8 @@ export default function Home() {
                 <div className="metallic-screw screw-tr" />
                 <div className="metallic-screw screw-bl" />
                 <div className="metallic-screw screw-br" />
-                <h3 style={{ color: 'var(--color-navy)', marginBottom: '0.8rem' }}>🛡️ Materiais Certificados</h3>
-                <p>Utilização exclusiva de perfis em aço galvanizado e chapas acartonadas padrão ABNT.</p>
+                <h3 style={{ color: '#fff', marginBottom: '0.8rem' }}>🛡️ Materiais Certificados</h3>
+                <p style={{ color: 'var(--color-silver-light)' }}>Utilização exclusiva de perfis em aço galvanizado e chapas acartonadas padrão ABNT.</p>
               </div>
 
               <div className="metallic-card" style={{ padding: '2rem' }}>
@@ -195,15 +218,15 @@ export default function Home() {
                 <div className="metallic-screw screw-tr" />
                 <div className="metallic-screw screw-bl" />
                 <div className="metallic-screw screw-br" />
-                <h3 style={{ color: 'var(--color-navy)', marginBottom: '0.8rem' }}>🧹 Obra Organizada & Limpa</h3>
-                <p>Proteção integral dos seus móveis e piso com descarte ecológico do entulho.</p>
+                <h3 style={{ color: '#fff', marginBottom: '0.8rem' }}>🧹 Obra Organizada & Limpa</h3>
+                <p style={{ color: 'var(--color-silver-light)' }}>Proteção integral dos seus móveis e piso com descarte ecológico do entulho.</p>
               </div>
             </div>
           </div>
         </section>
 
         {/* ÁREA DE ATUAÇÃO COM MAPA VISUAL */}
-        <section className={styles.section} style={{ background: '#ffffff' }}>
+        <section className={styles.section} style={{ background: 'var(--color-navy)' }}>
           <div style={{ maxWidth: '1280px', margin: '0 auto', padding: '0 1.5rem' }} className="gsap-reveal">
             <CoverageMap />
           </div>
@@ -213,25 +236,25 @@ export default function Home() {
         <MarqueeBanner items={bannerItemsLight} variant="light" />
 
         {/* DEPOIMENTOS COM ESTRELAS (SWIPER.JS) */}
-        <section className={styles.section} style={{ background: '#f6f8fb' }}>
+        <section className={styles.section} style={{ background: 'var(--color-graphite)' }}>
           <div style={{ maxWidth: '1280px', margin: '0 auto' }}>
             <div style={{ textAlign: 'center', marginBottom: '2rem' }} className="gsap-reveal">
-              <h2 className={styles.sectionTitle}>Depoimentos de Clientes Satisfeitos</h2>
-              <p style={{ color: '#666' }}>Veja quem já transformou seu espaço com a Gessoalves.</p>
+              <h2 className={styles.sectionTitle} style={{ color: '#fff' }}>Depoimentos de Clientes Satisfeitos</h2>
+              <p style={{ color: 'var(--color-silver-light)' }}>Veja quem já transformou seu espaço com a Gessoalves.</p>
             </div>
             <TestimonialsSwiper />
           </div>
         </section>
 
         {/* PERGUNTAS FREQUENTES (FAQ) */}
-        <section className={styles.section} style={{ background: '#ffffff' }}>
+        <section className={styles.section} style={{ background: 'var(--color-navy)' }}>
           <div style={{ maxWidth: '1280px', margin: '0 auto', padding: '0 1.5rem' }}>
             <div style={{ textAlign: 'center', marginBottom: '2.5rem' }} className="gsap-reveal">
-              <span style={{ background: 'var(--color-navy)', color: '#fff', padding: '4px 12px', borderRadius: '20px', fontSize: '0.85rem' }}>
+              <span style={{ background: 'var(--color-graphite)', color: '#fff', padding: '4px 12px', borderRadius: '20px', fontSize: '0.85rem', border: '1px solid var(--color-silver-dark)' }}>
                 Dúvidas
               </span>
-              <h2 className={styles.sectionTitle} style={{ marginTop: '0.5rem' }}>Perguntas Frequentes</h2>
-              <p style={{ color: '#666', maxWidth: '500px', margin: '0 auto' }}>
+              <h2 className={styles.sectionTitle} style={{ marginTop: '0.5rem', color: '#fff' }}>Perguntas Frequentes</h2>
+              <p style={{ color: 'var(--color-silver-light)', maxWidth: '500px', margin: '0 auto' }}>
                 Tira suas dúvidas sobre gesso, drywall e nossos serviços antes de solicitar um orçamento.
               </p>
             </div>
@@ -255,19 +278,21 @@ export default function Home() {
             <p style={{ fontSize: '1.2rem', color: 'var(--color-silver-light)', marginBottom: '2rem' }}>
               Receba um atendimento personalizado com orçamento rápido diretamente pelo WhatsApp.
             </p>
-            <Link
-              href="https://wa.me/5511961155049"
-              target="_blank"
+            <WhatsAppCTAButton
+              message="Olá! Gostaria de falar com um especialista e solicitar um orçamento."
               className="btn-3d"
               style={{
                 fontSize: '1.2rem',
                 padding: '16px 36px',
                 background: 'linear-gradient(145deg, var(--color-silver-light), #ffffff)',
                 color: 'var(--color-navy)',
+                cursor: 'pointer',
+                border: 'none',
+                fontWeight: '600',
               }}
             >
               Falar com Especialista no WhatsApp
-            </Link>
+            </WhatsAppCTAButton>
           </div>
         </section>
       </main>

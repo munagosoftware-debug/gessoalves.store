@@ -13,13 +13,13 @@
 .marqueeContent {
   display: inline-block;
   white-space: nowrap;
-  animation: scroll 35s linear infinite;
+  animation: scroll 60s linear infinite;
 }
 
 .marqueeContent span {
   display: inline-flex;
   align-items: center;
-  font-size: 1.25rem;
+  font-size: clamp(1rem, 3vw, 1.25rem);
   font-weight: 600;
   letter-spacing: 1px;
   margin: 0 1rem;

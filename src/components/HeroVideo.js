@@ -16,6 +16,8 @@ export default function HeroVideo() {
     <video 
       ref={videoRef}
       src="/hero-video.mp4" 
+      poster="/hero-video-poster.jpg"
+      preload="metadata"
       autoPlay 
       loop 
       muted 

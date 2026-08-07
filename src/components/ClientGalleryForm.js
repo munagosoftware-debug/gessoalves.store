@@ -116,7 +116,7 @@ export default function ClientGalleryForm() {
             initial={{ opacity: 0, scale: 0.9, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.9, y: -20 }}
-            style={{ textAlign: 'center', padding: '4rem 2rem', background: '#fff', borderRadius: '24px', boxShadow: '0 10px 40px rgba(0,0,0,0.06)' }}
+            style={{ textAlign: 'center', padding: '4rem 2rem', background: 'var(--color-graphite)', borderRadius: '24px', boxShadow: '0 10px 40px rgba(0,0,0,0.3)', border: '1px solid rgba(255,255,255,0.05)' }}
           >
             <motion.div
               initial={{ scale: 0 }}
@@ -125,8 +125,8 @@ export default function ClientGalleryForm() {
             >
               <CheckCircle size={72} color="#10B981" style={{ margin: '0 auto 1.5rem' }} />
             </motion.div>
-            <h3 style={{ color: 'var(--color-navy)', fontSize: '2rem', marginBottom: '0.8rem', fontWeight: '700' }}>Fotos Enviadas!</h3>
-            <p style={{ color: '#64748b', fontSize: '1.1rem', marginBottom: '2rem', maxWidth: '400px', margin: '0 auto 2rem' }}>
+            <h3 style={{ color: '#ffffff', fontSize: '2rem', marginBottom: '0.8rem', fontWeight: '700' }}>Fotos Enviadas!</h3>
+            <p style={{ color: 'var(--color-silver-light)', fontSize: '1.1rem', marginBottom: '2rem', maxWidth: '400px', margin: '0 auto 2rem' }}>
               Obrigado por compartilhar o resultado! Suas fotos passarão por uma rápida moderação antes de aparecerem na nossa galeria.
             </p>
             <button
@@ -148,10 +148,11 @@ export default function ClientGalleryForm() {
               display: 'flex', 
               flexDirection: 'column', 
               gap: '24px',
-              background: '#fff',
+              background: 'var(--color-graphite)',
               padding: '2.5rem',
               borderRadius: '24px',
-              boxShadow: '0 10px 40px rgba(0,0,0,0.06)'
+              boxShadow: '0 10px 40px rgba(0,0,0,0.4)',
+              border: '1px solid rgba(255,255,255,0.05)'
             }}
           >
             {/* Honeypot anti-bot — oculto */}
@@ -159,8 +160,9 @@ export default function ClientGalleryForm() {
 
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '20px' }}>
               <div>
-                <label style={labelStyle}>Nome completo *</label>
+                <label htmlFor="name" style={labelStyle}>Nome completo *</label>
                 <input
+                  id="name"
                   required
                   value={form.name}
                   onChange={e => setForm(p => ({ ...p, name: e.target.value }))}
@@ -170,8 +172,9 @@ export default function ClientGalleryForm() {
                 />
               </div>
               <div>
-                <label style={labelStyle}>WhatsApp ou E-mail <span style={{color: '#94a3b8', fontWeight: 'normal'}}>(opcional)</span></label>
+                <label htmlFor="contact" style={labelStyle}>WhatsApp ou E-mail <span style={{color: '#94a3b8', fontWeight: 'normal'}}>(opcional)</span></label>
                 <input
+                  id="contact"
                   value={form.contact}
                   onChange={e => setForm(p => ({ ...p, contact: e.target.value }))}
                   placeholder="(11) 99999-9999"
@@ -180,18 +183,25 @@ export default function ClientGalleryForm() {
                 />
               </div>
               <div>
-                <label style={labelStyle}>Serviço realizado *</label>
+                <label id="service-label" style={labelStyle}>Serviço realizado *</label>
                 <div style={{ position: 'relative' }} ref={dropdownRef}>
                   <div
+                    role="combobox"
+                    aria-expanded={isDropdownOpen}
+                    aria-haspopup="listbox"
+                    aria-labelledby="service-label"
+                    aria-controls="service-listbox"
+                    tabIndex={0}
                     onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                    onKeyDown={(e) => { if(e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setIsDropdownOpen(!isDropdownOpen); } }}
                     style={{
                       ...inputStyle,
                       cursor: 'pointer',
                       display: 'flex',
                       justifyContent: 'space-between',
                       alignItems: 'center',
-                      color: form.service ? 'var(--color-navy)' : '#94a3b8',
-                      border: isDropdownOpen ? '1px solid var(--color-navy)' : inputStyle.border
+                      color: form.service ? '#ffffff' : 'rgba(255,255,255,0.5)',
+                      border: isDropdownOpen ? '1px solid var(--color-cyan, #4cc9f0)' : inputStyle.border
                     }}
                     className="premium-input"
                   >
@@ -202,6 +212,8 @@ export default function ClientGalleryForm() {
                   <AnimatePresence>
                     {isDropdownOpen && (
                       <motion.div
+                        id="service-listbox"
+                        role="listbox"
                         initial={{ opacity: 0, y: -10, scaleY: 0.95 }}
                         animate={{ opacity: 1, y: 0, scaleY: 1 }}
                         exit={{ opacity: 0, y: -10, scaleY: 0.95 }}
@@ -211,8 +223,8 @@ export default function ClientGalleryForm() {
                           top: '100%',
                           left: 0,
                           right: 0,
-                          background: '#fff',
-                          border: '1px solid #cbd5e1',
+                          background: 'var(--color-graphite)',
+                          border: '1px solid rgba(255,255,255,0.1)',
                           borderRadius: '12px',
                           marginTop: '6px',
                           boxShadow: '0 10px 30px rgba(0,0,0,0.12)',
@@ -224,24 +236,28 @@ export default function ClientGalleryForm() {
                         {SERVICES.map(s => (
                           <div
                             key={s}
+                            role="option"
+                            aria-selected={form.service === s}
+                            tabIndex={0}
                             onClick={() => {
                               setForm(p => ({ ...p, service: s }));
                               setIsDropdownOpen(false);
                             }}
+                            onKeyDown={(e) => { if(e.key === 'Enter') { setForm(p => ({ ...p, service: s })); setIsDropdownOpen(false); } }}
                             onMouseEnter={(e) => {
-                              e.currentTarget.style.background = '#f1f5f9';
+                              e.currentTarget.style.background = 'rgba(255,255,255,0.05)';
                             }}
                             onMouseLeave={(e) => {
-                              e.currentTarget.style.background = form.service === s ? '#f1f5f9' : 'transparent';
+                              e.currentTarget.style.background = form.service === s ? 'rgba(255,255,255,0.05)' : 'transparent';
                             }}
                             style={{
                               padding: '12px 16px',
                               cursor: 'pointer',
-                              color: 'var(--color-navy)',
+                              color: '#ffffff',
                               transition: 'background 0.2s',
-                              background: form.service === s ? '#f1f5f9' : 'transparent',
+                              background: form.service === s ? 'rgba(255,255,255,0.05)' : 'transparent',
                               fontWeight: form.service === s ? '600' : '400',
-                              borderLeft: form.service === s ? '3px solid var(--color-navy)' : '3px solid transparent'
+                              borderLeft: form.service === s ? '3px solid var(--color-cyan, #4cc9f0)' : '3px solid transparent'
                             }}
                           >
                             {s}
@@ -253,8 +269,9 @@ export default function ClientGalleryForm() {
                 </div>
               </div>
               <div>
-                <label style={labelStyle}>Bairro / Cidade *</label>
+                <label htmlFor="bairro" style={labelStyle}>Bairro / Cidade *</label>
                 <input
+                  id="bairro"
                   required
                   value={form.bairro}
                   onChange={e => setForm(p => ({ ...p, bairro: e.target.value }))}
@@ -265,8 +282,9 @@ export default function ClientGalleryForm() {
               </div>
               
               <div style={{ gridColumn: '1 / -1' }}>
-                <label style={labelStyle}>Sobre a sua experiência <span style={{color: '#94a3b8', fontWeight: 'normal'}}>(opcional)</span></label>
+                <label htmlFor="experience" style={labelStyle}>Sobre a sua experiência <span style={{color: '#94a3b8', fontWeight: 'normal'}}>(opcional)</span></label>
                 <textarea
+                  id="experience"
                   value={form.experience}
                   onChange={e => setForm(p => ({ ...p, experience: e.target.value }))}
                   placeholder="Conte-nos um pouco sobre como foi realizar sua obra com a Gesso Alves..."
@@ -278,16 +296,19 @@ export default function ClientGalleryForm() {
 
             {/* Dropzone Elegante para Fotos */}
             <div>
-              <label style={labelStyle}>Fotos do resultado <span style={{color: '#94a3b8', fontWeight: 'normal'}}>(1 a 3 fotos — JPG, PNG, WebP)</span></label>
+              <label htmlFor="file-upload" style={labelStyle}>Fotos do resultado <span style={{color: '#94a3b8', fontWeight: 'normal'}}>(1 a 3 fotos — JPG, PNG, WebP)</span></label>
               
               <div 
+                role="button"
+                tabIndex={0}
+                onKeyDown={(e) => { if(e.key === 'Enter' || e.key === ' ') { e.preventDefault(); fileInputRef.current?.click(); } }}
                 onDragOver={(e) => { e.preventDefault(); setIsDragging(true); }}
                 onDragLeave={() => setIsDragging(false)}
                 onDrop={handleDrop}
                 onClick={() => fileInputRef.current?.click()}
                 style={{
-                  border: isDragging ? '2px dashed var(--color-navy)' : '2px dashed #cbd5e1',
-                  background: isDragging ? '#f8fafc' : '#ffffff',
+                  border: isDragging ? '2px dashed var(--color-cyan, #4cc9f0)' : '2px dashed rgba(255,255,255,0.2)',
+                  background: isDragging ? 'rgba(255,255,255,0.05)' : 'transparent',
                   borderRadius: '16px',
                   padding: '2.5rem 1rem',
                   textAlign: 'center',
@@ -301,6 +322,7 @@ export default function ClientGalleryForm() {
                 }}
               >
                 <input
+                  id="file-upload"
                   ref={fileInputRef}
                   type="file"
                   accept="image/jpeg,image/png,image/webp"
@@ -309,14 +331,14 @@ export default function ClientGalleryForm() {
                   style={{ display: 'none' }}
                 />
                 
-                <div style={{ width: '64px', height: '64px', borderRadius: '50%', background: '#f1f5f9', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--color-navy)' }}>
+                <div style={{ width: '64px', height: '64px', borderRadius: '50%', background: 'rgba(255,255,255,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#ffffff' }}>
                   <UploadCloud size={32} />
                 </div>
                 <div>
-                  <p style={{ fontWeight: '600', color: 'var(--color-navy)', margin: 0, fontSize: '1.05rem' }}>
+                  <p style={{ fontWeight: '600', color: '#ffffff', margin: 0, fontSize: '1.05rem' }}>
                     Clique para fazer upload ou arraste as fotos
                   </p>
-                  <p style={{ color: '#64748b', fontSize: '0.9rem', marginTop: '4px' }}>
+                  <p style={{ color: 'var(--color-silver-light)', fontSize: '0.9rem', marginTop: '4px' }}>
                     Máximo de 3 fotos. Tamanho ideal.
                   </p>
                 </div>
@@ -327,6 +349,7 @@ export default function ClientGalleryForm() {
                 <div style={{ display: 'flex', gap: '16px', marginTop: '16px', flexWrap: 'wrap' }}>
                   {previews.map((url, i) => (
                     <div key={i} style={{ position: 'relative', width: '100px', height: '100px' }}>
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
                       <img
                         src={url}
                         alt={`Preview ${i + 1}`}
@@ -351,16 +374,17 @@ export default function ClientGalleryForm() {
             </div>
 
             {/* Autorização Legal */}
-            <div style={{ padding: '16px', background: '#f8fafc', borderRadius: '12px', border: '1px solid #e2e8f0' }}>
-              <label style={{ display: 'flex', alignItems: 'flex-start', gap: '12px', cursor: 'pointer', margin: 0 }}>
+            <div style={{ padding: '16px', background: 'rgba(255,255,255,0.03)', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.1)' }}>
+              <label htmlFor="authorized" style={{ display: 'flex', alignItems: 'flex-start', gap: '12px', cursor: 'pointer', margin: 0 }}>
                 <input
+                  id="authorized"
                   type="checkbox"
                   required
                   checked={form.authorized}
                   onChange={e => setForm(p => ({ ...p, authorized: e.target.checked }))}
-                  style={{ marginTop: '4px', width: '20px', height: '20px', accentColor: 'var(--color-navy)', cursor: 'pointer' }}
+                  style={{ marginTop: '4px', width: '20px', height: '20px', accentColor: 'var(--color-cyan, #4cc9f0)', cursor: 'pointer' }}
                 />
-                <span style={{ fontSize: '0.95rem', color: '#334155', lineHeight: '1.4' }}>
+                <span style={{ fontSize: '0.95rem', color: 'var(--color-silver-light)', lineHeight: '1.4' }}>
                   <strong>Autorização de uso de imagem:</strong> Autorizo a Gessoalves a publicar meu nome e a(s) foto(s) enviada(s) no portfólio do site e nas redes sociais oficiais da empresa. *
                 </span>
               </label>
@@ -368,6 +392,7 @@ export default function ClientGalleryForm() {
 
             {errorMsg && (
               <motion.div 
+                role="alert"
                 initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }}
                 style={{ background: '#fef2f2', color: '#dc2626', padding: '14px', borderRadius: '12px', fontSize: '0.95rem', border: '1px solid #fecaca', display: 'flex', alignItems: 'center', gap: '8px' }}
               >
@@ -409,11 +434,11 @@ export default function ClientGalleryForm() {
 const inputStyle = {
   width: '100%',
   padding: '14px 16px',
-  border: '1px solid #cbd5e1',
+  border: '1px solid rgba(255,255,255,0.1)',
   borderRadius: '12px',
   fontSize: '1rem',
-  color: 'var(--color-navy)',
-  background: '#f8fafc',
+  color: '#ffffff',
+  background: 'rgba(255,255,255,0.03)',
   outline: 'none',
   boxSizing: 'border-box',
   transition: 'all 0.2s ease'
@@ -424,5 +449,5 @@ const labelStyle = {
   marginBottom: '8px',
   fontWeight: '600',
   fontSize: '0.9rem',
-  color: 'var(--color-navy)',
+  color: 'var(--color-silver-light)',
 };

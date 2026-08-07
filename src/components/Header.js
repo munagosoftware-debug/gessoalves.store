@@ -4,11 +4,14 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { Menu, X } from 'lucide-react';
+import { useWhatsAppModal } from '../context/WhatsAppModalContext';
 import styles from './Header.module.css';
 
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
   const pathname = usePathname();
+  const { openWhatsAppModal } = useWhatsAppModal();
 
   const toggleMenu = () => setIsOpen(!isOpen);
 
@@ -16,6 +19,19 @@ export default function Header() {
   useEffect(() => {
     setIsOpen(false);
   }, [pathname]);
+
+  // Handle scroll for transparent -> solid header
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 50) {
+        setIsScrolled(true);
+      } else {
+        setIsScrolled(false);
+      }
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   const navLinks = [
     { href: '/', label: 'Início' },
@@ -26,14 +42,17 @@ export default function Header() {
     { href: '/contato', label: 'Contato' },
   ];
 
+  const isHomePage = pathname === '/';
+  const shouldBeSolid = !isHomePage || isScrolled;
+
   return (
-    <header className={styles.header}>
+    <header className={`${styles.header} ${shouldBeSolid ? styles.scrolled : ''}`}>
       <Link href="/" className={styles.logoContainer} onClick={() => setIsOpen(false)}>
         <Image 
           src="/logo.png" 
           alt="Gessoalves Logo" 
-          width={180} 
-          height={60} 
+          width={300} 
+          height={100} 
           className={styles.logo} 
           priority
         />
@@ -55,12 +74,15 @@ export default function Header() {
           })}
         </nav>
 
-        <Link href="https://wa.me/5511961155049" target="_blank" className={styles.ctaBtn}>
+        <button 
+          onClick={() => openWhatsAppModal('Olá! Gostaria de um orçamento para o meu projeto.')} 
+          className={styles.ctaBtn}
+        >
           Orçamento
-        </Link>
+        </button>
 
         <button className={styles.mobileMenuBtn} onClick={toggleMenu} aria-label="Menu" aria-expanded={isOpen}>
-          {isOpen ? <X size={28} color="var(--color-navy)" /> : <Menu size={28} color="var(--color-navy)" />}
+          {isOpen ? <X size={28} color="#ffffff" /> : <Menu size={28} color="#ffffff" />}
         </button>
       </div>
     </header>

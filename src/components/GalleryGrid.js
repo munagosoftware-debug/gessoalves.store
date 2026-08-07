@@ -11,7 +11,7 @@ export default function GalleryGrid({ items }) {
 
   if (!items || items.length === 0) {
     return (
-      <div style={{ textAlign: 'center', padding: '3rem', color: '#888' }}>
+      <div style={{ textAlign: 'center', padding: '3rem', color: 'var(--color-silver-light)' }}>
         <p>Ainda não há fotos aprovadas. Seja o primeiro a enviar!</p>
       </div>
     );
@@ -24,8 +24,8 @@ export default function GalleryGrid({ items }) {
           <button 
             onClick={() => setIsExpanded(true)}
             style={{
-              background: 'var(--color-navy)',
-              color: '#fff',
+              background: 'var(--color-cyan, #4cc9f0)',
+              color: '#111',
               border: 'none',
               padding: '16px 36px',
               borderRadius: '30px',
@@ -69,17 +69,17 @@ export default function GalleryGrid({ items }) {
                     cursor: 'pointer',
                     borderRadius: '12px',
                     overflow: 'hidden',
-                    boxShadow: '0 4px 15px rgba(0,0,0,0.08)',
+                    boxShadow: '0 4px 15px rgba(0,0,0,0.3)',
                     transition: 'transform 0.3s ease, box-shadow 0.3s ease',
-                    background: '#f8f8f8',
+                    background: 'rgba(255,255,255,0.05)',
                   }}
                   onMouseEnter={e => { 
                     e.currentTarget.style.transform = 'scale(1.02)'; 
-                    e.currentTarget.style.boxShadow = '0 8px 25px rgba(0,0,0,0.15)'; 
+                    e.currentTarget.style.boxShadow = '0 8px 25px rgba(0,0,0,0.4)'; 
                   }}
                   onMouseLeave={e => { 
                     e.currentTarget.style.transform = 'scale(1)'; 
-                    e.currentTarget.style.boxShadow = '0 4px 15px rgba(0,0,0,0.08)'; 
+                    e.currentTarget.style.boxShadow = '0 4px 15px rgba(0,0,0,0.3)'; 
                   }}
                 >
                   <div style={{ position: 'relative', width: '100%', height: '200px' }}>
@@ -96,8 +96,9 @@ export default function GalleryGrid({ items }) {
                         position: 'absolute',
                         bottom: '12px',
                         right: '12px',
-                        background: 'rgba(255, 255, 255, 0.95)',
-                        color: 'var(--color-navy)',
+                        background: 'rgba(255,255,255,0.1)',
+                        backdropFilter: 'blur(4px)',
+                        color: '#fff',
                         padding: '6px 14px',
                         borderRadius: '20px',
                         display: 'flex',
@@ -113,8 +114,8 @@ export default function GalleryGrid({ items }) {
                     </div>
                   </div>
                   <div style={{ padding: '12px 14px' }}>
-                    <p style={{ fontWeight: '700', color: 'var(--color-navy)', margin: 0, fontSize: '0.95rem' }}>{item.client_name}</p>
-                    <p style={{ color: '#666', fontSize: '0.8rem', margin: '3px 0 0' }}>
+                    <p style={{ fontWeight: '700', color: '#fff', margin: 0, fontSize: '0.95rem' }}>{item.client_name}</p>
+                    <p style={{ color: 'var(--color-silver-light)', fontSize: '0.8rem', margin: '3px 0 0' }}>
                       {item.service_type} · {item.bairro}
                     </p>
                   </div>
@@ -128,8 +129,8 @@ export default function GalleryGrid({ items }) {
               onClick={() => setIsExpanded(false)}
               style={{
                 background: 'transparent',
-                color: 'var(--color-navy)',
-                border: '2px solid var(--color-navy)',
+                color: '#fff',
+                border: '2px solid rgba(255,255,255,0.2)',
                 padding: '12px 28px',
                 borderRadius: '30px',
                 fontSize: '1rem',
@@ -141,12 +142,12 @@ export default function GalleryGrid({ items }) {
                 transition: 'all 0.2s ease'
               }}
               onMouseEnter={e => {
-                e.currentTarget.style.background = 'var(--color-navy)';
+                e.currentTarget.style.background = 'rgba(255,255,255,0.1)';
                 e.currentTarget.style.color = '#fff';
               }}
               onMouseLeave={e => {
                 e.currentTarget.style.background = 'transparent';
-                e.currentTarget.style.color = 'var(--color-navy)';
+                e.currentTarget.style.color = '#fff';
               }}
             >
               Recolher Galeria
@@ -169,8 +170,9 @@ export default function GalleryGrid({ items }) {
           <div
             onClick={e => e.stopPropagation()}
             style={{
-              background: '#fff', borderRadius: '16px', overflow: 'hidden',
-              maxWidth: '700px', width: '100%', boxShadow: '0 20px 60px rgba(0,0,0,0.4)',
+              background: 'var(--color-graphite)', borderRadius: '16px', overflow: 'hidden',
+              maxWidth: '700px', width: '100%', boxShadow: '0 20px 60px rgba(0,0,0,0.6)',
+              border: '1px solid rgba(255,255,255,0.1)',
               animation: 'slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards'
             }}
           >
@@ -185,14 +187,14 @@ export default function GalleryGrid({ items }) {
             </div>
             <div style={{ padding: '20px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
               <div>
-                <h3 style={{ color: 'var(--color-navy)', margin: 0, fontSize: '1.2rem' }}>{lightbox.client_name}</h3>
-                <p style={{ color: '#666', margin: '4px 0 0', fontSize: '0.9rem' }}>
+                <h3 style={{ color: '#fff', margin: 0, fontSize: '1.2rem' }}>{lightbox.client_name}</h3>
+                <p style={{ color: 'var(--color-silver-light)', margin: '4px 0 0', fontSize: '0.9rem' }}>
                   {lightbox.service_type} · 📍 {lightbox.bairro}
                 </p>
               </div>
               <button
                 onClick={() => setLightbox(null)}
-                style={{ background: 'none', border: '1px solid #ddd', borderRadius: '50%', width: '40px', height: '40px', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+                style={{ background: 'none', border: '1px solid rgba(255,255,255,0.2)', color: '#fff', borderRadius: '50%', width: '40px', height: '40px', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
               >
                 <X size={20} />
               </button>

@@ -2,6 +2,7 @@ import Link from 'next/link';
 import styles from './page.module.css';
 import ContactForm from '@/components/ContactForm';
 import CoverageMap from '@/components/CoverageMap';
+import WhatsAppCTAButton from '@/components/WhatsAppCTAButton';
 
 export const metadata = {
   title: 'Fale Conosco e Solicite seu Orçamento | Gessoalves',
@@ -19,7 +20,14 @@ export default function Contato() {
           
           <div className={styles.infoItem}>
             <h3>WhatsApp</h3>
-            <p><Link href="https://wa.me/5511961155049" target="_blank" style={{color: 'var(--color-primary)'}}>(11) 96115-5049</Link></p>
+            <p>
+              <WhatsAppCTAButton 
+                message="Olá! Gostaria de falar com um especialista e solicitar um orçamento." 
+                style={{color: 'var(--color-primary)', background: 'none', border: 'none', padding: 0, cursor: 'pointer', fontSize: 'inherit', fontFamily: 'inherit'}}
+              >
+                (11) 96115-5049
+              </WhatsAppCTAButton>
+            </p>
           </div>
           
           <div className={styles.infoItem}>
@@ -27,10 +35,6 @@ export default function Contato() {
             <p>(11) 4213-2271</p>
           </div>
           
-          <div className={styles.infoItem}>
-            <h3>Área de Atendimento</h3>
-            <p>Butantã, Vila Indiana e região (raio de 20km em São Paulo).</p>
-          </div>
 
           <div className={styles.mapContainer}>
             <CoverageMap />

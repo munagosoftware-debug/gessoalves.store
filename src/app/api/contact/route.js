@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { Resend } from 'resend';
 import { z } from 'zod';
 import { createAdminClient } from '@/lib/supabase';
+import { contactApiSchema } from '@/lib/schemas';
 
 // Tipos aceitos pelo input (accept=".pdf,.jpg,.jpeg,.png,.doc,.docx")
 const ALLOWED_TYPES = [
@@ -12,16 +13,6 @@ const ALLOWED_TYPES = [
   'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
 ];
 const MAX_SIZE_MB = 5;
-
-// Instanciado dinamicamente no POST para evitar erro no build do Next.js se a chave não existir
-const formSchema = z.object({
-  name: z.string().min(3),
-  email: z.string().email(),
-  phone: z.string().min(10),
-  subject: z.string().min(3),
-  message: z.string().min(10),
-  recaptchaToken: z.string().min(1),
-});
 
 export async function POST(req) {
   try {
@@ -38,7 +29,7 @@ export async function POST(req) {
     };
 
     // Valida com Zod
-    const validatedData = formSchema.parse(data);
+    const validatedData = contactApiSchema.parse(data);
 
     // Verifica reCAPTCHA
     const recaptchaResponse = await fetch(`https://www.google.com/recaptcha/api/siteverify`, {

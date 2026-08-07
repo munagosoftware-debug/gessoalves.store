@@ -50,6 +50,34 @@ const MOCK_PHOTOS = [
     client_name: 'Luciana Farias',
     service_type: 'Rebaixamento de Teto',
     bairro: 'Tatuapé'
+  },
+  {
+    id: 7,
+    image_urls: ['https://images.unsplash.com/photo-1505691938895-1758d7feb511?w=800&q=80'],
+    client_name: 'Paulo Gustavo',
+    service_type: 'Projeto de Iluminação Embutida',
+    bairro: 'Vila Madalena'
+  },
+  {
+    id: 8,
+    image_urls: ['https://images.unsplash.com/photo-1497366216548-37526070297c?w=800&q=80'],
+    client_name: 'Empresa Alpha',
+    service_type: 'Forro Comercial Acartonado',
+    bairro: 'Av. Paulista'
+  },
+  {
+    id: 9,
+    image_urls: ['https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?w=800&q=80'],
+    client_name: 'Camila Rodrigues',
+    service_type: 'Sanca Invertida com LED',
+    bairro: 'Jardins'
+  },
+  {
+    id: 10,
+    image_urls: ['https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?w=800&q=80'],
+    client_name: 'Pedro Álvares',
+    service_type: 'Acabamento Liso em Gesso',
+    bairro: 'Morumbi'
   }
 ];
 
@@ -89,15 +117,15 @@ export default async function GaleriaDeClientesPage() {
       </section>
 
       {/* Formulário de Envio */}
-      <section className={styles.section} style={{ background: '#f6f8fb' }}>
+      <section className={styles.section} style={{ background: 'var(--color-graphite)' }}>
         <div style={{ maxWidth: '860px', margin: '0 auto', padding: '0 1.5rem' }}>
           <div style={{ textAlign: 'center', marginBottom: '2.5rem' }}>
-            <h2 className={styles.sectionTitle}>Envie as Fotos da Sua Obra</h2>
-            <p style={{ color: '#666' }}>Compartilhe o resultado do serviço que a Gessoalves realizou para você!</p>
+            <h2 className={styles.sectionTitle} style={{ color: '#ffffff' }}>Envie as Fotos da Sua Obra</h2>
+            <p style={{ color: 'var(--color-silver-light)' }}>Compartilhe o resultado do serviço que a Gessoalves realizou para você!</p>
           </div>
           <div style={{
-            background: '#fff', padding: '2.5rem', borderRadius: '16px',
-            boxShadow: '0 4px 20px rgba(0,0,0,0.06)', border: '1px solid var(--color-silver-light)'
+            background: 'var(--color-navy)', padding: '2.5rem', borderRadius: '16px',
+            boxShadow: '0 4px 20px rgba(0,0,0,0.3)', border: '1px solid rgba(255,255,255,0.1)'
           }}>
             <ClientGalleryForm />
           </div>
@@ -109,8 +137,8 @@ export default async function GaleriaDeClientesPage() {
         <section className={styles.section} style={{ paddingBottom: '0' }}>
           <div style={{ maxWidth: '1280px', margin: '0 auto', padding: '0 1.5rem', overflow: 'hidden' }}>
             <div style={{ textAlign: 'center', marginBottom: '1.5rem' }}>
-              <h2 className={styles.sectionTitle}>Destaques Recentes</h2>
-              <p style={{ color: '#666' }}>Deslize para ver algumas das melhores obras.</p>
+              <h2 className={styles.sectionTitle} style={{ color: '#ffffff' }}>Destaques Recentes</h2>
+              <p style={{ color: 'var(--color-silver-light)' }}>Deslize para ver algumas das melhores obras.</p>
             </div>
             <PhotoCarousel photos={photos} />
           </div>
@@ -121,10 +149,10 @@ export default async function GaleriaDeClientesPage() {
       <section className={styles.section}>
         <div style={{ maxWidth: '1280px', margin: '0 auto', padding: '0 1.5rem' }}>
           <div style={{ textAlign: 'center', marginBottom: '2.5rem' }}>
-            <h2 className={styles.sectionTitle}>
+            <h2 className={styles.sectionTitle} style={{ color: '#ffffff' }}>
               Obras dos Nossos Clientes ({photos.length} foto{photos.length !== 1 ? 's' : ''})
             </h2>
-            <p style={{ color: '#666' }}>Clique em qualquer foto para ampliar.</p>
+            <p style={{ color: 'var(--color-silver-light)' }}>Clique em qualquer foto para ampliar.</p>
           </div>
           <GalleryGrid items={photos} />
         </div>

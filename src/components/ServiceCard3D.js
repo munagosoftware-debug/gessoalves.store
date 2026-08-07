@@ -64,10 +64,10 @@ export default function ServiceCard3D({ title, description, iconIndex = 0, slug,
           alignItems: 'center', 
           justifyContent: 'center', 
           padding: '2rem',
-          backgroundImage: image ? `linear-gradient(to bottom, rgba(27, 42, 92, 0.3), rgba(27, 42, 92, 0.95)), url(${image})` : 'linear-gradient(135deg, #ffffff 0%, #f6f8fb 100%)',
+          backgroundImage: image ? `linear-gradient(to bottom, rgba(27, 42, 92, 0.5), rgba(27, 42, 92, 0.95)), url(${image})` : 'linear-gradient(135deg, var(--color-navy) 0%, #1a2444 100%)',
           backgroundSize: 'cover',
           backgroundPosition: 'center',
-          color: image ? '#ffffff' : 'inherit',
+          color: '#ffffff',
           borderRadius: '16px'
         }}>
           <div
@@ -75,33 +75,33 @@ export default function ServiceCard3D({ title, description, iconIndex = 0, slug,
               width: '72px',
               height: '72px',
               borderRadius: '50%',
-              background: image ? 'rgba(255, 255, 255, 0.15)' : 'linear-gradient(135deg, var(--color-navy) 0%, #2a3f7a 100%)',
-              backdropFilter: image ? 'blur(8px)' : 'none',
-              WebkitBackdropFilter: image ? 'blur(8px)' : 'none',
+              background: image ? 'rgba(255, 255, 255, 0.15)' : 'rgba(255, 255, 255, 0.08)',
+              backdropFilter: 'blur(8px)',
+              WebkitBackdropFilter: 'blur(8px)',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
               marginBottom: '1.5rem',
-              boxShadow: image ? '0 8px 20px rgba(0, 0, 0, 0.3), inset 0 2px 4px rgba(255,255,255,0.2)' : '0 8px 20px rgba(27, 42, 92, 0.3), inset 0 2px 4px rgba(255,255,255,0.2)',
-              border: image ? '1px solid rgba(255,255,255,0.3)' : '2px solid #fff',
+              boxShadow: '0 8px 20px rgba(0, 0, 0, 0.3), inset 0 2px 4px rgba(255,255,255,0.2)',
+              border: '1px solid rgba(255,255,255,0.2)',
             }}
           >
-            <IconComponent size={34} color="#ffffff" strokeWidth={1.5} />
+            <IconComponent size={34} color="#F9C846" strokeWidth={1.5} />
           </div>
           <h3
             style={{
               fontSize: '1.4rem',
               fontWeight: '800',
-              color: image ? '#ffffff' : 'var(--color-navy)',
+              color: '#ffffff',
               margin: '0.5rem 0',
               textAlign: 'center',
               lineHeight: '1.3',
-              textShadow: image ? '0 2px 10px rgba(0,0,0,0.8)' : 'none'
+              textShadow: '0 2px 10px rgba(0,0,0,0.8)'
             }}
           >
             {title}
           </h3>
-          <p style={{ fontSize: '0.85rem', color: image ? 'rgba(255, 255, 255, 0.9)' : '#666', marginTop: '1rem', letterSpacing: '0.5px' }}>
+          <p style={{ fontSize: '0.85rem', color: 'rgba(255, 255, 255, 0.7)', marginTop: '1rem', letterSpacing: '0.5px' }}>
             CLIQUE PARA DETALHES ⤵
           </p>
         </div>

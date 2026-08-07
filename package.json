@@ -5,7 +5,8 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "lint": "next lint"
   },
   "dependencies": {
     "@gsap/react": "^2.1.2",
@@ -26,5 +27,10 @@
     "swiper": "^14.0.7",
     "three": "^0.185.1",
     "zod": "^4.4.3"
+  },
+  "devDependencies": {
+    "eslint": "^8.57.1",
+    "eslint-config-next": "^14.2.35",
+    "sharp": "^0.35.3"
   }
 }

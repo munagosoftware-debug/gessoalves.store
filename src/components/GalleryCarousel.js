@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import Image from 'next/image';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay, Pagination } from 'swiper/modules';
 import 'swiper/css';
@@ -54,11 +55,13 @@ export default function GalleryCarousel() {
             <SwiperSlide key={idx} className="transition-transform duration-300 hover:-translate-y-2 pt-4">
               <div className="group relative rounded-2xl overflow-hidden bg-white dark:bg-slate-800 shadow-md ring-1 ring-slate-200 dark:ring-white/10 flex flex-col cursor-pointer aspect-[4/3]">
                 <div className="relative h-full w-full overflow-hidden">
-                  <img
+                  <Image
                     src={slide.url}
                     alt={`${slide.service} - ${slide.name}`}
+                    fill
+                    sizes="(max-width: 640px) 83vw, (max-width: 1024px) 45vw, (max-width: 1280px) 28vw, 24vw"
                     className="w-full h-full object-cover transition-transform duration-700 ease-in-out group-hover:scale-110"
-                    loading="lazy"
+                    style={{ objectFit: 'cover' }}
                   />
                   {/* Glassmorphism gradient overlay */}
                   <div className="absolute inset-0 bg-gradient-to-t from-slate-900/90 via-slate-900/20 to-transparent opacity-70 transition-opacity duration-300 group-hover:opacity-90" />

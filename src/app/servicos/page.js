@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Image from 'next/image';
 import { servicesData } from '@/lib/servicesData';
 import styles from './page.module.css';
 
@@ -15,15 +16,18 @@ export default function Servicos() {
       <div className={styles.grid}>
         {servicesData.map(service => (
           <div key={service.slug} className={styles.card}>
-            <img 
+            <Image 
               src={service.placeholderImg} 
               alt={`Imagem representativa de ${service.title}`} 
+              width={1000}
+              height={1000}
               className={styles.imagePlaceholder}
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
             />
             <div className={styles.content}>
               <h2>{service.title}</h2>
               <p>{service.description}</p>
-              <Link href={`/servicos/${service.slug}`} className="btn-3d" style={{ textAlign: 'center' }}>
+              <Link href={`/servicos/${service.slug}`} className={styles.premiumBtn} style={{ textAlign: 'center' }}>
                 Ver Detalhes
               </Link>
             </div>

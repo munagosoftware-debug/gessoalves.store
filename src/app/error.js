@@ -2,6 +2,7 @@
 
 import { useEffect } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 
 export default function Error({ error, reset }) {
   useEffect(() => {
@@ -10,22 +11,22 @@ export default function Error({ error, reset }) {
   }, [error]);
 
   return (
-    <div style={{
-      minHeight: '70vh',
+    <main style={{
+      minHeight: '100vh',
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'center',
       justifyContent: 'center',
       padding: '2rem',
       textAlign: 'center',
-      background: 'linear-gradient(135deg, var(--color-beige-light) 0%, #ffffff 100%)'
+      background: 'linear-gradient(135deg, var(--color-navy) 0%, var(--color-graphite) 100%)'
     }}>
       <div style={{
-        background: '#fff',
-        padding: '3rem',
+        background: 'var(--color-navy)',
+        padding: '3rem 2rem',
         borderRadius: '24px',
-        boxShadow: '0 20px 40px rgba(27, 42, 92, 0.08)',
-        border: '1px solid var(--color-silver-light)',
+        boxShadow: '0 20px 40px rgba(0,0,0,0.4)',
+        border: '1px solid rgba(255,255,255,0.1)',
         maxWidth: '600px',
         width: '100%',
         position: 'relative',
@@ -37,17 +38,29 @@ export default function Error({ error, reset }) {
         <div className="metallic-screw screw-bl" />
         <div className="metallic-screw screw-br" />
 
+        <div style={{ marginBottom: '2rem' }}>
+          <div className="logo-highlight" style={{ display: 'inline-block' }}>
+            <Image 
+              src="/logo-v2.png" 
+              alt="Gessoalves Logo" 
+              width={240} 
+              height={80} 
+              style={{ display: 'block', objectFit: 'contain' }}
+            />
+          </div>
+        </div>
+
         <h1 style={{
           fontSize: '3rem',
           fontWeight: '800',
-          color: '#e11d48', // subtle red for error
+          color: '#ff4d4d', // brighter red for dark theme
           margin: '0',
           lineHeight: '1.2',
         }}>
           Oops! Algo deu errado.
         </h1>
         <p style={{
-          color: '#666',
+          color: 'var(--color-silver-light)',
           marginTop: '1rem',
           marginBottom: '2.5rem',
           fontSize: '1.1rem',
@@ -74,6 +87,6 @@ export default function Error({ error, reset }) {
           </Link>
         </div>
       </div>
-    </div>
+    </main>
   );
 }

@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { Target, Eye, Gem, Instagram, Facebook } from 'lucide-react';
 import styles from './page.module.css';
 
 // Meta data should ideally be in a layout or a separate server component when using 'use client'
@@ -24,45 +25,81 @@ export default function QuemSomos() {
       </div>
 
       <div className={styles.tabsContainer}>
-        <div className={styles.tabButtons}>
-          <button 
-            className={`${styles.tabButton} ${activeTab === 'missao' ? styles.active : ''}`}
-            onClick={() => setActiveTab('missao')}
-          >
-            Nossa Missão
-          </button>
-          <button 
-            className={`${styles.tabButton} ${activeTab === 'visao' ? styles.active : ''}`}
-            onClick={() => setActiveTab('visao')}
-          >
-            Nossa Visão
-          </button>
-          <button 
-            className={`${styles.tabButton} ${activeTab === 'valores' ? styles.active : ''}`}
-            onClick={() => setActiveTab('valores')}
-          >
-            Nossos Valores
-          </button>
+        <div className={styles.tabButtonsWrapper}>
+          <div className={styles.tabButtons}>
+            <button 
+              className={`${styles.tabButton} ${activeTab === 'missao' ? styles.active : ''}`}
+              onClick={() => setActiveTab('missao')}
+            >
+              <Target size={20} /> Missão
+            </button>
+            <button 
+              className={`${styles.tabButton} ${activeTab === 'visao' ? styles.active : ''}`}
+              onClick={() => setActiveTab('visao')}
+            >
+              <Eye size={20} /> Visão
+            </button>
+            <button 
+              className={`${styles.tabButton} ${activeTab === 'valores' ? styles.active : ''}`}
+              onClick={() => setActiveTab('valores')}
+            >
+              <Gem size={20} /> Valores
+            </button>
+          </div>
         </div>
 
         <div className={styles.tabContent}>
           <div className={`${styles.tabPanel} ${activeTab === 'missao' ? styles.active : ''}`}>
-            <h3>Missão</h3>
-            <p>Oferecer aos clientes e parceiros comerciais total tranquilidade em logística, gestão e execução de cada projeto, com foco absoluto na satisfação do cliente.</p>
+            <div className={styles.panelHeader}>
+              <div className={styles.iconBox}><Target size={28} /></div>
+              <h3>Nossa Missão</h3>
+            </div>
+            <p>Oferecer aos clientes e parceiros comerciais total tranquilidade em logística, gestão e execução de cada projeto, com foco absoluto na satisfação do cliente e na excelência do resultado final.</p>
           </div>
           
           <div className={`${styles.tabPanel} ${activeTab === 'visao' ? styles.active : ''}`}>
-            <h3>Visão</h3>
-            <p>Ser a empresa referência em instalação de gesso e drywall na Zona Sul de São Paulo, reconhecida pela excelência no acabamento, inovação técnica e confiança construída com cada cliente.</p>
+            <div className={styles.panelHeader}>
+              <div className={styles.iconBox}><Eye size={28} /></div>
+              <h3>Nossa Visão</h3>
+            </div>
+            <p>Ser a empresa referência em instalação de gesso e drywall na Zona Sul de São Paulo, reconhecida pela excelência no acabamento, inovação técnica, sustentabilidade e confiança construída com cada cliente.</p>
           </div>
           
           <div className={`${styles.tabPanel} ${activeTab === 'valores' ? styles.active : ''}`}>
-            <h3>Valores</h3>
-            <p><strong>Qualidade Garantida:</strong> Apenas os melhores materiais e técnicas do mercado.<br/>
-            <strong>Comprometimento:</strong> Respeito inegociável aos prazos e ao orçamento.<br/>
-            <strong>Transparência:</strong> Comunicação clara em todas as etapas da obra.<br/>
-            <strong>Limpeza e Organização:</strong> Respeito pelo ambiente do cliente durante toda a execução.</p>
+            <div className={styles.panelHeader}>
+              <div className={styles.iconBox}><Gem size={28} /></div>
+              <h3>Nossos Valores</h3>
+            </div>
+            <ul className={styles.valoresList}>
+              <li><strong>Qualidade Garantida:</strong> Apenas os melhores materiais e técnicas rigorosas do mercado.</li>
+              <li><strong>Comprometimento:</strong> Respeito inegociável aos prazos acordados e ao orçamento.</li>
+              <li><strong>Transparência:</strong> Comunicação clara, honesta e direta em todas as etapas da obra.</li>
+              <li><strong>Limpeza e Organização:</strong> Cuidado excepcional com o ambiente do cliente durante toda a execução.</li>
+            </ul>
           </div>
+        </div>
+      </div>
+
+      <div className={styles.socialContainer}>
+        <h2 className={styles.socialTitle}>Acompanhe nosso trabalho</h2>
+        <div className={styles.socialGrid}>
+          <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className={styles.socialCard}>
+            <div className={`${styles.socialIcon} ${styles.instagram}`}>
+              <Instagram size={32} />
+            </div>
+            <h3>Instagram</h3>
+            <p>Veja nosso dia a dia</p>
+          </a>
+          
+          <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className={styles.socialCard}>
+            <div className={`${styles.socialIcon} ${styles.facebook}`}>
+              <Facebook size={32} />
+            </div>
+            <h3>Facebook</h3>
+            <p>Acompanhe novidades</p>
+          </a>
+
+
         </div>
       </div>
     </main>

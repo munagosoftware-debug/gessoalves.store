@@ -1,10 +1,11 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import Link from 'next/link';
+import { useWhatsAppModal } from '../context/WhatsAppModalContext';
 
 export default function FixedCTABar() {
   const [isVisible, setIsVisible] = useState(false);
+  const { openWhatsAppModal } = useWhatsAppModal();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -58,14 +59,13 @@ export default function FixedCTABar() {
         <div style={{ color: 'var(--color-navy)', fontWeight: '600', fontSize: '1.1rem' }}>
           Precisa de gesso ou drywall com agilidade e perfeição?
         </div>
-        <Link
-          href="https://wa.me/5511961155049"
-          target="_blank"
+        <button
+          onClick={() => openWhatsAppModal('Olá! Vim pelo site da Gessoalves e gostaria de solicitar um orçamento agora mesmo.')}
           className="btn-3d"
           style={{ padding: '10px 24px', fontSize: '0.95rem' }}
         >
           Solicitar Orçamento Agora
-        </Link>
+        </button>
       </div>
     </div>
   );

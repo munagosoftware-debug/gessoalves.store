@@ -2,11 +2,10 @@
 
 import Image from 'next/image';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { Autoplay, EffectCoverflow, Pagination } from 'swiper/modules';
+import { Autoplay, EffectCoverflow } from 'swiper/modules';
 
 import 'swiper/css';
 import 'swiper/css/effect-coverflow';
-import 'swiper/css/pagination';
 
 export default function PhotoCarousel({ photos = [] }) {
   if (!photos || photos.length === 0) return null;
@@ -20,9 +19,9 @@ export default function PhotoCarousel({ photos = [] }) {
         slidesPerView={'auto'}
         loop={true}
         coverflowEffect={{
-          rotate: 35,
-          stretch: 0,
-          depth: 250,
+          rotate: 20,
+          stretch: 100,
+          depth: 200,
           modifier: 1,
           slideShadows: true,
         }}
@@ -32,22 +31,21 @@ export default function PhotoCarousel({ photos = [] }) {
           disableOnInteraction: false,
           pauseOnMouseEnter: true,
         }}
-        pagination={{ clickable: true, dynamicBullets: true }}
-        modules={[EffectCoverflow, Autoplay, Pagination]}
+        modules={[EffectCoverflow, Autoplay]}
         className="coverflow-swiper"
       >
         {photos.map((item, index) => {
           const imageUrl = (item.image_urls && item.image_urls[0]) || item.url;
           
           return (
-            <SwiperSlide key={`${item.id}-${index}`} style={{ width: '320px', height: '420px' }}>
+            <SwiperSlide key={`${item.id}-${index}`} style={{ width: '360px', height: '460px' }}>
               <div className="carousel-card">
                 <Image 
                   src={imageUrl} 
                   alt={`Obra de ${item.client_name}`}
                   className="carousel-image"
                   fill
-                  sizes="(max-width: 768px) 100vw, 320px"
+                  sizes="(max-width: 768px) 100vw, 360px"
                   style={{ objectFit: 'cover' }}
                 />
                 <div className="carousel-overlay">
@@ -79,7 +77,7 @@ export default function PhotoCarousel({ photos = [] }) {
 
         .coverflow-swiper {
           width: 100%;
-          padding-bottom: 3rem !important; /* espaço pra paginação */
+          padding-bottom: 2rem !important;
           --swiper-theme-color: var(--color-navy);
         }
 
@@ -89,7 +87,7 @@ export default function PhotoCarousel({ photos = [] }) {
           height: 100%;
           border-radius: 20px;
           overflow: hidden;
-          background: #f1f5f9;
+          background: var(--color-graphite);
           box-shadow: 0 15px 35px rgba(0,0,0,0.2);
           /* Fix para bordas vazando no Safari/iOS durante animação 3D */
           transform: translateZ(0);
@@ -138,10 +136,6 @@ export default function PhotoCarousel({ photos = [] }) {
           color: #cbd5e1;
           font-weight: 500;
           text-shadow: 0 1px 3px rgba(0,0,0,0.8);
-        }
-
-        .swiper-pagination-bullet-active {
-          background: var(--color-navy) !important;
         }
       `}</style>
     </div>

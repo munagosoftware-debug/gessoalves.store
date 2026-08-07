@@ -1,6 +1,8 @@
 import ReadingProgressBar from '@/components/ReadingProgressBar';
+import Image from 'next/image';
 import Link from 'next/link';
 import { ArrowLeft } from 'lucide-react';
+import WhatsAppCTAButton from '@/components/WhatsAppCTAButton';
 
 export const metadata = {
   title: 'Artigo | Blog Gessoalves',
@@ -20,7 +22,7 @@ export default function BlogPost({ params }) {
             display: 'inline-flex',
             alignItems: 'center',
             gap: '8px',
-            color: 'var(--color-navy)',
+            color: '#ffffff',
             fontWeight: '600',
             marginBottom: '2rem',
           }}
@@ -47,17 +49,19 @@ export default function BlogPost({ params }) {
             Guia Completo
           </span>
 
-          <h1 style={{ fontSize: '2.2rem', color: 'var(--color-navy)', marginTop: '1rem', lineHeight: '1.3' }}>
+          <h1 style={{ fontSize: '2.2rem', color: '#ffffff', marginTop: '1rem', lineHeight: '1.3' }}>
             Drywall x Gesso Acartonado: Guia Definitivo para sua Obra
           </h1>
 
-          <p style={{ color: '#777', fontSize: '0.9rem', marginBottom: '2rem' }}>
+          <p style={{ color: 'var(--color-silver-light)', fontSize: '0.9rem', marginBottom: '2rem' }}>
             Publicado em 10 de Outubro por Equipe Técnica Gessoalves • 5 min de leitura
           </p>
 
-          <img
-            src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1200&q=80"
+          <Image
+            src="/servicos/forro-acartonado.webp"
             alt="Instalação de Drywall"
+            width={1200}
+            height={380}
             style={{
               width: '100%',
               height: '380px',
@@ -65,14 +69,16 @@ export default function BlogPost({ params }) {
               borderRadius: '12px',
               marginBottom: '2rem',
             }}
+            sizes="(max-width: 850px) 100vw, 850px"
+            priority
           />
 
-          <div style={{ fontSize: '1.1rem', lineHeight: '1.8', color: 'var(--color-graphite)' }}>
+          <div style={{ fontSize: '1.1rem', lineHeight: '1.8', color: 'var(--color-silver-light)' }}>
             <p style={{ marginBottom: '1.5rem' }}>
               Quando se fala em reformas rápidas, limpas e modernas, a dúvida entre <strong>Drywall</strong> e <strong>Gesso Acartonado</strong> surge frequentemente. A verdade é que ambos referem-se ao mesmo sistema construtivo: chapas de gesso revestidas com papel acartonado estruturadas em perfis de aço galvanizado.
             </p>
 
-            <h2 style={{ fontSize: '1.5rem', color: 'var(--color-navy)', margin: '2rem 0 1rem 0' }}>
+            <h2 style={{ fontSize: '1.5rem', color: '#ffffff', margin: '2rem 0 1rem 0' }}>
               Principais Vantagens do Sistema Drywall
             </h2>
 
@@ -94,20 +100,23 @@ export default function BlogPost({ params }) {
 
             <div
               style={{
-                background: 'var(--color-beige-dark)',
+                background: 'rgba(255, 255, 255, 0.05)',
                 padding: '1.5rem',
                 borderRadius: '12px',
-                borderLeft: '4px solid var(--color-navy)',
+                borderLeft: '4px solid var(--color-cyan, #4cc9f0)',
                 margin: '2rem 0',
               }}
             >
-              <h3 style={{ margin: 0, color: 'var(--color-navy)' }}>Quer um projeto sob medida?</h3>
-              <p style={{ margin: '0.5rem 0 1rem 0' }}>
+              <h3 style={{ margin: 0, color: '#ffffff' }}>Quer um projeto sob medida?</h3>
+              <p style={{ margin: '0.5rem 0 1rem 0', color: 'var(--color-silver-light)' }}>
                 Fale com nossos especialistas e solicite um orçamento gratuito para sua residência ou empresa.
               </p>
-              <Link href="https://wa.me/5511961155049" target="_blank" className="btn-3d">
+              <WhatsAppCTAButton 
+                message="Olá! Gostaria de falar com um especialista e solicitar um orçamento após ler o blog."
+                className="btn-3d"
+              >
                 Solicitar Orçamento no WhatsApp
-              </Link>
+              </WhatsAppCTAButton>
             </div>
           </div>
         </article>
