@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { Facebook, Instagram, Youtube, Phone, MessageCircle, Cuboid, Camera } from 'lucide-react';
+import { Facebook, Instagram, Youtube, Phone, MessageCircle, Camera } from 'lucide-react';
 import styles from './Footer.module.css';
 
 export default function Footer() {
@@ -62,14 +62,7 @@ export default function Footer() {
           <div className={styles.footerSection}>
             <h3 className={styles.sectionTitle}>Galeria de Clientes</h3>
             <ul className={styles.footerLinks} style={{ gap: '1rem', display: 'flex', flexDirection: 'column' }}>
-              <li>
-                <Link href="/ra" style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', textDecoration: 'none' }}>
-                  <div style={{ background: 'rgba(255,255,255,0.1)', padding: '8px', borderRadius: '8px' }}>
-                    <Cuboid size={22} color="#fff" />
-                  </div>
-                  <span style={{ color: '#fff', fontSize: '0.95rem' }}>Visualize Gesso em RA (Novo)</span>
-                </Link>
-              </li>
+              {/* TODO: reativar quando a página /ra (visualização em RA) existir */}
               <li>
                 <Link href="/galeria-de-clientes" style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', textDecoration: 'none' }}>
                   <div style={{ background: 'rgba(255,255,255,0.1)', padding: '8px', borderRadius: '8px' }}>
