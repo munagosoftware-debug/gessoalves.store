@@ -1,6 +1,5 @@
 import ClientGalleryForm from '@/components/ClientGalleryForm';
 import GalleryGrid from '@/components/GalleryGrid';
-import PhotoCarousel from '@/components/PhotoCarousel';
 import styles from '../page.module.css';
 
 export const metadata = {
@@ -99,18 +98,18 @@ export default async function GaleriaDeClientesPage() {
   return (
     <main style={{ overflowX: 'hidden' }}>
       {/* Hero */}
-      <section style={{
+      <section className="section-dark" style={{
         background: 'linear-gradient(135deg, var(--color-navy) 0%, var(--color-graphite) 100%)',
-        color: '#fff', padding: '5rem 1.5rem 4rem', textAlign: 'center'
+        color: '#fff', padding: '11rem 1.5rem 4rem', textAlign: 'center'
       }}>
         <div style={{ maxWidth: '700px', margin: '0 auto' }}>
           <span style={{ background: 'var(--color-cyan)', color: '#fff', padding: '4px 14px', borderRadius: '20px', fontSize: '0.85rem', fontWeight: '600' }}>
             Comunidade Gessoalves
           </span>
-          <h1 style={{ fontSize: '2.8rem', marginTop: '1rem', color: '#fff', lineHeight: '1.2' }}>
+          <h1 style={{ fontSize: '2.8rem', marginTop: '1rem', lineHeight: '1.2' }}>
             Galeria de Clientes
           </h1>
-          <p style={{ color: 'var(--color-silver-light)', fontSize: '1.1rem', marginTop: '1rem' }}>
+          <p style={{ fontSize: '1.1rem', marginTop: '1rem', opacity: 0.9 }}>
             Fotos reais enviadas por clientes que transformaram seus espaços com a Gessoalves. Você também pode compartilhar o resultado da sua obra!
           </p>
         </div>
@@ -132,27 +131,15 @@ export default async function GaleriaDeClientesPage() {
         </div>
       </section>
 
-      {/* Carrossel de Destaques */}
-      {photos && photos.length > 0 && (
-        <section className={styles.section} style={{ paddingBottom: '0' }}>
-          <div style={{ maxWidth: '1280px', margin: '0 auto', padding: '0 1.5rem', overflow: 'hidden' }}>
-            <div style={{ textAlign: 'center', marginBottom: '1.5rem' }}>
-              <h2 className={styles.sectionTitle} style={{ color: '#ffffff' }}>Destaques Recentes</h2>
-              <p style={{ color: 'var(--color-silver-light)' }}>Deslize para ver algumas das melhores obras.</p>
-            </div>
-            <PhotoCarousel photos={photos} />
-          </div>
-        </section>
-      )}
 
       {/* Grid de Fotos Aprovadas */}
       <section className={styles.section}>
         <div style={{ maxWidth: '1280px', margin: '0 auto', padding: '0 1.5rem' }}>
           <div style={{ textAlign: 'center', marginBottom: '2.5rem' }}>
-            <h2 className={styles.sectionTitle} style={{ color: '#ffffff' }}>
+            <h2 className={styles.sectionTitle} style={{ color: 'var(--color-navy)' }}>
               Obras dos Nossos Clientes ({photos.length} foto{photos.length !== 1 ? 's' : ''})
             </h2>
-            <p style={{ color: 'var(--color-silver-light)' }}>Clique em qualquer foto para ampliar.</p>
+            <p style={{ color: 'var(--color-graphite)' }}>Clique em qualquer foto para ampliar.</p>
           </div>
           <GalleryGrid items={photos} />
         </div>

@@ -11,6 +11,7 @@
   /* Cores Metálicas 3D (para gradientes e sombras) */
   --color-silver-light: #C9CDD3;
   --color-silver-dark: #8A8F98;
+  --color-cyan: #4cc9f0;
 
   /* Tipografia */
   --font-primary: 'Outfit', sans-serif;
@@ -38,10 +39,12 @@ body {
   color: var(--color-graphite);
   background-color: var(--color-beige-light);
   line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 h1, h2, h3, h4, h5, h6 {
-  color: var(--color-navy);
+  color: inherit;
   font-weight: 700;
   margin-bottom: 1rem;
 }
@@ -183,6 +186,17 @@ a {
 /* GSAP Reveal Helper */
 .gsap-reveal {
   will-change: transform, opacity;
+}
+
+/* Seções escuras: força texto branco em todos os elementos filhos */
+.section-dark,
+.section-dark h1,
+.section-dark h2,
+.section-dark h3,
+.section-dark h4,
+.section-dark p,
+.section-dark span {
+  color: #ffffff !important;
 }
 
 /* Swiper Custom Styling overrides */

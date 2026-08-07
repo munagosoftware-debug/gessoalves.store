@@ -1,126 +1,251 @@
 import ReadingProgressBar from '@/components/ReadingProgressBar';
 import Image from 'next/image';
 import Link from 'next/link';
-import { ArrowLeft } from 'lucide-react';
+import { ArrowLeft, Clock, Calendar, User, ArrowRight, Share2, Sparkles } from 'lucide-react';
 import WhatsAppCTAButton from '@/components/WhatsAppCTAButton';
+import { blogPosts } from '@/lib/blogData';
+import { notFound } from 'next/navigation';
 
-export const metadata = {
-  title: 'Artigo | Blog Gessoalves',
-  description: 'Dicas valiosas sobre instalação de gesso, drywall e iluminação na Zona Sul de SP.',
-};
+export async function generateMetadata({ params }) {
+  const { slug } = await params;
+  const post = blogPosts.find((p) => p.slug === slug) || blogPosts[0];
 
-export default function BlogPost({ params }) {
+  return {
+    title: `${post.title} | Blog Gessoalves`,
+    description: post.excerpt,
+    openGraph: {
+      title: post.title,
+      description: post.excerpt,
+      url: `https://gessoalves.store/blog/${post.slug}`,
+      images: [{ url: post.img }],
+    },
+  };
+}
+
+export default async function BlogPost({ params }) {
+  const { slug } = await params;
+  const post = blogPosts.find((p) => p.slug === slug) || blogPosts[0];
+
+  if (!post) {
+    notFound();
+  }
+
+  // Artigos relacionados (mesma categoria ou outros)
+  const relatedPosts = blogPosts
+    .filter((p) => p.id !== post.id)
+    .slice(0, 2);
+
   return (
     <>
-      {/* Barra de Progresso de Leitura no Topo Fixo */}
       <ReadingProgressBar />
 
-      <main style={{ maxWidth: '850px', margin: '0 auto', padding: '3rem 1.5rem' }}>
-        <Link
-          href="/blog"
-          style={{
-            display: 'inline-flex',
-            alignItems: 'center',
-            gap: '8px',
-            color: '#ffffff',
-            fontWeight: '600',
-            marginBottom: '2rem',
-          }}
-        >
-          <ArrowLeft size={20} /> Voltar para o Blog
-        </Link>
-
-        <article className="metallic-card gsap-reveal" style={{ padding: '2.5rem 2rem', borderRadius: '16px' }}>
-          <div className="metallic-screw screw-tl" />
-          <div className="metallic-screw screw-tr" />
-          <div className="metallic-screw screw-bl" />
-          <div className="metallic-screw screw-br" />
-
-          <span
+      <div style={{ minHeight: '100vh', backgroundColor: 'var(--color-beige, #f8f6f0)', paddingTop: '10.5rem', paddingBottom: '5rem' }}>
+        <main style={{ maxWidth: '880px', margin: '0 auto', padding: '0 1.5rem' }}>
+          
+          {/* Link Voltar */}
+          <Link
+            href="/blog"
             style={{
-              background: 'var(--color-navy)',
-              color: '#fff',
-              padding: '4px 12px',
-              borderRadius: '20px',
-              fontSize: '0.85rem',
-              fontWeight: '600',
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '8px',
+              color: 'var(--color-navy, #1b2a5c)',
+              fontWeight: '700',
+              fontSize: '0.9rem',
+              marginBottom: '2rem',
+              textDecoration: 'none',
+              padding: '8px 16px',
+              background: '#ffffff',
+              borderRadius: '25px',
+              border: '1px solid rgba(27, 42, 92, 0.1)',
+              boxShadow: '0 2px 8px rgba(0, 0, 0, 0.04)',
+              transition: 'transform 0.2s ease',
             }}
           >
-            Guia Completo
-          </span>
+            <ArrowLeft size={18} /> Voltar para todos os artigos
+          </Link>
 
-          <h1 style={{ fontSize: '2.2rem', color: '#ffffff', marginTop: '1rem', lineHeight: '1.3' }}>
-            Drywall x Gesso Acartonado: Guia Definitivo para sua Obra
-          </h1>
-
-          <p style={{ color: 'var(--color-silver-light)', fontSize: '0.9rem', marginBottom: '2rem' }}>
-            Publicado em 10 de Outubro por Equipe Técnica Gessoalves • 5 min de leitura
-          </p>
-
-          <Image
-            src="/servicos/forro-acartonado.webp"
-            alt="Instalação de Drywall"
-            width={1200}
-            height={380}
+          {/* Card Principal do Artigo */}
+          <article
             style={{
-              width: '100%',
-              height: '380px',
-              objectFit: 'cover',
-              borderRadius: '12px',
-              marginBottom: '2rem',
+              background: '#ffffff',
+              padding: '2.5rem 2rem',
+              borderRadius: '20px',
+              border: '1px solid rgba(27, 42, 92, 0.08)',
+              boxShadow: '0 8px 30px rgba(0, 0, 0, 0.05)',
             }}
-            sizes="(max-width: 850px) 100vw, 850px"
-            priority
-          />
+          >
+            {/* Meta Topo */}
+            <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap', marginBottom: '1.25rem' }}>
+              <span
+                style={{
+                  background: 'var(--color-navy, #1b2a5c)',
+                  color: '#ffffff',
+                  padding: '5px 14px',
+                  borderRadius: '20px',
+                  fontSize: '0.78rem',
+                  fontWeight: '700',
+                  textTransform: 'uppercase',
+                  letterSpacing: '0.04em',
+                }}
+              >
+                {post.category}
+              </span>
+              <span style={{ display: 'inline-flex', alignItems: 'center', gap: '5px', color: 'var(--color-silver-dark, #8a8a8a)', fontSize: '0.82rem', fontWeight: '500' }}>
+                <Clock size={14} /> {post.readTime}
+              </span>
+              <span style={{ display: 'inline-flex', alignItems: 'center', gap: '5px', color: 'var(--color-silver-dark, #8a8a8a)', fontSize: '0.82rem', fontWeight: '500' }}>
+                <Calendar size={14} /> {post.date}
+              </span>
+            </div>
 
-          <div style={{ fontSize: '1.1rem', lineHeight: '1.8', color: 'var(--color-silver-light)' }}>
-            <p style={{ marginBottom: '1.5rem' }}>
-              Quando se fala em reformas rápidas, limpas e modernas, a dúvida entre <strong>Drywall</strong> e <strong>Gesso Acartonado</strong> surge frequentemente. A verdade é que ambos referem-se ao mesmo sistema construtivo: chapas de gesso revestidas com papel acartonado estruturadas em perfis de aço galvanizado.
-            </p>
-
-            <h2 style={{ fontSize: '1.5rem', color: '#ffffff', margin: '2rem 0 1rem 0' }}>
-              Principais Vantagens do Sistema Drywall
-            </h2>
-
-            <ul style={{ paddingLeft: '1.5rem', marginBottom: '1.5rem' }}>
-              <li style={{ marginBottom: '0.8rem' }}>
-                <strong>Rapidez e Obra Limpa:</strong> Instalação até 60% mais rápida do que a alvenaria tradicional.
-              </li>
-              <li style={{ marginBottom: '0.8rem' }}>
-                <strong>Isolamento Acústico Eficiente:</strong> Preenchimento interno com lã de rocha ou lã de vidro.
-              </li>
-              <li style={{ marginBottom: '0.8rem' }}>
-                <strong>Versatilidade em Iluminação:</strong> Facilidade para embutir spots LED, fiação e sancas abertas.
-              </li>
-            </ul>
-
-            <p style={{ marginBottom: '1.5rem' }}>
-              Além disso, a Gessoalves garante a fixação adequada com parafusos específicos para carga e tratamento das juntas com fita e massa para acabamento liso e homogêneo sem trincas.
-            </p>
-
-            <div
+            {/* Título do Artigo */}
+            <h1
               style={{
-                background: 'rgba(255, 255, 255, 0.05)',
-                padding: '1.5rem',
-                borderRadius: '12px',
-                borderLeft: '4px solid var(--color-cyan, #4cc9f0)',
-                margin: '2rem 0',
+                fontSize: 'clamp(1.75rem, 3.2vw, 2.4rem)',
+                color: 'var(--color-navy, #1b2a5c)',
+                fontWeight: '800',
+                lineHeight: '1.25',
+                marginBottom: '1rem',
               }}
             >
-              <h3 style={{ margin: 0, color: '#ffffff' }}>Quer um projeto sob medida?</h3>
-              <p style={{ margin: '0.5rem 0 1rem 0', color: 'var(--color-silver-light)' }}>
-                Fale com nossos especialistas e solicite um orçamento gratuito para sua residência ou empresa.
-              </p>
-              <WhatsAppCTAButton 
-                message="Olá! Gostaria de falar com um especialista e solicitar um orçamento após ler o blog."
-                className="btn-3d"
-              >
-                Solicitar Orçamento no WhatsApp
-              </WhatsAppCTAButton>
+              {post.title}
+            </h1>
+
+            {/* Autor */}
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: 'var(--color-graphite, #4a4a4a)', fontSize: '0.88rem', fontWeight: '600', marginBottom: '2rem', paddingBottom: '1.25rem', borderBottom: '1px solid rgba(0,0,0,0.06)' }}>
+              <User size={16} color="var(--color-navy, #1b2a5c)" />
+              <span>Por {post.author}</span>
             </div>
-          </div>
-        </article>
-      </main>
+
+            {/* Imagem de Capa */}
+            <div style={{ position: 'relative', width: '100%', height: '380px', borderRadius: '16px', overflow: 'hidden', marginBottom: '2.5rem', border: '1px solid rgba(27, 42, 92, 0.1)' }}>
+              <Image
+                src={post.img}
+                alt={post.title}
+                fill
+                style={{ objectFit: 'cover' }}
+                sizes="(max-width: 880px) 100vw, 880px"
+                priority
+              />
+            </div>
+
+            {/* Conteúdo do Artigo */}
+            <div style={{ fontSize: '1.05rem', lineHeight: '1.8', color: 'var(--color-graphite, #374151)' }}>
+              <p style={{ fontSize: '1.15rem', color: 'var(--color-navy, #1b2a5c)', fontWeight: '500', lineHeight: '1.7', marginBottom: '1.75rem' }}>
+                {post.excerpt}
+              </p>
+
+              <div style={{ whiteSpace: 'pre-line' }}>
+                {post.content}
+              </div>
+
+              {/* Tags */}
+              {post.tags && post.tags.length > 0 && (
+                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap', marginTop: '2.5rem', paddingTop: '1.5rem', borderTop: '1px solid rgba(0,0,0,0.06)' }}>
+                  <span style={{ fontSize: '0.85rem', fontWeight: '700', color: 'var(--color-navy, #1b2a5c)' }}>Tags:</span>
+                  {post.tags.map((tag) => (
+                    <span
+                      key={tag}
+                      style={{
+                        background: 'var(--color-beige-light, #f1e9dc)',
+                        color: 'var(--color-navy, #1b2a5c)',
+                        padding: '4px 12px',
+                        borderRadius: '6px',
+                        fontSize: '0.78rem',
+                        fontWeight: '600',
+                      }}
+                    >
+                      #{tag}
+                    </span>
+                  ))}
+                </div>
+              )}
+
+              {/* Card WhatsApp CTA */}
+              <div
+                style={{
+                  background: 'linear-gradient(135deg, var(--color-navy, #1b2a5c) 0%, #2a3f85 100%)',
+                  padding: '2.25rem 2rem',
+                  borderRadius: '16px',
+                  marginTop: '3rem',
+                  color: '#ffffff',
+                  boxShadow: '0 10px 30px rgba(27, 42, 92, 0.2)',
+                }}
+              >
+                <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', color: '#4cc9f0', fontSize: '0.82rem', fontWeight: '700', textTransform: 'uppercase', marginBottom: '0.5rem' }}>
+                  <Sparkles size={16} /> Atendimento Especializado
+                </div>
+                <h3 style={{ margin: '0 0 0.5rem 0', fontSize: '1.4rem', fontWeight: '800', color: '#ffffff' }}>
+                  Gostou deste conteúdo e quer aplicar no seu projeto?
+                </h3>
+                <p style={{ margin: '0 0 1.5rem 0', color: 'var(--color-silver-light, #e2e8f0)', fontSize: '0.95rem', lineHeight: '1.5' }}>
+                  Envie sua planta ou agende uma visita técnica gratuita na Zona Sul e Grande SP. Nossa equipe analisa os detalhes sem compromisso.
+                </p>
+                <WhatsAppCTAButton
+                  message={`Olá! Li o artigo "${post.title}" no blog e gostaria de falar com um especialista para solicitar um orçamento.`}
+                  className="btn-3d"
+                >
+                  Falar com um Especialista no WhatsApp
+                </WhatsAppCTAButton>
+              </div>
+
+            </div>
+          </article>
+
+          {/* Artigos Relacionados */}
+          {relatedPosts.length > 0 && (
+            <div style={{ marginTop: '4rem' }}>
+              <h2 style={{ fontSize: '1.35rem', fontWeight: '800', color: 'var(--color-navy, #1b2a5c)', marginBottom: '1.5rem' }}>
+                Artigos Recomendados
+              </h2>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '1.5rem' }}>
+                {relatedPosts.map((item) => (
+                  <Link
+                    key={item.id}
+                    href={`/blog/${item.slug}`}
+                    style={{
+                      background: '#ffffff',
+                      borderRadius: '14px',
+                      overflow: 'hidden',
+                      border: '1px solid rgba(27, 42, 92, 0.08)',
+                      boxShadow: '0 4px 15px rgba(0, 0, 0, 0.04)',
+                      textDecoration: 'none',
+                      color: 'inherit',
+                      display: 'flex',
+                      flexDirection: 'column',
+                      transition: 'transform 0.3s ease, box-shadow 0.3s ease',
+                    }}
+                  >
+                    <div style={{ position: 'relative', width: '100%', height: '160px' }}>
+                      <Image
+                        src={item.img}
+                        alt={item.title}
+                        fill
+                        style={{ objectFit: 'cover' }}
+                      />
+                    </div>
+                    <div style={{ padding: '1.25rem', display: 'flex', flexDirection: 'column', flexGrow: 1 }}>
+                      <span style={{ fontSize: '0.75rem', fontWeight: '700', color: 'var(--color-navy, #1b2a5c)', textTransform: 'uppercase', marginBottom: '0.4rem' }}>
+                        {item.category}
+                      </span>
+                      <h3 style={{ fontSize: '1rem', fontWeight: '700', color: 'var(--color-navy, #1b2a5c)', lineHeight: '1.35', marginBottom: '0.5rem' }}>
+                        {item.title}
+                      </h3>
+                      <div style={{ marginTop: 'auto', paddingTop: '0.75rem', display: 'flex', alignItems: 'center', gap: '6px', fontSize: '0.82rem', fontWeight: '700', color: 'var(--color-navy, #1b2a5c)' }}>
+                        <span>Ler mais</span>
+                        <ArrowRight size={14} />
+                      </div>
+                    </div>
+                  </Link>
+                ))}
+              </div>
+            </div>
+          )}
+
+        </main>
+      </div>
     </>
   );
 }
+

@@ -1,49 +1,16 @@
-'use client';
+import PortfolioClient from '@/components/PortfolioClient';
 
-import { useState } from 'react';
-import Image from 'next/image';
-import styles from './page.module.css';
-
-// TODO: substituir por foto real antes do lançamento (em cada item abaixo)
-const portfolioData = [
-  { id: 1, type: 'forro', title: 'Forro de Gesso com Sanca', client: 'Residência Morumbi', img: '/servicos/forro-acartonado.webp' },
-  { id: 2, type: 'drywall', title: 'Divisória Corporativa', client: 'Escritório Berrini', img: '/servicos/parede-drywall.webp' },
-  { id: 3, type: 'moldura', title: 'Molduras Clássicas', client: 'Apartamento Saúde', img: '/servicos/molduras.webp' },
-  { id: 4, type: 'forro', title: 'Rebaixamento com Led', client: 'Sala de Estar Moema', img: '/servicos/rebaixamento-teto.webp' },
-  { id: 5, type: 'drywall', title: 'Parede Acústica', client: 'Estúdio Granja Julieta', img: '/servicos/forro-modular.webp' },
-  { id: 6, type: 'sanca', title: 'Sanca Invertida', client: 'Quarto Casal Vila Mariana', img: '/servicos/sanca-gesso.webp' },
-];
+export const metadata = {
+  title: 'Portfólio de Obras e Projetos em Gesso & Drywall | Gessoalves',
+  description: 'Confira nossa galeria de obras concluídas na Zona Sul e Grande SP: forros de gesso acartonado, sancas iluminadas, paredes em drywall e molduras de alto padrão.',
+  openGraph: {
+    title: 'Portfólio de Obras em Gesso e Drywall | Gessoalves',
+    description: 'Galeria com mais de 1.200 projetos entregues com precisão e acabamento impecável em São Paulo.',
+    url: 'https://gessoalves.store/portfolio',
+  },
+};
 
 export default function Portfolio() {
-  const [filter, setFilter] = useState('todos');
-
-  const filteredItems = filter === 'todos' 
-    ? portfolioData 
-    : portfolioData.filter(item => item.type === filter);
-
-  return (
-    <main className={styles.container}>
-      <h1 className={styles.title}>Nosso Portfólio</h1>
-      
-      <div className={styles.filters}>
-        <button className={`${styles.filterBtn} ${filter === 'todos' ? styles.active : ''}`} onClick={() => setFilter('todos')}>Todos</button>
-        <button className={`${styles.filterBtn} ${filter === 'forro' ? styles.active : ''}`} onClick={() => setFilter('forro')}>Forros e Rebaixamentos</button>
-        <button className={`${styles.filterBtn} ${filter === 'drywall' ? styles.active : ''}`} onClick={() => setFilter('drywall')}>Drywall</button>
-        <button className={`${styles.filterBtn} ${filter === 'sanca' ? styles.active : ''}`} onClick={() => setFilter('sanca')}>Sancas</button>
-        <button className={`${styles.filterBtn} ${filter === 'moldura' ? styles.active : ''}`} onClick={() => setFilter('moldura')}>Molduras</button>
-      </div>
-
-      <div className={styles.grid}>
-        {filteredItems.map(item => (
-          <div key={item.id} className={styles.portfolioItem}>
-            <Image src={item.img} alt={item.title} fill sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" style={{ objectFit: 'cover' }} />
-            <div className={styles.overlay}>
-              <h3>{item.title}</h3>
-              <p>{item.client}</p>
-            </div>
-          </div>
-        ))}
-      </div>
-    </main>
-  );
+  return <PortfolioClient />;
 }
+

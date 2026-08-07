@@ -69,9 +69,9 @@ export default function GalleryGrid({ items }) {
                     cursor: 'pointer',
                     borderRadius: '12px',
                     overflow: 'hidden',
-                    boxShadow: '0 4px 15px rgba(0,0,0,0.3)',
+                    boxShadow: '0 4px 15px rgba(0,0,0,0.12)',
                     transition: 'transform 0.3s ease, box-shadow 0.3s ease',
-                    background: 'rgba(255,255,255,0.05)',
+                    background: '#fff',
                   }}
                   onMouseEnter={e => { 
                     e.currentTarget.style.transform = 'scale(1.02)'; 
@@ -113,9 +113,9 @@ export default function GalleryGrid({ items }) {
                       <ZoomIn size={16} /> Ampliar
                     </div>
                   </div>
-                  <div style={{ padding: '12px 14px' }}>
-                    <p style={{ fontWeight: '700', color: '#fff', margin: 0, fontSize: '0.95rem' }}>{item.client_name}</p>
-                    <p style={{ color: 'var(--color-silver-light)', fontSize: '0.8rem', margin: '3px 0 0' }}>
+                  <div style={{ padding: '12px 14px', background: '#fff' }}>
+                    <p style={{ fontWeight: '700', color: 'var(--color-navy)', margin: 0, fontSize: '0.95rem' }}>{item.client_name}</p>
+                    <p style={{ color: '#666', fontSize: '0.8rem', margin: '3px 0 0' }}>
                       {item.service_type} · {item.bairro}
                     </p>
                   </div>
@@ -129,8 +129,8 @@ export default function GalleryGrid({ items }) {
               onClick={() => setIsExpanded(false)}
               style={{
                 background: 'transparent',
-                color: '#fff',
-                border: '2px solid rgba(255,255,255,0.2)',
+                color: 'var(--color-navy)',
+                border: '2px solid var(--color-navy)',
                 padding: '12px 28px',
                 borderRadius: '30px',
                 fontSize: '1rem',
@@ -142,12 +142,12 @@ export default function GalleryGrid({ items }) {
                 transition: 'all 0.2s ease'
               }}
               onMouseEnter={e => {
-                e.currentTarget.style.background = 'rgba(255,255,255,0.1)';
+                e.currentTarget.style.background = 'var(--color-navy)';
                 e.currentTarget.style.color = '#fff';
               }}
               onMouseLeave={e => {
                 e.currentTarget.style.background = 'transparent';
-                e.currentTarget.style.color = '#fff';
+                e.currentTarget.style.color = 'var(--color-navy)';
               }}
             >
               Recolher Galeria

@@ -69,12 +69,12 @@ export default function Footer() {
           {/* Coluna 3: Gráfico 3D Central */}
           <div className={styles.wireframeContainer}>
             <Image 
-              src="/footer-wireframe-gesso.png" 
-              alt="Projeto 3D Gesso" 
+              src="/blueprint-gesso-3d.png" 
+              alt="Projeto Técnico 3D Drywall e Sanca Gesso" 
               width={1000}
               height={1000}
               className={styles.wireframeImage}
-              loading="lazy"
+              priority
             />
           </div>
 

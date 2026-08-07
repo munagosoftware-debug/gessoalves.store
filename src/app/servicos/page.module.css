@@ -1,37 +1,37 @@
 .container {
-  padding: 5rem 2%;
-  max-width: 1800px;
+  padding: 5rem 5%;
+  max-width: 1200px;
   margin: 0 auto;
 }
 
 .title {
   text-align: center;
   font-size: 2.5rem;
-  color: #1e293b;
+  color: var(--color-navy);
   margin-bottom: 3rem;
-  font-weight: 700;
+  font-weight: 800;
 }
 
 .grid {
   display: grid;
-  grid-template-columns: repeat(6, 1fr);
-  gap: 1.5rem;
+  grid-template-columns: 1fr;
+  gap: 2rem;
 }
 
-@media (max-width: 1400px) {
+@media (min-width: 768px) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
   .grid {
     grid-template-columns: repeat(3, 1fr);
   }
 }
 
-@media (max-width: 768px) {
-  .grid {
-    grid-template-columns: repeat(1, 1fr);
-  }
-}
-
 .card {
-  background: #ffffff;
+  background: var(--color-white, #ffffff);
   border-radius: 16px;
   overflow: hidden;
   box-shadow: 0 8px 30px rgba(0, 0, 0, 0.04);
@@ -44,16 +44,13 @@
 .card:hover {
   transform: translateY(-8px);
   box-shadow: 0 15px 35px rgba(0, 0, 0, 0.08);
-  background: rgba(255, 255, 255, 0.6);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
 }
 
 .imagePlaceholder {
   width: 100%;
-  height: 110px;
+  height: 200px;
   object-fit: cover;
-  background-color: #f1f5f9;
+  background-color: var(--color-beige-dark);
   transition: transform 0.6s cubic-bezier(0.2, 1, 0.3, 1);
 }
 
@@ -62,42 +59,42 @@
 }
 
 .content {
-  padding: 1rem;
+  padding: 1.5rem;
   display: flex;
   flex-direction: column;
   flex-grow: 1;
 }
 
 .content h2 {
-  font-size: 1.1rem;
-  margin-bottom: 0.5rem;
-  color: #1e293b;
+  font-size: 1.25rem;
+  margin-bottom: 0.8rem;
+  color: var(--color-navy);
   font-weight: 700;
 }
 
 .content p {
-  color: #475569;
-  margin-bottom: 1.2rem;
-  line-height: 1.4;
-  font-size: 0.8rem;
+  color: var(--color-graphite);
+  margin-bottom: 1.5rem;
+  line-height: 1.6;
+  font-size: 0.95rem;
 }
 
 .premiumBtn {
   margin-top: auto;
   display: block;
   text-align: center;
-  padding: 0.6rem 1rem;
-  border: 2px solid #1e293b;
-  background: transparent;
-  color: #1e293b;
-  font-size: 0.85rem;
+  padding: 0.75rem 1.5rem;
+  background: var(--color-navy);
+  color: #ffffff;
+  font-size: 0.9rem;
   font-weight: 600;
   text-decoration: none;
-  border-radius: 6px;
+  border-radius: 8px;
+  border: none;
   transition: all 0.3s ease;
 }
 
 .premiumBtn:hover {
-  background: #1e293b;
-  color: #ffffff;
+  background: var(--color-graphite);
+  transform: translateY(-2px);
 }

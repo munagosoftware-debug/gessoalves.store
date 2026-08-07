@@ -1,39 +1,16 @@
-import Link from 'next/link';
-import Image from 'next/image';
-import { servicesData } from '@/lib/servicesData';
-import styles from './page.module.css';
+import ServicesClient from '@/components/ServicesClient';
 
 export const metadata = {
-  title: 'Nossos Serviços de Gesso e Drywall | Gessoalves',
-  description: 'Conheça nossos serviços especializados: Forro de gesso acartonado, drywall, sancas, molduras, rebaixamento e forro modular na Zona Sul de SP.',
+  title: 'Serviços Especializados em Gesso e Drywall na Zona Sul de SP | Gessoalves',
+  description: 'Conheça nossos serviços de forro de gesso acartonado, paredes de drywall, sancas abertas/invertidas com LED, rebaixamento de teto, molduras e forro modular em São Paulo com garantia de 5 anos.',
+  openGraph: {
+    title: 'Serviços Especializados em Gesso e Drywall | Gessoalves',
+    description: 'Instalação profissional de drywall, forros e sancas com equipe própria e garantia de 5 anos.',
+    url: 'https://gessoalves.store/servicos',
+  },
 };
 
 export default function Servicos() {
-  return (
-    <main className={styles.container}>
-      <h1 className={styles.title}>Nossos Serviços</h1>
-      
-      <div className={styles.grid}>
-        {servicesData.map(service => (
-          <div key={service.slug} className={styles.card}>
-            <Image 
-              src={service.placeholderImg} 
-              alt={`Imagem representativa de ${service.title}`} 
-              width={1000}
-              height={1000}
-              className={styles.imagePlaceholder}
-              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-            />
-            <div className={styles.content}>
-              <h2>{service.title}</h2>
-              <p>{service.description}</p>
-              <Link href={`/servicos/${service.slug}`} className={styles.premiumBtn} style={{ textAlign: 'center' }}>
-                Ver Detalhes
-              </Link>
-            </div>
-          </div>
-        ))}
-      </div>
-    </main>
-  );
+  return <ServicesClient />;
 }
+

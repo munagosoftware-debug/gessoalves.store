@@ -110,23 +110,29 @@
 
 /* Gráfico 3D Central */
 .wireframeContainer {
-  flex: 1.5;
+  flex: 1.4;
   display: flex;
   justify-content: center;
   align-items: center;
-  min-width: 280px;
+  min-width: 260px;
   position: relative;
 }
 
 .wireframeImage {
   max-width: 100%;
   height: auto;
-  max-height: 130px;
+  max-height: 220px;
   object-fit: contain;
-  mix-blend-mode: screen;
-  opacity: 0.25;
-  filter: drop-shadow(0 0 10px rgba(200, 200, 200, 0.15)) grayscale(60%);
+  border-radius: 14px;
+  border: 1px solid rgba(76, 201, 240, 0.35);
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.45), 0 0 25px rgba(76, 201, 240, 0.2);
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
   animation: float 6s ease-in-out infinite;
+}
+
+.wireframeImage:hover {
+  transform: translateY(-6px) scale(1.02);
+  box-shadow: 0 16px 45px rgba(0, 0, 0, 0.6), 0 0 35px rgba(76, 201, 240, 0.35);
 }
 
 @keyframes float {
