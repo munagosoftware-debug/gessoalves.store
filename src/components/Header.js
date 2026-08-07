@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
-import { Menu, X } from 'lucide-react';
+import { Menu, X, MessageSquare, Phone } from 'lucide-react';
 import { useWhatsAppModal } from '../context/WhatsAppModalContext';
 import styles from './Header.module.css';
 
@@ -19,6 +19,18 @@ export default function Header() {
   useEffect(() => {
     setIsOpen(false);
   }, [pathname]);
+
+  // Lock body scroll when mobile menu is open
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, [isOpen]);
 
   // Handle scroll for transparent -> solid header
   useEffect(() => {
@@ -60,18 +72,41 @@ export default function Header() {
       
       <div className={styles.navContainer}>
         <nav className={`${styles.nav} ${isOpen ? styles.open : ''}`}>
-          {navLinks.map((link) => {
-            const isActive = pathname === link.href;
-            return (
-              <Link 
-                key={link.href} 
-                href={link.href} 
-                className={`${styles.navLink} ${isActive ? styles.navLinkActive : ''}`} 
-              >
-                {link.label}
-              </Link>
-            );
-          })}
+          <div className={styles.navLinksWrapper}>
+            {navLinks.map((link) => {
+              const isActive = pathname === link.href;
+              return (
+                <Link 
+                  key={link.href} 
+                  href={link.href} 
+                  className={`${styles.navLink} ${isActive ? styles.navLinkActive : ''}`}
+                  onClick={() => setIsOpen(false)}
+                >
+                  <span>{link.label}</span>
+                </Link>
+              );
+            })}
+          </div>
+
+          <div className={styles.mobileNavFooter}>
+            <button 
+              onClick={() => {
+                setIsOpen(false);
+                openWhatsAppModal('Olá! Gostaria de um orçamento para o meu projeto.');
+              }} 
+              className={styles.mobileNavCta}
+            >
+              <MessageSquare size={18} />
+              <span>Solicitar Orçamento no WhatsApp</span>
+            </button>
+            <div className={styles.mobileContactInfo}>
+              <span className={styles.mobileRegionText}>Atendimento em SP e Região (20km)</span>
+              <a href="tel:+5511961155049" className={styles.mobilePhoneLink}>
+                <Phone size={14} />
+                <span>(11) 96115-5049</span>
+              </a>
+            </div>
+          </div>
         </nav>
 
         <button 

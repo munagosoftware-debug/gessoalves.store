@@ -8,93 +8,33 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  pointer-events: all;
-  overflow: hidden;
-}
-
-.preloader.hidden {
+  background: #0d142b;
   pointer-events: none;
-  opacity: 0;
-  transition: opacity 0.8s ease-out 1.2s, visibility 0s linear 2.5s; 
-  visibility: hidden;
-}
-
-/* Painéis de fundo (Luxury Industrial Split) */
-.panel {
-  position: absolute;
-  top: 0;
-  width: 50%;
-  height: 100%;
-  background: #111111; /* Cinza bem escuro / Preto elegante */
-  z-index: 1;
-}
-
-.leftPanel {
-  left: 0;
-}
-
-.rightPanel {
-  right: 0;
-}
-
-/* Faixa Diagonal Estilizada */
-.diagonalStripe {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 200vw; /* Garante que cubra a tela toda mesmo girada */
-  height: 80px;
-  background: #1f61aa; /* Azul da logo Gessoalves */
-  transform: translate(-50%, -50%) rotate(-35deg);
-  z-index: 2; /* Fica acima das portas, atrás da logo */
-  transition: height 1.2s cubic-bezier(0.77, 0, 0.175, 1);
-  box-shadow: 0 0 30px rgba(0, 0, 0, 0.8);
   opacity: 1;
+  transition: opacity 0.3s ease-out;
 }
 
-.stripeExit {
-  height: 300vh; /* Expande até cobrir a tela toda */
+.fadeOut {
+  opacity: 0 !important;
+  pointer-events: none;
 }
 
-/* Envoltório da imagem central */
 .contentWrapper {
   position: relative;
-  z-index: 3;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  transition: opacity 0.4s ease-out, transform 0.4s ease-out;
-}
-
-.fadeOut {
-  opacity: 0;
-  transform: scale(1.1);
 }
 
 .imageContainer {
   position: relative;
-  width: 250px;
-  height: 250px;
-  opacity: 0;
-  /* Animação inicial de revelação */
-  animation: revealImage 1.5s cubic-bezier(0.19, 1, 0.22, 1) forwards 0.2s;
+  width: 220px;
+  height: 220px;
+  opacity: 1;
 }
 
-/* Estilo elegante para a imagem enviada */
 .preloadImage {
   object-fit: contain;
-  /* Somente drop-shadow funciona corretamente em imagens com fundo transparente */
   filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.8));
-}
-
-@keyframes revealImage {
-  from {
-    opacity: 0;
-    transform: translateY(30px) scale(0.95);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
 }

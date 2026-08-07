@@ -39,7 +39,7 @@ export default function ServiceCard3D({ title, description, iconIndex = 0, slug,
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
       onClick={handleToggleFlip}
-      style={{ cursor: 'pointer', minHeight: '400px' }}
+      style={{ cursor: 'pointer', minHeight: '360px', touchAction: 'manipulation' }}
     >
       <div
         className="flip-card-inner metallic-card"
@@ -107,9 +107,24 @@ export default function ServiceCard3D({ title, description, iconIndex = 0, slug,
         </div>
 
         {/* BACK FACE */}
-        <div className="flip-card-back" style={{ padding: '2rem', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-          <h3 style={{ fontSize: '1.3rem', marginBottom: '1rem', color: '#fff', fontWeight: '700' }}>{title}</h3>
-          <p style={{ fontSize: '0.95rem', lineHeight: '1.6', marginBottom: '1.5rem', color: 'var(--color-silver-light)' }}>
+        <div
+          className="flip-card-back"
+          style={{
+            padding: '2rem 1.5rem',
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'center',
+            alignItems: 'center',
+            textAlign: 'center',
+            background: 'linear-gradient(135deg, #1B2A5C 0%, #20222a 50%, #2B2E38 100%)',
+            color: '#ffffff',
+            borderRadius: '16px',
+            border: '1px solid rgba(255, 255, 255, 0.15)',
+            boxShadow: '0 12px 32px rgba(0, 0, 0, 0.3)'
+          }}
+        >
+          <h3 style={{ fontSize: '1.3rem', marginBottom: '0.85rem', color: '#ffffff', fontWeight: '700' }}>{title}</h3>
+          <p style={{ fontSize: '0.92rem', lineHeight: '1.6', marginBottom: '1.5rem', color: '#C9CDD3' }}>
             {description}
           </p>
           <Link
@@ -122,8 +137,9 @@ export default function ServiceCard3D({ title, description, iconIndex = 0, slug,
               background: 'linear-gradient(145deg, #ffffff, var(--color-silver-light))',
               color: 'var(--color-navy)',
               border: 'none',
-              fontWeight: '600',
-              boxShadow: '0 4px 15px rgba(0,0,0,0.2)'
+              fontWeight: '700',
+              boxShadow: '0 4px 15px rgba(0,0,0,0.25)',
+              borderRadius: '8px'
             }}
           >
             Ver Projeto Completo

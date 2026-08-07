@@ -19,6 +19,14 @@ const outfit = Outfit({
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000';
 
+export const viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 5,
+  viewportFit: 'cover',
+  themeColor: '#1B2A5C',
+};
+
 export const metadata = {
   metadataBase: new URL(siteUrl),
   title: {

@@ -5,28 +5,43 @@ import Image from 'next/image';
 import styles from './Preloader.module.css';
 
 export default function Preloader() {
-  const [loading, setLoading] = useState(true);
+  const [mounted, setMounted] = useState(false);
+  const [fading, setFading] = useState(false);
 
   useEffect(() => {
-    // Esconde o preloader após 2.2 segundos para dar tempo de exibir a animação
-    const timer = setTimeout(() => {
-      setLoading(false);
-    }, 2200);
+    // Se já foi exibido nesta sessão, não exibe
+    try {
+      if (sessionStorage.getItem('gesso_preloader_seen')) {
+        return;
+      }
+    } catch {}
 
-    return () => clearTimeout(timer);
+    setMounted(true);
+
+    // Inicia o fade suave aos 350ms
+    const fadeTimer = setTimeout(() => {
+      setFading(true);
+    }, 350);
+
+    // Desmonta totalmente aos 650ms
+    const removeTimer = setTimeout(() => {
+      setMounted(false);
+      try {
+        sessionStorage.setItem('gesso_preloader_seen', 'true');
+      } catch {}
+    }, 650);
+
+    return () => {
+      clearTimeout(fadeTimer);
+      clearTimeout(removeTimer);
+    };
   }, []);
 
+  if (!mounted) return null;
+
   return (
-    <div className={`${styles.preloader} ${!loading ? styles.hidden : ''}`}>
-      {/* Paineis divididos para efeito de abertura (Luxury Industrial) */}
-      <div className={`${styles.panel} ${styles.leftPanel} ${!loading ? styles.slideLeft : ''}`}></div>
-      <div className={`${styles.panel} ${styles.rightPanel} ${!loading ? styles.slideRight : ''}`}></div>
-      
-      {/* Faixa diagonal dinâmica */}
-      <div className={`${styles.diagonalStripe} ${!loading ? styles.stripeExit : ''}`}></div>
-      
-      {/* Conteúdo principal */}
-      <div className={`${styles.contentWrapper} ${!loading ? styles.fadeOut : ''}`}>
+    <div className={`${styles.preloader} ${fading ? styles.fadeOut : ''}`}>
+      <div className={styles.contentWrapper}>
         <div className={styles.imageContainer}>
           <Image 
             src="/preload.png" 
