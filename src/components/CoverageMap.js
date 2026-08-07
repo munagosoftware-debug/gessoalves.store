@@ -6,7 +6,7 @@ export default function CoverageMap() {
       <div style={{ textAlign: 'center', maxWidth: '600px' }}>
         <h3 style={{ color: 'var(--color-navy)', fontSize: '1.8rem', marginBottom: '16px' }}>Área de Atuação</h3>
         <p style={{ color: 'var(--color-graphite)', lineHeight: '1.6' }}>
-          Atendemos prioritariamente a <strong>Zona Sul de São Paulo</strong>. Abaixo estão alguns dos principais bairros onde atuamos com rapidez e eficiência.
+          Atendemos prioritariamente o <strong>Butantã e região de São Paulo</strong>. Abaixo estão alguns dos principais bairros onde atuamos com rapidez e eficiência.
         </p>
       </div>
 

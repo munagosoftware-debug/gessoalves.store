@@ -1,4 +1,5 @@
 import ReadingProgressBar from '@/components/ReadingProgressBar';
+import Image from 'next/image';
 import Link from 'next/link';
 import { ArrowLeft } from 'lucide-react';
 
@@ -55,9 +56,11 @@ export default function BlogPost({ params }) {
             Publicado em 10 de Outubro por Equipe Técnica Gessoalves • 5 min de leitura
           </p>
 
-          <img
+          <Image
             src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1200&q=80"
             alt="Instalação de Drywall"
+            width={1200}
+            height={380}
             style={{
               width: '100%',
               height: '380px',
@@ -65,6 +68,8 @@ export default function BlogPost({ params }) {
               borderRadius: '12px',
               marginBottom: '2rem',
             }}
+            sizes="(max-width: 850px) 100vw, 850px"
+            priority
           />
 
           <div style={{ fontSize: '1.1rem', lineHeight: '1.8', color: 'var(--color-graphite)' }}>

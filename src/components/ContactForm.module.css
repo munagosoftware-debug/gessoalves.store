@@ -1,0 +1,169 @@
+/* ============================================
+   ContactForm.module.css
+   Espelha os estilos inline de ContactForm.js
+   ============================================ */
+
+/* Container principal */
+.formContainer {
+  max-width: 600px;
+  margin: 0 auto;
+  background: #fff;
+  border-radius: 16px;
+  padding: 2rem;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+}
+
+/* Estado de sucesso */
+.successState {
+  text-align: center;
+  padding: 2rem 0;
+}
+
+.successTitle {
+  font-size: 1.5rem;
+  color: var(--color-navy);
+  margin-bottom: 0.5rem;
+}
+
+.successText {
+  color: #666;
+  margin-bottom: 1.5rem;
+}
+
+.successButton {
+  padding: 10px 20px;
+  background: #f0f0f0;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+/* Formulário */
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+/* Labels */
+.label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+  color: var(--color-navy);
+}
+
+/* Inputs */
+.input {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  outline: none;
+  box-sizing: border-box;
+  font-size: 1rem;
+  transition: border-color 0.2s ease;
+}
+
+.input:focus {
+  border-color: var(--color-navy);
+}
+
+.inputError {
+  composes: input;
+  border-color: #DC2626;
+}
+
+/* Textarea */
+.textarea {
+  composes: input;
+  resize: vertical;
+}
+
+.textareaError {
+  composes: textarea;
+  border-color: #DC2626;
+}
+
+/* Mensagens de erro */
+.errorText {
+  color: #DC2626;
+  font-size: 0.85rem;
+}
+
+/* Grid 2 colunas */
+.gridRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+@media (max-width: 600px) {
+  .gridRow {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Seção de arquivo */
+.fileWrapper {
+  position: relative;
+  overflow: hidden;
+  display: inline-block;
+}
+
+.fileButton {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 10px 16px;
+  background: #f8fafc;
+  border: 1px dashed #cbd5e1;
+  border-radius: 8px;
+  cursor: pointer;
+  color: #64748b;
+  font-size: 0.95rem;
+}
+
+.fileInput {
+  position: absolute;
+  left: 0;
+  top: 0;
+  opacity: 0;
+  cursor: pointer;
+  height: 100%;
+  width: 100%;
+}
+
+/* Botão de envio */
+.submitButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 14px;
+  background: var(--color-navy, #1e293b);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 1rem;
+  transition: opacity 0.2s ease;
+}
+
+.submitButton:disabled {
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+/* reCAPTCHA texto */
+.recaptchaText {
+  font-size: 0.75rem;
+  color: #94a3b8;
+  text-align: center;
+}
+
+.recaptchaLink {
+  text-decoration: underline;
+}

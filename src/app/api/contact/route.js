@@ -2,16 +2,17 @@ import { NextResponse } from 'next/server';
 import { Resend } from 'resend';
 import { z } from 'zod';
 import { createAdminClient } from '@/lib/supabase';
+import { contactApiSchema } from '@/lib/schemas';
 
-// Instanciado dinamicamente no POST para evitar erro no build do Next.js se a chave não existir
-const formSchema = z.object({
-  name: z.string().min(3),
-  email: z.string().email(),
-  phone: z.string().min(10),
-  subject: z.string().min(3),
-  message: z.string().min(10),
-  recaptchaToken: z.string().min(1),
-});
+// Tipos aceitos pelo input (accept=".pdf,.jpg,.jpeg,.png,.doc,.docx")
+const ALLOWED_TYPES = [
+  'image/jpeg',
+  'image/png',
+  'application/pdf',
+  'application/msword',
+  'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+];
+const MAX_SIZE_MB = 5;
 
 export async function POST(req) {
   try {
@@ -28,7 +29,7 @@ export async function POST(req) {
     };
 
     // Valida com Zod
-    const validatedData = formSchema.parse(data);
+    const validatedData = contactApiSchema.parse(data);
 
     // Verifica reCAPTCHA
     const recaptchaResponse = await fetch(`https://www.google.com/recaptcha/api/siteverify`, {
@@ -50,6 +51,19 @@ export async function POST(req) {
     let fileUrl = '';
 
     if (file && file.size > 0) {
+      if (!ALLOWED_TYPES.includes(file.type)) {
+        return NextResponse.json(
+          { error: 'Formato de arquivo não suportado. Envie PDF, JPG, PNG, DOC ou DOCX.' },
+          { status: 400 }
+        );
+      }
+      if (file.size > MAX_SIZE_MB * 1024 * 1024) {
+        return NextResponse.json(
+          { error: `Arquivo muito grande. Máximo ${MAX_SIZE_MB}MB.` },
+          { status: 400 }
+        );
+      }
+
       try {
         const supabase = createAdminClient();
         const fileExt = file.name.split('.').pop();

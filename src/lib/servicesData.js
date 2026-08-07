@@ -9,7 +9,7 @@ export const servicesData = [
       'Instalação ágil com mínima sujeira',
       'Ótimo conforto térmico e acústico'
     ],
-    placeholderImg: '/servicos/forro-acartonado.png'
+    placeholderImg: '/servicos/forro-acartonado.webp'
   },
   {
     slug: 'parede-de-drywall',
@@ -21,7 +21,7 @@ export const servicesData = [
       'Pode receber isolamento acústico interno (lã de vidro/rocha)',
       'Fácil manutenção e passagem de tubulações'
     ],
-    placeholderImg: '/servicos/parede-drywall.png'
+    placeholderImg: '/servicos/parede-drywall.webp'
   },
   {
     slug: 'sanca-de-gesso',
@@ -33,7 +33,7 @@ export const servicesData = [
       'Sanca Invertida: efeito de teto flutuante',
       'Valoriza o pé-direito do ambiente'
     ],
-    placeholderImg: '/servicos/sanca-gesso.png'
+    placeholderImg: '/servicos/sanca-gesso.webp'
   },
   {
     slug: 'rebaixamento-de-teto-com-gesso',
@@ -45,7 +45,7 @@ export const servicesData = [
       'Estrutura metálica resistente e segura',
       'Acabamento pronto para receber pintura'
     ],
-    placeholderImg: '/servicos/rebaixamento-teto.png'
+    placeholderImg: '/servicos/rebaixamento-teto.webp'
   },
   {
     slug: 'molduras-de-gesso',
@@ -57,7 +57,7 @@ export const servicesData = [
       'Instalação rápida e acabamento detalhista',
       'Excelente custo-benefício para decoração'
     ],
-    placeholderImg: '/servicos/molduras.png'
+    placeholderImg: '/servicos/molduras.webp'
   },
   {
     slug: 'forro-modular',
@@ -69,7 +69,7 @@ export const servicesData = [
       'Placas removíveis com diversas opções de isolamento acústico',
       'Visual técnico e organizado'
     ],
-    placeholderImg: '/servicos/forro-modular.png'
+    placeholderImg: '/servicos/forro-modular.webp'
   }
 ];
 

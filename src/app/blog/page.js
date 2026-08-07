@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Image from 'next/image';
 import styles from './page.module.css';
 
 export const metadata = {
@@ -7,27 +8,28 @@ export const metadata = {
 };
 
 export default function Blog() {
+  // TODO: substituir por foto real antes do lançamento (em cada post abaixo)
   const posts = [
     {
       id: 1,
       title: 'Drywall x Gesso Acartonado: Existe Diferença?',
       excerpt: 'Descubra os termos corretos e entenda por que o drywall revolucionou a construção a seco.',
       date: '10 Out 2023',
-      img: 'https://via.placeholder.com/600x400/2B2E38/FFFFFF?text=Drywall+x+Gesso'
+      img: 'https://via.placeholder.com/600x400/2B2E38/FFFFFF?text=Drywall+x+Gesso' // TODO: substituir por foto real antes do lançamento
     },
     {
       id: 2,
       title: 'O que é Isolamento Acústico com Drywall?',
       excerpt: 'Aprenda como a lã de vidro ou lã de rocha dentro da parede de drywall pode acabar com o barulho entre os ambientes.',
       date: '22 Set 2023',
-      img: 'https://via.placeholder.com/600x400/2B2E38/FFFFFF?text=Isolamento+Acustico'
+      img: 'https://via.placeholder.com/600x400/2B2E38/FFFFFF?text=Isolamento+Acustico' // TODO: substituir por foto real antes do lançamento
     },
     {
       id: 3,
       title: 'Vantagens do Rebaixamento de Teto',
       excerpt: 'Veja como o rebaixamento de teto pode embutir sua iluminação e transformar completamente a estética da sua sala.',
       date: '05 Set 2023',
-      img: 'https://via.placeholder.com/600x400/2B2E38/FFFFFF?text=Rebaixamento+Teto'
+      img: 'https://via.placeholder.com/600x400/2B2E38/FFFFFF?text=Rebaixamento+Teto' // TODO: substituir por foto real antes do lançamento
     }
   ];
 
@@ -38,7 +40,9 @@ export default function Blog() {
       <div className={styles.grid}>
         {posts.map(post => (
           <article key={post.id} className={styles.postCard}>
-            <img src={post.img} alt={post.title} className={styles.postImage} />
+            <div style={{ position: 'relative', width: '100%', aspectRatio: '3/2' }}>
+              <Image src={post.img} alt={post.title} fill sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" className={styles.postImage} style={{ objectFit: 'cover' }} />
+            </div>
             <div className={styles.postContent}>
               <span className={styles.postDate}>{post.date}</span>
               <h2>{post.title}</h2>

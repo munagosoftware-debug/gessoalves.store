@@ -3,19 +3,12 @@
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import * as z from 'zod';
+import { contactFormSchema } from '@/lib/schemas';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useGoogleReCaptcha } from 'react-google-recaptcha-v3';
 import { Send, CheckCircle, AlertCircle, Paperclip } from 'lucide-react';
 import { toast } from 'react-hot-toast';
-
-const formSchema = z.object({
-  name: z.string().min(3, 'Nome deve ter no mínimo 3 caracteres'),
-  email: z.string().email('E-mail inválido'),
-  phone: z.string().min(10, 'Telefone inválido'),
-  subject: z.string().min(3, 'Assunto obrigatório'),
-  message: z.string().min(10, 'Mensagem muito curta'),
-});
+import styles from './ContactForm.module.css';
 
 export default function ContactForm() {
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -29,7 +22,7 @@ export default function ContactForm() {
     reset,
     formState: { errors },
   } = useForm({
-    resolver: zodResolver(formSchema),
+    resolver: zodResolver(contactFormSchema),
   });
 
   const onSubmit = async (data) => {
@@ -77,7 +70,7 @@ export default function ContactForm() {
   };
 
   return (
-    <div style={{ maxWidth: '600px', margin: '0 auto', background: '#fff', borderRadius: '16px', padding: '2rem', boxShadow: '0 10px 30px rgba(0,0,0,0.05)' }}>
+    <div className={styles.formContainer}>
       <AnimatePresence mode="wait">
         {submitStatus === 'success' ? (
           <motion.div
@@ -85,14 +78,14 @@ export default function ContactForm() {
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.8 }}
-            style={{ textAlign: 'center', padding: '2rem 0' }}
+            className={styles.successState}
           >
             <CheckCircle size={64} color="#10B981" style={{ margin: '0 auto 1rem' }} />
-            <h3 style={{ fontSize: '1.5rem', color: 'var(--color-navy)', marginBottom: '0.5rem' }}>Mensagem Enviada!</h3>
-            <p style={{ color: '#666', marginBottom: '1.5rem' }}>Em breve nossa equipe entrará em contato com você.</p>
+            <h3 className={styles.successTitle}>Mensagem Enviada!</h3>
+            <p className={styles.successText}>Em breve nossa equipe entrará em contato com você.</p>
             <button
               onClick={() => setSubmitStatus(null)}
-              style={{ padding: '10px 20px', background: '#f0f0f0', border: 'none', borderRadius: '8px', cursor: 'pointer' }}
+              className={styles.successButton}
             >
               Enviar nova mensagem
             </button>
@@ -104,74 +97,92 @@ export default function ContactForm() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onSubmit={handleSubmit(onSubmit)}
-            style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}
+            className={styles.form}
           >
             <div>
-              <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: '500', color: 'var(--color-navy)' }}>Nome</label>
+              <label htmlFor="name" className={styles.label}>Nome</label>
               <input
+                id="name"
                 type="text"
                 {...register('name')}
-                style={{ width: '100%', padding: '12px', border: errors.name ? '1px solid #DC2626' : '1px solid #e2e8f0', borderRadius: '8px', outline: 'none' }}
+                className={errors.name ? styles.inputError : styles.input}
+                aria-invalid={errors.name ? 'true' : 'false'}
+                aria-describedby={errors.name ? 'name-error' : undefined}
               />
-              {errors.name && <span style={{ color: '#DC2626', fontSize: '0.85rem' }}>{errors.name.message}</span>}
+              {errors.name && <span id="name-error" role="alert" className={styles.errorText}>{errors.name.message}</span>}
             </div>
 
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
+            <div className={styles.gridRow}>
               <div>
-                <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: '500', color: 'var(--color-navy)' }}>E-mail</label>
+                <label htmlFor="email" className={styles.label}>E-mail</label>
                 <input
+                  id="email"
                   type="email"
                   {...register('email')}
-                  style={{ width: '100%', padding: '12px', border: errors.email ? '1px solid #DC2626' : '1px solid #e2e8f0', borderRadius: '8px', outline: 'none' }}
+                  className={errors.email ? styles.inputError : styles.input}
+                  aria-invalid={errors.email ? 'true' : 'false'}
+                  aria-describedby={errors.email ? 'email-error' : undefined}
                 />
-                {errors.email && <span style={{ color: '#DC2626', fontSize: '0.85rem' }}>{errors.email.message}</span>}
+                {errors.email && <span id="email-error" role="alert" className={styles.errorText}>{errors.email.message}</span>}
               </div>
               <div>
-                <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: '500', color: 'var(--color-navy)' }}>Telefone / WhatsApp</label>
+                <label htmlFor="phone" className={styles.label}>Telefone / WhatsApp</label>
                 <input
+                  id="phone"
                   type="text"
                   {...register('phone')}
-                  style={{ width: '100%', padding: '12px', border: errors.phone ? '1px solid #DC2626' : '1px solid #e2e8f0', borderRadius: '8px', outline: 'none' }}
+                  className={errors.phone ? styles.inputError : styles.input}
+                  aria-invalid={errors.phone ? 'true' : 'false'}
+                  aria-describedby={errors.phone ? 'phone-error' : undefined}
                 />
-                {errors.phone && <span style={{ color: '#DC2626', fontSize: '0.85rem' }}>{errors.phone.message}</span>}
+                {errors.phone && <span id="phone-error" role="alert" className={styles.errorText}>{errors.phone.message}</span>}
               </div>
             </div>
 
             <div>
-              <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: '500', color: 'var(--color-navy)' }}>Assunto</label>
+              <label htmlFor="subject" className={styles.label}>Assunto</label>
               <input
+                id="subject"
                 type="text"
                 {...register('subject')}
-                style={{ width: '100%', padding: '12px', border: errors.subject ? '1px solid #DC2626' : '1px solid #e2e8f0', borderRadius: '8px', outline: 'none' }}
+                className={errors.subject ? styles.inputError : styles.input}
+                aria-invalid={errors.subject ? 'true' : 'false'}
+                aria-describedby={errors.subject ? 'subject-error' : undefined}
               />
-              {errors.subject && <span style={{ color: '#DC2626', fontSize: '0.85rem' }}>{errors.subject.message}</span>}
+              {errors.subject && <span id="subject-error" role="alert" className={styles.errorText}>{errors.subject.message}</span>}
             </div>
 
             <div>
-              <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: '500', color: 'var(--color-navy)' }}>Mensagem</label>
+              <label htmlFor="message" className={styles.label}>Mensagem</label>
               <textarea
+                id="message"
                 {...register('message')}
                 rows="4"
-                style={{ width: '100%', padding: '12px', border: errors.message ? '1px solid #DC2626' : '1px solid #e2e8f0', borderRadius: '8px', outline: 'none', resize: 'vertical' }}
+                className={errors.message ? styles.textareaError : styles.textarea}
+                aria-invalid={errors.message ? 'true' : 'false'}
+                aria-describedby={errors.message ? 'message-error' : undefined}
               />
-              {errors.message && <span style={{ color: '#DC2626', fontSize: '0.85rem' }}>{errors.message.message}</span>}
+              {errors.message && <span id="message-error" role="alert" className={styles.errorText}>{errors.message.message}</span>}
             </div>
 
             <div>
-              <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: '500', color: 'var(--color-navy)' }}>Planta do Projeto (Opcional)</label>
-              <div style={{ position: 'relative', overflow: 'hidden', display: 'inline-block' }}>
-                <button
-                  type="button"
-                  style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', padding: '10px 16px', background: '#f8fafc', border: '1px dashed #cbd5e1', borderRadius: '8px', cursor: 'pointer', color: '#64748b' }}
+              <label htmlFor="file" className={styles.label}>Planta do Projeto (Opcional)</label>
+              <div className={styles.fileWrapper}>
+                <button 
+                  type="button" 
+                  className={styles.fileButton}
+                  onClick={() => document.getElementById('file').click()}
                 >
                   <Paperclip size={18} />
                   {file ? file.name : 'Anexar Arquivo'}
                 </button>
                 <input
+                  id="file"
                   type="file"
                   onChange={(e) => setFile(e.target.files[0])}
                   accept=".pdf,.jpg,.jpeg,.png,.doc,.docx"
-                  style={{ position: 'absolute', left: 0, top: 0, opacity: 0, cursor: 'pointer', height: '100%' }}
+                  className={styles.fileInput}
+                  aria-label="Planta do Projeto"
                 />
               </div>
             </div>
@@ -179,22 +190,7 @@ export default function ContactForm() {
             <button
               type="submit"
               disabled={isSubmitting}
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                gap: '0.5rem',
-                padding: '14px',
-                background: 'var(--color-navy, #1e293b)',
-                color: '#fff',
-                border: 'none',
-                borderRadius: '8px',
-                fontSize: '1rem',
-                fontWeight: '600',
-                cursor: isSubmitting ? 'not-allowed' : 'pointer',
-                opacity: isSubmitting ? 0.7 : 1,
-                marginTop: '1rem'
-              }}
+              className={styles.submitButton}
             >
               {isSubmitting ? 'Enviando...' : (
                 <>
@@ -203,8 +199,8 @@ export default function ContactForm() {
                 </>
               )}
             </button>
-            <p style={{ fontSize: '0.75rem', color: '#94a3b8', textAlign: 'center' }}>
-              Este site é protegido por reCAPTCHA e as <a href="https://policies.google.com/privacy" target="_blank" rel="noreferrer" style={{textDecoration: 'underline'}}>Políticas de Privacidade</a> e <a href="https://policies.google.com/terms" target="_blank" rel="noreferrer" style={{textDecoration: 'underline'}}>Termos de Serviço</a> do Google se aplicam.
+            <p className={styles.recaptchaText}>
+              Este site é protegido por reCAPTCHA e as <a href="https://policies.google.com/privacy" target="_blank" rel="noreferrer" className={styles.recaptchaLink}>Políticas de Privacidade</a> e <a href="https://policies.google.com/terms" target="_blank" rel="noreferrer" className={styles.recaptchaLink}>Termos de Serviço</a> do Google se aplicam.
             </p>
           </motion.form>
         )}

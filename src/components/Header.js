@@ -30,7 +30,7 @@ export default function Header() {
     <header className={styles.header}>
       <Link href="/" className={styles.logoContainer} onClick={() => setIsOpen(false)}>
         <Image 
-          src="/logo.png" 
+          src="/logo.webp" 
           alt="Gessoalves Logo" 
           width={180} 
           height={60} 

@@ -159,8 +159,9 @@ export default function ClientGalleryForm() {
 
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '20px' }}>
               <div>
-                <label style={labelStyle}>Nome completo *</label>
+                <label htmlFor="name" style={labelStyle}>Nome completo *</label>
                 <input
+                  id="name"
                   required
                   value={form.name}
                   onChange={e => setForm(p => ({ ...p, name: e.target.value }))}
@@ -170,8 +171,9 @@ export default function ClientGalleryForm() {
                 />
               </div>
               <div>
-                <label style={labelStyle}>WhatsApp ou E-mail <span style={{color: '#94a3b8', fontWeight: 'normal'}}>(opcional)</span></label>
+                <label htmlFor="contact" style={labelStyle}>WhatsApp ou E-mail <span style={{color: '#94a3b8', fontWeight: 'normal'}}>(opcional)</span></label>
                 <input
+                  id="contact"
                   value={form.contact}
                   onChange={e => setForm(p => ({ ...p, contact: e.target.value }))}
                   placeholder="(11) 99999-9999"
@@ -180,10 +182,17 @@ export default function ClientGalleryForm() {
                 />
               </div>
               <div>
-                <label style={labelStyle}>Serviço realizado *</label>
+                <label id="service-label" style={labelStyle}>Serviço realizado *</label>
                 <div style={{ position: 'relative' }} ref={dropdownRef}>
                   <div
+                    role="combobox"
+                    aria-expanded={isDropdownOpen}
+                    aria-haspopup="listbox"
+                    aria-labelledby="service-label"
+                    aria-controls="service-listbox"
+                    tabIndex={0}
                     onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                    onKeyDown={(e) => { if(e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setIsDropdownOpen(!isDropdownOpen); } }}
                     style={{
                       ...inputStyle,
                       cursor: 'pointer',
@@ -202,6 +211,8 @@ export default function ClientGalleryForm() {
                   <AnimatePresence>
                     {isDropdownOpen && (
                       <motion.div
+                        id="service-listbox"
+                        role="listbox"
                         initial={{ opacity: 0, y: -10, scaleY: 0.95 }}
                         animate={{ opacity: 1, y: 0, scaleY: 1 }}
                         exit={{ opacity: 0, y: -10, scaleY: 0.95 }}
@@ -224,10 +235,14 @@ export default function ClientGalleryForm() {
                         {SERVICES.map(s => (
                           <div
                             key={s}
+                            role="option"
+                            aria-selected={form.service === s}
+                            tabIndex={0}
                             onClick={() => {
                               setForm(p => ({ ...p, service: s }));
                               setIsDropdownOpen(false);
                             }}
+                            onKeyDown={(e) => { if(e.key === 'Enter') { setForm(p => ({ ...p, service: s })); setIsDropdownOpen(false); } }}
                             onMouseEnter={(e) => {
                               e.currentTarget.style.background = '#f1f5f9';
                             }}
@@ -253,8 +268,9 @@ export default function ClientGalleryForm() {
                 </div>
               </div>
               <div>
-                <label style={labelStyle}>Bairro / Cidade *</label>
+                <label htmlFor="bairro" style={labelStyle}>Bairro / Cidade *</label>
                 <input
+                  id="bairro"
                   required
                   value={form.bairro}
                   onChange={e => setForm(p => ({ ...p, bairro: e.target.value }))}
@@ -265,8 +281,9 @@ export default function ClientGalleryForm() {
               </div>
               
               <div style={{ gridColumn: '1 / -1' }}>
-                <label style={labelStyle}>Sobre a sua experiência <span style={{color: '#94a3b8', fontWeight: 'normal'}}>(opcional)</span></label>
+                <label htmlFor="experience" style={labelStyle}>Sobre a sua experiência <span style={{color: '#94a3b8', fontWeight: 'normal'}}>(opcional)</span></label>
                 <textarea
+                  id="experience"
                   value={form.experience}
                   onChange={e => setForm(p => ({ ...p, experience: e.target.value }))}
                   placeholder="Conte-nos um pouco sobre como foi realizar sua obra com a Gesso Alves..."
@@ -278,9 +295,12 @@ export default function ClientGalleryForm() {
 
             {/* Dropzone Elegante para Fotos */}
             <div>
-              <label style={labelStyle}>Fotos do resultado <span style={{color: '#94a3b8', fontWeight: 'normal'}}>(1 a 3 fotos — JPG, PNG, WebP)</span></label>
+              <label htmlFor="file-upload" style={labelStyle}>Fotos do resultado <span style={{color: '#94a3b8', fontWeight: 'normal'}}>(1 a 3 fotos — JPG, PNG, WebP)</span></label>
               
               <div 
+                role="button"
+                tabIndex={0}
+                onKeyDown={(e) => { if(e.key === 'Enter' || e.key === ' ') { e.preventDefault(); fileInputRef.current?.click(); } }}
                 onDragOver={(e) => { e.preventDefault(); setIsDragging(true); }}
                 onDragLeave={() => setIsDragging(false)}
                 onDrop={handleDrop}
@@ -301,6 +321,7 @@ export default function ClientGalleryForm() {
                 }}
               >
                 <input
+                  id="file-upload"
                   ref={fileInputRef}
                   type="file"
                   accept="image/jpeg,image/png,image/webp"
@@ -327,6 +348,7 @@ export default function ClientGalleryForm() {
                 <div style={{ display: 'flex', gap: '16px', marginTop: '16px', flexWrap: 'wrap' }}>
                   {previews.map((url, i) => (
                     <div key={i} style={{ position: 'relative', width: '100px', height: '100px' }}>
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
                       <img
                         src={url}
                         alt={`Preview ${i + 1}`}
@@ -352,8 +374,9 @@ export default function ClientGalleryForm() {
 
             {/* Autorização Legal */}
             <div style={{ padding: '16px', background: '#f8fafc', borderRadius: '12px', border: '1px solid #e2e8f0' }}>
-              <label style={{ display: 'flex', alignItems: 'flex-start', gap: '12px', cursor: 'pointer', margin: 0 }}>
+              <label htmlFor="authorized" style={{ display: 'flex', alignItems: 'flex-start', gap: '12px', cursor: 'pointer', margin: 0 }}>
                 <input
+                  id="authorized"
                   type="checkbox"
                   required
                   checked={form.authorized}
@@ -368,6 +391,7 @@ export default function ClientGalleryForm() {
 
             {errorMsg && (
               <motion.div 
+                role="alert"
                 initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }}
                 style={{ background: '#fef2f2', color: '#dc2626', padding: '14px', borderRadius: '12px', fontSize: '0.95rem', border: '1px solid #fecaca', display: 'flex', alignItems: 'center', gap: '8px' }}
               >

@@ -56,7 +56,6 @@ export default function TestimonialsSwiper() {
         "@type": "Person",
         "name": t.name
       },
-      "datePublished": "2023-10-01", // Placeholder
       "reviewBody": t.text,
       "reviewRating": {
         "@type": "Rating",
@@ -111,7 +110,7 @@ export default function TestimonialsSwiper() {
                   ))}
                 </div>
                 <p style={{ fontSize: '0.95rem', color: '#444', fontStyle: 'italic', lineHeight: '1.6' }}>
-                  "{t.text}"
+                  &quot;{t.text}&quot;
                 </p>
               </div>
 
