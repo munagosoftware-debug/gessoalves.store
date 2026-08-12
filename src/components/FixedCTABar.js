@@ -1,10 +1,12 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { usePathname } from 'next/navigation';
 import { useWhatsAppModal } from '../context/WhatsAppModalContext';
 
 export default function FixedCTABar() {
   const [isVisible, setIsVisible] = useState(false);
+  const pathname = usePathname();
   const { openWhatsAppModal } = useWhatsAppModal();
 
   useEffect(() => {
@@ -24,6 +26,11 @@ export default function FixedCTABar() {
     handleScroll();
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  // O early return DEVE ficar abaixo de todos os hooks (useState, usePathname, useWhatsAppModal, useEffect)
+  if (pathname === '/galeria-de-clientes') {
+    return null;
+  }
 
   return (
     <>

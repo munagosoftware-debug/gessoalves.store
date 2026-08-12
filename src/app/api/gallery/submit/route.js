@@ -43,12 +43,12 @@ export async function POST(request) {
   if (!authorized || authorized !== 'true') {
     return NextResponse.json({ error: 'Autorização de publicação é obrigatória.' }, { status: 400 });
   }
-  if (images.length === 0 || images.length > 3) {
-    return NextResponse.json({ error: 'Envie entre 1 e 3 fotos.' }, { status: 400 });
+  if (images.length === 0 || images.length > 5) {
+    return NextResponse.json({ error: 'Envie entre 1 e 5 arquivos.' }, { status: 400 });
   }
 
-  const ALLOWED_TYPES = ['image/jpeg', 'image/png', 'image/webp'];
-  const MAX_SIZE_MB = 5;
+  const ALLOWED_TYPES = ['image/jpeg', 'image/png', 'image/webp', 'video/mp4', 'video/webm'];
+  const MAX_SIZE_MB = 100;
 
   try {
     const adminClient = createAdminClient();
@@ -56,10 +56,10 @@ export async function POST(request) {
 
     for (const image of images) {
       if (!ALLOWED_TYPES.includes(image.type)) {
-        return NextResponse.json({ error: 'Apenas JPG, PNG e WebP são aceitos.' }, { status: 400 });
+        return NextResponse.json({ error: 'Apenas JPG, PNG, WebP, MP4 e WEBM são aceitos.' }, { status: 400 });
       }
       if (image.size > MAX_SIZE_MB * 1024 * 1024) {
-        return NextResponse.json({ error: `Imagem muito grande. Máximo ${MAX_SIZE_MB}MB por foto.` }, { status: 400 });
+        return NextResponse.json({ error: `Arquivo muito grande. Máximo ${MAX_SIZE_MB}MB por envio.` }, { status: 400 });
       }
 
       const fileBuffer = Buffer.from(await image.arrayBuffer());

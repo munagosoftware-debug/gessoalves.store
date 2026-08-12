@@ -1,5 +1,6 @@
 import ClientGalleryForm from '@/components/ClientGalleryForm';
 import GalleryGrid from '@/components/GalleryGrid';
+import GalleryInfoCards from '@/components/GalleryInfoCards';
 import styles from '../page.module.css';
 
 export const metadata = {
@@ -100,13 +101,13 @@ export default async function GaleriaDeClientesPage() {
       {/* Hero */}
       <section className="section-dark" style={{
         background: 'linear-gradient(135deg, var(--color-navy) 0%, var(--color-graphite) 100%)',
-        color: '#fff', padding: '11rem 1.5rem 4rem', textAlign: 'center'
+        color: '#fff', padding: 'clamp(7rem, 15vw, 11rem) 1.5rem 4rem', textAlign: 'center'
       }}>
         <div style={{ maxWidth: '700px', margin: '0 auto' }}>
           <span style={{ background: 'var(--color-cyan)', color: '#fff', padding: '4px 14px', borderRadius: '20px', fontSize: '0.85rem', fontWeight: '600' }}>
             Comunidade Gessoalves
           </span>
-          <h1 style={{ fontSize: '2.8rem', marginTop: '1rem', lineHeight: '1.2' }}>
+          <h1 style={{ fontSize: 'clamp(2rem, 6vw, 2.8rem)', marginTop: '1rem', lineHeight: '1.2' }}>
             Galeria de Clientes
           </h1>
           <p style={{ fontSize: '1.1rem', marginTop: '1rem', opacity: 0.9 }}>
@@ -115,33 +116,41 @@ export default async function GaleriaDeClientesPage() {
         </div>
       </section>
 
-      {/* Formulário de Envio */}
-      <section className={styles.section} style={{ background: 'var(--color-graphite)' }}>
-        <div style={{ maxWidth: '860px', margin: '0 auto', padding: '0 1.5rem' }}>
-          <div style={{ textAlign: 'center', marginBottom: '2.5rem' }}>
-            <h2 className={styles.sectionTitle} style={{ color: '#ffffff' }}>Envie as Fotos da Sua Obra</h2>
-            <p style={{ color: 'var(--color-silver-light)' }}>Compartilhe o resultado do serviço que a Gessoalves realizou para você!</p>
+      <section className={styles.section} style={{ background: 'var(--color-graphite)', padding: '4rem 1.5rem 6rem 1.5rem' }}>
+        <div style={{ 
+          maxWidth: '1280px', 
+          margin: '0 auto', 
+          display: 'flex', 
+          flexWrap: 'wrap', 
+          gap: '3rem',
+          alignItems: 'flex-start'
+        }}>
+          
+          {/* Lado Esquerdo - Formulário e Cards */}
+          <div style={{ flex: '1 1 500px', maxWidth: '100%', display: 'flex', flexDirection: 'column', gap: '2.5rem' }}>
+            <div style={{
+              background: 'var(--color-navy)', padding: 'clamp(2rem, 5vw, 3rem)', borderRadius: '16px',
+              boxShadow: '0 4px 20px rgba(0,0,0,0.3)', border: '1px solid rgba(255,255,255,0.1)'
+            }}>
+              <ClientGalleryForm />
+            </div>
+            
+            {/* Info Cards adicionados abaixo do form */}
+            <div>
+              <GalleryInfoCards />
+            </div>
           </div>
-          <div style={{
-            background: 'var(--color-navy)', padding: '2.5rem', borderRadius: '16px',
-            boxShadow: '0 4px 20px rgba(0,0,0,0.3)', border: '1px solid rgba(255,255,255,0.1)'
-          }}>
-            <ClientGalleryForm />
-          </div>
-        </div>
-      </section>
 
-
-      {/* Grid de Fotos Aprovadas */}
-      <section className={styles.section}>
-        <div style={{ maxWidth: '1280px', margin: '0 auto', padding: '0 1.5rem' }}>
-          <div style={{ textAlign: 'center', marginBottom: '2.5rem' }}>
-            <h2 className={styles.sectionTitle} style={{ color: 'var(--color-navy)' }}>
-              Obras dos Nossos Clientes ({photos.length} foto{photos.length !== 1 ? 's' : ''})
-            </h2>
-            <p style={{ color: 'var(--color-graphite)' }}>Clique em qualquer foto para ampliar.</p>
+          {/* Lado Direito - Grid de Fotos */}
+          <div style={{ flex: '1 1 500px', maxWidth: '100%' }}>
+            <div style={{ textAlign: 'center', marginBottom: '2.5rem' }}>
+              <h2 className={styles.sectionTitle} style={{ color: '#ffffff' }}>
+                Obras dos Nossos Clientes ({photos.length} foto{photos.length !== 1 ? 's' : ''})
+              </h2>
+            </div>
+            <GalleryGrid items={photos} />
           </div>
-          <GalleryGrid items={photos} />
+
         </div>
       </section>
     </main>

@@ -1,13 +1,15 @@
 'use client';
 
+import { useState, useEffect } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay, Pagination } from 'swiper/modules';
 import { Star } from 'lucide-react';
+import { supabase } from '@/lib/supabase';
 
 import 'swiper/css';
 import 'swiper/css/pagination';
 
-const testimonials = [
+const defaultTestimonials = [
   {
     name: 'Carlos Mendes',
     bairro: 'Morumbi, SP',
@@ -39,6 +41,31 @@ const testimonials = [
 ];
 
 export default function TestimonialsSwiper() {
+  const [testimonials, setTestimonials] = useState(defaultTestimonials);
+
+  useEffect(() => {
+    async function fetchTestimonials() {
+      const { data, error } = await supabase
+        .from('testimonials')
+        .select('*')
+        .order('created_at', { ascending: false });
+
+      if (data && data.length > 0) {
+        // Map database fields to our expected format
+        const formatted = data.map(t => ({
+          name: t.name,
+          bairro: t.service, // Reusing service for the bairro field in the UI for now, or just mapping service
+          text: t.text,
+          rating: t.rating,
+          date: new Date(t.created_at).toLocaleDateString('pt-BR'),
+          image_url: t.image_url
+        }));
+        setTestimonials(formatted);
+      }
+    }
+    fetchTestimonials();
+  }, []);
+
   // Gerar JSON-LD de AggregateRating e Reviews
   const reviewSchema = {
     "@context": "https://schema.org",
@@ -86,11 +113,12 @@ export default function TestimonialsSwiper() {
         style={{ paddingBottom: '3.5rem' }}
       >
         {testimonials.map((t, idx) => (
-          <SwiperSlide key={idx}>
+          <SwiperSlide key={idx} style={{ height: 'auto' }}>
             <div
               className="metallic-card"
               style={{
-                padding: '2rem 1.8rem',
+                padding: 'clamp(1.5rem, 4vw, 2rem) clamp(1.2rem, 4vw, 1.8rem)',
+                height: '100%',
                 minHeight: '260px',
                 display: 'flex',
                 flexDirection: 'column',
@@ -114,13 +142,22 @@ export default function TestimonialsSwiper() {
                 </p>
               </div>
 
-              <div style={{ marginTop: '1.5rem', borderTop: '1px solid rgba(255, 255, 255, 0.15)', paddingTop: '1rem' }}>
-                <h4 style={{ fontSize: '1.1rem', color: '#ffffff', margin: 0, fontWeight: '700' }}>
-                  {t.name}
-                </h4>
-                <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.85rem', color: '#cbd5e1', marginTop: '4px' }}>
-                  <span>{t.bairro}</span>
-                  <span>{t.date}</span>
+              <div style={{ marginTop: '1.5rem', borderTop: '1px solid rgba(255, 255, 255, 0.15)', paddingTop: '1rem', display: 'flex', alignItems: 'center', gap: '12px' }}>
+                {t.image_url ? (
+                  <img src={t.image_url} alt={t.name} style={{ width: '40px', height: '40px', borderRadius: '50%', objectFit: 'cover' }} />
+                ) : (
+                  <div style={{ width: '40px', height: '40px', borderRadius: '50%', background: '#3b82f6', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff', fontWeight: 'bold' }}>
+                    {t.name.charAt(0).toUpperCase()}
+                  </div>
+                )}
+                <div style={{ flex: 1 }}>
+                  <h4 style={{ fontSize: '1.1rem', color: '#ffffff', margin: 0, fontWeight: '700' }}>
+                    {t.name}
+                  </h4>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.85rem', color: '#cbd5e1', marginTop: '4px' }}>
+                    <span>{t.bairro}</span>
+                    <span>{t.date}</span>
+                  </div>
                 </div>
               </div>
             </div>

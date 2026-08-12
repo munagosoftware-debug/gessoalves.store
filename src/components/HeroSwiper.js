@@ -1,10 +1,12 @@
 'use client';
 
+import { useState, useEffect } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay, Pagination, EffectFade } from 'swiper/modules';
 import Link from 'next/link';
 import { Zap, ShieldCheck, Ruler, Lightbulb, ArrowRight } from 'lucide-react';
 import { useWhatsAppModal } from '../context/WhatsAppModalContext';
+import { supabase } from '@/lib/supabase';
 import styles from './HeroSwiper.module.css';
 
 // Swiper styles
@@ -12,7 +14,7 @@ import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/effect-fade';
 
-const slides = [
+const defaultSlides = [
   {
     title: 'Transforme seu ambiente com a excelência do Gesso e Drywall',
     subtitle: 'Soluções completas em forro acartonado, divisórias acústicas e projetos de iluminação na Zona Sul de SP.',
@@ -45,6 +47,37 @@ const features = [
 
 export default function HeroSwiper() {
   const { openWhatsAppModal } = useWhatsAppModal();
+  const [slides, setSlides] = useState(defaultSlides);
+
+  useEffect(() => {
+    async function fetchHeroAssets() {
+      const { data, error } = await supabase
+        .from('site_assets')
+        .select('*')
+        .eq('section', 'hero')
+        .order('created_at', { ascending: true }); // Pode ajustar a ordenação se precisar
+
+      if (data && data.length > 0) {
+        // Create a copy of the default slides and update the background images
+        const updatedSlides = [...defaultSlides];
+        for (let i = 0; i < Math.min(data.length, updatedSlides.length); i++) {
+          updatedSlides[i].bg = data[i].image_url;
+        }
+        // Se houver mais assets do que slides padrão, podemos adicionar mais slides
+        for (let i = updatedSlides.length; i < data.length; i++) {
+          updatedSlides.push({
+            title: data[i].title || 'Gessoalves & Drywall',
+            subtitle: 'Excelência em acabamentos e reformas.',
+            bg: data[i].image_url,
+            ctaText: 'Solicitar Orçamento',
+            ctaUrl: 'https://wa.me/5511961155049',
+          });
+        }
+        setSlides(updatedSlides);
+      }
+    }
+    fetchHeroAssets();
+  }, []);
 
   return (
     <section className={styles.heroWrapper} aria-label="Apresentação Principal">

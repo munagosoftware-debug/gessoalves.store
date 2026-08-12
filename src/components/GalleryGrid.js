@@ -7,8 +7,6 @@ import { X, ZoomIn } from 'lucide-react';
 export default function GalleryGrid({ items }) {
   const [lightbox, setLightbox] = useState(null); // { imageUrl, name, service, bairro, imgIndex }
 
-  const [isExpanded, setIsExpanded] = useState(false);
-
   if (!items || items.length === 0) {
     return (
       <div style={{ textAlign: 'center', padding: '3rem', color: 'var(--color-silver-light)' }}>
@@ -19,142 +17,83 @@ export default function GalleryGrid({ items }) {
 
   return (
     <>
-      {!isExpanded ? (
-        <div style={{ textAlign: 'center', padding: '2rem 0 4rem' }}>
-          <button 
-            onClick={() => setIsExpanded(true)}
-            style={{
-              background: 'var(--color-cyan, #4cc9f0)',
-              color: '#111',
-              border: 'none',
-              padding: '16px 36px',
-              borderRadius: '30px',
-              fontSize: '1.1rem',
-              fontWeight: '600',
-              cursor: 'pointer',
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: '10px',
-              boxShadow: '0 8px 25px rgba(30, 38, 64, 0.3)',
-              transition: 'transform 0.2s ease, box-shadow 0.2s ease'
-            }}
-            onMouseEnter={e => {
-              e.currentTarget.style.transform = 'translateY(-3px)';
-              e.currentTarget.style.boxShadow = '0 12px 30px rgba(30, 38, 64, 0.4)';
-            }}
-            onMouseLeave={e => {
-              e.currentTarget.style.transform = 'translateY(0)';
-              e.currentTarget.style.boxShadow = '0 8px 25px rgba(30, 38, 64, 0.3)';
-            }}
-          >
-            <ZoomIn size={22} /> Clique aqui para expandir
-          </button>
-        </div>
-      ) : (
-        <>
-          <div 
-            className="gallery-grid-animate"
-            style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))',
-              gap: '20px',
-            }}
-          >
-            {items.map((item) =>
-              item.image_urls.map((url, imgIdx) => (
-                <div
-                  key={`${item.id}-${imgIdx}`}
-                  onClick={() => setLightbox({ ...item, currentUrl: url })}
-                  style={{
-                    cursor: 'pointer',
-                    borderRadius: '12px',
-                    overflow: 'hidden',
-                    boxShadow: '0 4px 15px rgba(0,0,0,0.12)',
-                    transition: 'transform 0.3s ease, box-shadow 0.3s ease',
-                    background: '#fff',
-                  }}
-                  onMouseEnter={e => { 
-                    e.currentTarget.style.transform = 'scale(1.02)'; 
-                    e.currentTarget.style.boxShadow = '0 8px 25px rgba(0,0,0,0.4)'; 
-                  }}
-                  onMouseLeave={e => { 
-                    e.currentTarget.style.transform = 'scale(1)'; 
-                    e.currentTarget.style.boxShadow = '0 4px 15px rgba(0,0,0,0.3)'; 
-                  }}
-                >
-                  <div style={{ position: 'relative', width: '100%', height: '200px' }}>
-                    <Image
-                      src={url}
-                      alt={`${item.service_type} por ${item.client_name}`}
-                      fill
-                      sizes="(max-width: 768px) 100vw, 300px"
-                      style={{ objectFit: 'cover', display: 'block' }}
-                    />
-                    {/* Botão Ampliar sempre visível */}
-                    <div 
-                      style={{
-                        position: 'absolute',
-                        bottom: '12px',
-                        right: '12px',
-                        background: 'rgba(255,255,255,0.1)',
-                        backdropFilter: 'blur(4px)',
-                        color: '#fff',
-                        padding: '6px 14px',
-                        borderRadius: '20px',
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: '6px',
-                        fontWeight: '700',
-                        fontSize: '0.85rem',
-                        boxShadow: '0 4px 12px rgba(0,0,0,0.15)',
-                        zIndex: 2
-                      }}
-                    >
-                      <ZoomIn size={16} /> Ampliar
-                    </div>
-                  </div>
-                  <div style={{ padding: '12px 14px', background: '#fff' }}>
-                    <p style={{ fontWeight: '700', color: 'var(--color-navy)', margin: 0, fontSize: '0.95rem' }}>{item.client_name}</p>
-                    <p style={{ color: '#666', fontSize: '0.8rem', margin: '3px 0 0' }}>
-                      {item.service_type} · {item.bairro}
-                    </p>
-                  </div>
-                </div>
-              ))
-            )}
-          </div>
-          
-          <div className="gallery-grid-animate" style={{ textAlign: 'center', marginTop: '3rem' }}>
-            <button 
-              onClick={() => setIsExpanded(false)}
+      <div 
+        className="gallery-grid-animate"
+        style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(auto-fill, minmax(min(100%, 260px), 1fr))',
+          gap: '20px',
+        }}
+      >
+        {items.map((item) =>
+          item.image_urls.map((url, imgIdx) => (
+            <div
+              key={`${item.id}-${imgIdx}`}
+              onClick={() => setLightbox({ ...item, currentUrl: url })}
               style={{
-                background: 'transparent',
-                color: 'var(--color-navy)',
-                border: '2px solid var(--color-navy)',
-                padding: '12px 28px',
-                borderRadius: '30px',
-                fontSize: '1rem',
-                fontWeight: '600',
                 cursor: 'pointer',
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '8px',
-                transition: 'all 0.2s ease'
+                borderRadius: '16px',
+                overflow: 'hidden',
+                boxShadow: '0 4px 15px rgba(0,0,0,0.3)',
+                transition: 'all 0.3s cubic-bezier(0.16, 1, 0.3, 1)',
+                background: 'rgba(255, 255, 255, 0.03)',
+                border: '1px solid rgba(255, 255, 255, 0.08)',
+                backdropFilter: 'blur(10px)',
               }}
-              onMouseEnter={e => {
-                e.currentTarget.style.background = 'var(--color-navy)';
-                e.currentTarget.style.color = '#fff';
+              onMouseEnter={e => { 
+                e.currentTarget.style.transform = 'translateY(-4px)'; 
+                e.currentTarget.style.boxShadow = '0 12px 30px rgba(0,0,0,0.5)'; 
+                e.currentTarget.style.background = 'rgba(255, 255, 255, 0.05)';
+                e.currentTarget.style.border = '1px solid rgba(255, 255, 255, 0.15)';
               }}
-              onMouseLeave={e => {
-                e.currentTarget.style.background = 'transparent';
-                e.currentTarget.style.color = 'var(--color-navy)';
+              onMouseLeave={e => { 
+                e.currentTarget.style.transform = 'translateY(0)'; 
+                e.currentTarget.style.boxShadow = '0 4px 15px rgba(0,0,0,0.3)';
+                e.currentTarget.style.background = 'rgba(255, 255, 255, 0.03)';
+                e.currentTarget.style.border = '1px solid rgba(255, 255, 255, 0.08)';
               }}
             >
-              Recolher Galeria
-            </button>
-          </div>
-        </>
-      )}
+              <div style={{ position: 'relative', width: '100%', height: '200px' }}>
+                <Image
+                  src={url}
+                  alt={`${item.service_type} por ${item.client_name}`}
+                  fill
+                  sizes="(max-width: 768px) 100vw, 300px"
+                  style={{ objectFit: 'cover', display: 'block' }}
+                />
+                {/* Botão Ampliar sempre visível */}
+                <div 
+                  style={{
+                    position: 'absolute',
+                    bottom: '12px',
+                    right: '12px',
+                    background: 'rgba(255,255,255,0.1)',
+                    backdropFilter: 'blur(4px)',
+                    color: '#fff',
+                    padding: '6px 14px',
+                    borderRadius: '20px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '6px',
+                    fontWeight: '700',
+                    fontSize: '0.85rem',
+                    boxShadow: '0 4px 12px rgba(0,0,0,0.15)',
+                    zIndex: 2
+                  }}
+                >
+                  <ZoomIn size={16} /> Ampliar
+                </div>
+              </div>
+              <div style={{ padding: '16px 14px', background: 'transparent' }}>
+                <p style={{ fontWeight: '700', color: '#ffffff', margin: 0, fontSize: '0.95rem' }}>{item.client_name}</p>
+                <p style={{ color: 'var(--color-silver-light)', fontSize: '0.8rem', margin: '4px 0 0' }}>
+                  {item.service_type} · {item.bairro}
+                </p>
+              </div>
+            </div>
+          ))
+        )}
+      </div>
 
       {/* Lightbox Dialog */}
       {lightbox && (

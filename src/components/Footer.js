@@ -79,19 +79,31 @@ export default function Footer() {
           </div>
 
           {/* Coluna 4: Galeria */}
-          <div className={styles.footerSection}>
+          <div className={`${styles.footerSection} ${styles.gallerySection}`}>
             <h3 className={styles.sectionTitle}>Galeria de Clientes</h3>
             <ul className={styles.galleryLinksList}>
-              {/* TODO: reativar quando a página /ra (visualização em RA) existir */}
               <li>
                 <Link href="/galeria-de-clientes" className={styles.galleryLink}>
                   <div className={styles.galleryIconBox}>
-                    <Camera size={22} color="#fff" />
+                    <Camera size={22} color="#fff" strokeWidth={2.5} />
                   </div>
-                  <span className={styles.galleryText}>Envie sua foto &rarr;</span>
+                  <div className={styles.galleryTextContainer}>
+                    <span className={styles.galleryText}>Envie sua foto</span>
+                    <span className={styles.gallerySubText}>Faça parte do portfólio &rarr;</span>
+                  </div>
                 </Link>
               </li>
             </ul>
+            
+            <div className={styles.galleryExtra}>
+              <p className={styles.galleryDesc}>
+                Compartilhe o resultado do nosso trabalho no seu ambiente. Sua satisfação é nossa melhor vitrine!
+              </p>
+              <div className={styles.galleryTrust}>
+                <div className={styles.stars}>★★★★★</div>
+                <span>Clientes Satisfeitos</span>
+              </div>
+            </div>
           </div>
 
         </div>

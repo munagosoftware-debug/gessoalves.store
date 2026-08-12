@@ -3,7 +3,7 @@
 import { useState, useRef, useEffect } from 'react';
 import imageCompression from 'browser-image-compression';
 import { motion, AnimatePresence } from 'framer-motion';
-import { UploadCloud, Send, CheckCircle, X, Image as ImageIcon, ChevronDown } from 'lucide-react';
+import { UploadCloud, Send, CheckCircle, X, Image as ImageIcon, ChevronDown, Shield } from 'lucide-react';
 
 const SERVICES = [
   'Forro de Gesso Acartonado',
@@ -36,28 +36,74 @@ export default function ClientGalleryForm() {
   }, [dropdownRef]);
 
   const processFiles = async (selectedFiles) => {
-    const selected = Array.from(selectedFiles).slice(0, 3);
-    const compressedFiles = [];
-    const previewUrls = [];
+    const newFilesArray = Array.from(selectedFiles);
+    
+    const uniqueNewFiles = newFilesArray.filter(newFile => 
+      !files.some(existingFile => existingFile.name === newFile.name)
+    );
 
-    for (const file of selected) {
+    if (uniqueNewFiles.length === 0 && newFilesArray.length > 0) {
+      setErrorMsg('Estes arquivos já foram adicionados.');
+      return;
+    }
+
+    const availableSlots = 5 - files.length;
+    if (availableSlots <= 0) {
+      setErrorMsg('Você já atingiu o limite máximo de 5 arquivos.');
+      return;
+    }
+    
+    if (files.length + uniqueNewFiles.length > 5) {
+      setErrorMsg('Limite excedido! O máximo permitido é de 5 arquivos no total.');
+      return;
+    }
+    
+    const allowedNewFiles = uniqueNewFiles;
+    if (allowedNewFiles.length === 0) return;
+
+    const newCompressedFiles = [];
+    const newPreviewUrls = [];
+
+    for (const file of allowedNewFiles) {
+      if (file.size > 100 * 1024 * 1024) {
+        setErrorMsg(`O arquivo ${file.name} excede o limite máximo de 100MB.`);
+        continue;
+      }
+
+      if (file.type.startsWith('video/')) {
+        if (!['video/mp4', 'video/webm'].includes(file.type)) {
+          setErrorMsg(`O formato de vídeo ${file.type} não é suportado. Envie MP4 ou WEBM.`);
+          continue;
+        }
+        newCompressedFiles.push(file);
+        newPreviewUrls.push({ url: URL.createObjectURL(file), type: file.type });
+        continue;
+      }
+
       const options = { maxSizeMB: 1, maxWidthOrHeight: 1200, useWebWorker: true };
       try {
         const compressed = await imageCompression(file, options);
-        compressedFiles.push(new File([compressed], file.name, { type: compressed.type }));
-        previewUrls.push(URL.createObjectURL(compressed));
+        newCompressedFiles.push(new File([compressed], file.name, { type: compressed.type }));
+        newPreviewUrls.push({ url: URL.createObjectURL(compressed), type: compressed.type });
       } catch {
-        compressedFiles.push(file);
-        previewUrls.push(URL.createObjectURL(file));
+        newCompressedFiles.push(file);
+        newPreviewUrls.push({ url: URL.createObjectURL(file), type: file.type });
       }
     }
-    setFiles(compressedFiles);
-    setPreviews(previewUrls);
+
+    if (newCompressedFiles.length > 0) {
+      setFiles(prev => [...prev, ...newCompressedFiles]);
+      setPreviews(prev => [...prev, ...newPreviewUrls]);
+      if (files.length + uniqueNewFiles.length <= 5) {
+        setErrorMsg('');
+      }
+    }
   };
 
   const handleImageChange = async (e) => {
     if (e.target.files && e.target.files.length > 0) {
       await processFiles(e.target.files);
+      if (fileInputRef.current) fileInputRef.current.value = '';
     }
   };
 
@@ -147,18 +193,19 @@ export default function ClientGalleryForm() {
             style={{ 
               display: 'flex', 
               flexDirection: 'column', 
-              gap: '24px',
-              background: 'var(--color-graphite)',
-              padding: '2.5rem',
+              gap: '28px',
+              background: 'linear-gradient(145deg, rgba(30,41,59,0.7) 0%, rgba(15,23,42,0.9) 100%)',
+              backdropFilter: 'blur(20px)',
+              padding: 'clamp(1.5rem, 5vw, 3rem) clamp(1rem, 4vw, 2.5rem)',
               borderRadius: '24px',
-              boxShadow: '0 10px 40px rgba(0,0,0,0.4)',
-              border: '1px solid rgba(255,255,255,0.05)'
+              boxShadow: '0 25px 50px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.1)',
+              border: '1px solid rgba(255,255,255,0.08)'
             }}
           >
             {/* Honeypot anti-bot — oculto */}
             <input name="website" type="text" defaultValue="" style={{ display: 'none' }} tabIndex="-1" autoComplete="off" />
 
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '20px' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 200px), 1fr))', gap: '20px' }}>
               <div>
                 <label htmlFor="name" style={labelStyle}>Nome completo *</label>
                 <input
@@ -294,9 +341,9 @@ export default function ClientGalleryForm() {
               </div>
             </div>
 
-            {/* Dropzone Elegante para Fotos */}
+            {/* Dropzone Elegante para Fotos ou Vídeos */}
             <div>
-              <label htmlFor="file-upload" style={labelStyle}>Fotos do resultado <span style={{color: '#94a3b8', fontWeight: 'normal'}}>(1 a 3 fotos — JPG, PNG, WebP)</span></label>
+              <label htmlFor="file-upload" style={labelStyle}>Fotos ou Vídeos do resultado <span style={{color: '#94a3b8', fontWeight: 'normal'}}>(1 a 5 arquivos — JPG, PNG, WebP, MP4, WEBM — máx 100MB)</span></label>
               
               <div 
                 role="button"
@@ -307,39 +354,49 @@ export default function ClientGalleryForm() {
                 onDrop={handleDrop}
                 onClick={() => fileInputRef.current?.click()}
                 style={{
-                  border: isDragging ? '2px dashed var(--color-cyan, #4cc9f0)' : '2px dashed rgba(255,255,255,0.2)',
-                  background: isDragging ? 'rgba(255,255,255,0.05)' : 'transparent',
-                  borderRadius: '16px',
-                  padding: '2.5rem 1rem',
+                  border: isDragging ? '2px dashed var(--color-cyan, #4cc9f0)' : '2px dashed rgba(255,255,255,0.15)',
+                  background: isDragging ? 'rgba(76, 201, 240, 0.05)' : 'rgba(255,255,255,0.02)',
+                  borderRadius: '20px',
+                  padding: '3rem 1.5rem',
                   textAlign: 'center',
                   cursor: 'pointer',
-                  transition: 'all 0.2s ease',
+                  transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
                   display: 'flex',
                   flexDirection: 'column',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  gap: '12px'
+                  gap: '16px',
+                  boxShadow: isDragging ? 'inset 0 0 40px rgba(76, 201, 240, 0.1)' : 'inset 0 0 0 transparent'
                 }}
               >
                 <input
                   id="file-upload"
                   ref={fileInputRef}
                   type="file"
-                  accept="image/jpeg,image/png,image/webp"
+                  accept="image/jpeg,image/png,image/webp,video/mp4,video/webm"
                   multiple
                   onChange={handleImageChange}
                   style={{ display: 'none' }}
                 />
                 
-                <div style={{ width: '64px', height: '64px', borderRadius: '50%', background: 'rgba(255,255,255,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#ffffff' }}>
-                  <UploadCloud size={32} />
+                <div style={{ 
+                  width: '72px', height: '72px', 
+                  borderRadius: '50%', 
+                  background: isDragging ? 'linear-gradient(135deg, #4cc9f0, #4361ee)' : 'rgba(255,255,255,0.05)', 
+                  display: 'flex', alignItems: 'center', justifyContent: 'center', 
+                  color: isDragging ? '#ffffff' : 'rgba(255,255,255,0.6)',
+                  transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
+                  transform: isDragging ? 'scale(1.1) translateY(-5px)' : 'scale(1)',
+                  boxShadow: isDragging ? '0 10px 30px rgba(67, 97, 238, 0.4)' : 'none'
+                }}>
+                  <UploadCloud size={isDragging ? 36 : 32} style={{ transition: 'all 0.3s' }} />
                 </div>
                 <div>
-                  <p style={{ fontWeight: '600', color: '#ffffff', margin: 0, fontSize: '1.05rem' }}>
-                    Clique para fazer upload ou arraste as fotos
+                  <p style={{ fontWeight: '600', color: isDragging ? '#4cc9f0' : '#ffffff', margin: 0, fontSize: 'clamp(0.95rem, 4vw, 1.1rem)', transition: 'color 0.3s' }}>
+                    {isDragging ? 'Solte seus arquivos aqui!' : 'Clique ou arraste os arquivos'}
                   </p>
-                  <p style={{ color: 'var(--color-silver-light)', fontSize: '0.9rem', marginTop: '4px' }}>
-                    Máximo de 3 fotos. Tamanho ideal.
+                  <p style={{ color: 'var(--color-silver-light)', fontSize: 'clamp(0.85rem, 3.5vw, 0.95rem)', marginTop: '6px' }}>
+                    Máximo de 5 fotos ou vídeos (até 100MB).
                   </p>
                 </div>
               </div>
@@ -347,14 +404,25 @@ export default function ClientGalleryForm() {
               {/* Grid de Previews */}
               {previews.length > 0 && (
                 <div style={{ display: 'flex', gap: '16px', marginTop: '16px', flexWrap: 'wrap' }}>
-                  {previews.map((url, i) => (
+                  {previews.map((preview, i) => (
                     <div key={i} style={{ position: 'relative', width: '100px', height: '100px' }}>
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img
-                        src={url}
-                        alt={`Preview ${i + 1}`}
-                        style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '12px', boxShadow: '0 4px 12px rgba(0,0,0,0.1)' }}
-                      />
+                      {preview.type.startsWith('video/') ? (
+                        <video
+                          src={preview.url}
+                          style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '12px', boxShadow: '0 4px 12px rgba(0,0,0,0.1)' }}
+                          autoPlay
+                          muted
+                          loop
+                          playsInline
+                        />
+                      ) : (
+                        /* eslint-disable-next-line @next/next/no-img-element */
+                        <img
+                          src={preview.url}
+                          alt={`Preview ${i + 1}`}
+                          style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '12px', boxShadow: '0 4px 12px rgba(0,0,0,0.1)' }}
+                        />
+                      )}
                       <button
                         type="button"
                         onClick={(e) => { e.stopPropagation(); removeImage(i); }}
@@ -373,21 +441,39 @@ export default function ClientGalleryForm() {
               )}
             </div>
 
-            {/* Autorização Legal */}
-            <div style={{ padding: '16px', background: 'rgba(255,255,255,0.03)', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.1)' }}>
-              <label htmlFor="authorized" style={{ display: 'flex', alignItems: 'flex-start', gap: '12px', cursor: 'pointer', margin: 0 }}>
-                <input
-                  id="authorized"
-                  type="checkbox"
-                  required
-                  checked={form.authorized}
-                  onChange={e => setForm(p => ({ ...p, authorized: e.target.checked }))}
-                  style={{ marginTop: '4px', width: '20px', height: '20px', accentColor: 'var(--color-cyan, #4cc9f0)', cursor: 'pointer' }}
-                />
-                <span style={{ fontSize: '0.95rem', color: 'var(--color-silver-light)', lineHeight: '1.4' }}>
-                  <strong>Autorização de uso de imagem:</strong> Autorizo a Gessoalves a publicar meu nome e a(s) foto(s) enviada(s) no portfólio do site e nas redes sociais oficiais da empresa. *
-                </span>
-              </label>
+            {/* Autorização Legal e Privacidade */}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '20px', marginTop: '8px' }}>
+              <div style={{ 
+                padding: '20px', 
+                background: 'linear-gradient(90deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0.01) 100%)', 
+                borderRadius: '16px', 
+                border: '1px solid rgba(255,255,255,0.1)',
+                borderLeft: '4px solid #4cc9f0',
+                transition: 'all 0.3s ease'
+              }}>
+                <label htmlFor="authorized" style={{ display: 'flex', alignItems: 'flex-start', gap: '14px', cursor: 'pointer', margin: 0 }}>
+                  <input
+                    id="authorized"
+                    type="checkbox"
+                    required
+                    checked={form.authorized}
+                    onChange={e => setForm(p => ({ ...p, authorized: e.target.checked }))}
+                    style={{ marginTop: '3px', width: '22px', height: '22px', accentColor: 'var(--color-cyan, #4cc9f0)', cursor: 'pointer' }}
+                  />
+                  <span style={{ fontSize: '0.95rem', color: '#cbd5e1', lineHeight: '1.5' }}>
+                    <strong style={{ color: '#fff', display: 'block', marginBottom: '4px' }}>Autorização de uso de imagem:</strong> 
+                    Autorizo a Gessoalves a publicar meu nome e a(s) foto(s) ou vídeo(s) enviada(s) no portfólio do site e nas redes sociais oficiais da empresa. *
+                  </span>
+                </label>
+              </div>
+
+              {/* Privacy Notice */}
+              <div style={{ display: 'flex', alignItems: 'flex-start', gap: '10px', padding: '12px 16px', background: 'rgba(16, 185, 129, 0.05)', borderRadius: '12px', border: '1px solid rgba(16, 185, 129, 0.2)' }}>
+                <Shield size={20} color="#10B981" style={{ flexShrink: 0, marginTop: '2px' }} />
+                <p style={{ fontSize: '0.85rem', color: '#94a3b8', margin: 0, lineHeight: '1.5' }}>
+                  <strong style={{ color: '#10B981' }}>Fique tranquilo!</strong> Seus dados de contato (WhatsApp e e-mail) são estritamente confidenciais e não serão divulgados. Apenas a sua opinião e as fotos aparecerão na nossa galeria.
+                </p>
+              </div>
             </div>
 
             {errorMsg && (
@@ -405,22 +491,25 @@ export default function ClientGalleryForm() {
               disabled={status === 'loading'}
               className="btn-3d"
               style={{ 
-                padding: '16px 32px', 
-                fontSize: '1.1rem',
+                padding: 'clamp(14px, 4vw, 18px) clamp(16px, 5vw, 32px)', 
+                fontSize: 'clamp(1rem, 4vw, 1.15rem)',
+                fontWeight: '600',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                gap: '10px',
+                gap: '12px',
                 opacity: status === 'loading' ? 0.7 : 1,
-                borderRadius: '14px',
+                borderRadius: '16px',
                 width: '100%',
-                marginTop: '10px'
+                marginTop: '16px',
+                boxShadow: '0 10px 25px rgba(76, 201, 240, 0.3)',
+                letterSpacing: '0.5px'
               }}
             >
               {status === 'loading' ? 'Processando envio...' : (
                 <>
                   Enviar Minhas Fotos
-                  <Send size={20} />
+                  <Send size={22} style={{ transition: 'transform 0.3s ease', transform: 'translateX(2px)' }} />
                 </>
               )}
             </button>

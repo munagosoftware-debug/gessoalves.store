@@ -14,6 +14,7 @@ import PhotoCarousel from '@/components/PhotoCarousel';
 import MarqueeBanner from '@/components/MarqueeBanner';
 import WhatsAppCTAButton from '@/components/WhatsAppCTAButton';
 import { ShieldCheck, Clock, Sparkles, Award, Phone, CheckCircle2 } from 'lucide-react';
+import { supabase } from '@/lib/supabase';
 
 const MOCK_PHOTOS = [
   {
@@ -84,8 +85,33 @@ export const metadata = {
   },
 };
 
-export default function Home() {
-  const photos = MOCK_PHOTOS;
+export default async function Home() {
+  const { data: dbPhotos } = await supabase
+    .from('site_assets')
+    .select('*')
+    .eq('section', 'portfolio')
+    .order('created_at', { ascending: false });
+
+  let photos = MOCK_PHOTOS.map(p => ({ ...p }));
+
+  if (dbPhotos && dbPhotos.length > 0) {
+    dbPhotos.forEach((dbPhoto, index) => {
+      if (photos[index]) {
+        photos[index].image_urls = [dbPhoto.image_url];
+        if (dbPhoto.title) {
+          photos[index].service_type = dbPhoto.title;
+        }
+      } else {
+        photos.push({
+          id: dbPhoto.id,
+          image_urls: [dbPhoto.image_url],
+          client_name: 'Cliente Gessoalves',
+          service_type: dbPhoto.title || 'Portfólio',
+          bairro: 'São Paulo'
+        });
+      }
+    });
+  }
 
   const bannerItemsDark = [
     'ORÇAMENTO RÁPIDO EM 30 MIN',

@@ -5,7 +5,6 @@ import Header from '../components/Header';
 import Footer from '../components/Footer';
 import Preloader from '../components/Preloader';
 import FloatingWhatsApp from '../components/FloatingWhatsApp';
-import FixedCTABar from '../components/FixedCTABar';
 import { WhatsAppModalProvider } from '../context/WhatsAppModalContext';
 import CaptchaProvider from '../components/CaptchaProvider';
 import JsonLd from '../components/JsonLd';
@@ -94,7 +93,6 @@ export default function RootLayout({ children }) {
             <main>{children}</main>
             <Footer />
             <FloatingWhatsApp />
-            <FixedCTABar />
             <Toaster position="bottom-right" />
           </WhatsAppModalProvider>
         </CaptchaProvider>
