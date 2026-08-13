@@ -111,15 +111,58 @@ export default function AdminAssets({ onError, filter = 'all' }) {
     }
   };
 
-  const sections = [
-    { value: 'hero', label: 'Carrossel Principal (Hero)' },
-    { value: 'portfolio', label: 'Carrossel Obras Recentes (Portfólio)' },
-    { value: 'services', label: 'Sessão de Serviços' }
+  const sectionGroups = [
+    {
+      label: 'Home Page',
+      options: [
+        { value: 'hero', label: 'Carrossel Principal (Hero)' },
+        { value: 'portfolio', label: 'Carrossel Obras Recentes (Home)' },
+        { value: 'beforeafter', label: 'Comparativo Antes/Depois (Home)' },
+      ]
+    },
+    {
+      label: 'Páginas de Serviços (Capas e Galerias)',
+      options: [
+        { value: 'services_forro-de-gesso-acartonado', label: 'Serviço: Forro Acartonado' },
+        { value: 'services_parede-de-drywall', label: 'Serviço: Parede de Drywall' },
+        { value: 'services_sanca-de-gesso', label: 'Serviço: Sanca de Gesso' },
+        { value: 'services_rebaixamento-de-teto-com-gesso', label: 'Serviço: Rebaixamento de Teto' },
+        { value: 'services_molduras-de-gesso', label: 'Serviço: Molduras & Rodateto' },
+        { value: 'services_forro-modular', label: 'Serviço: Forro Modular' }
+      ]
+    },
+    {
+      label: 'Página de Portfólio (Projetos Fixos)',
+      options: [
+        { value: 'portfolio_proj_1', label: 'Projeto 1: Forro Acartonado' },
+        { value: 'portfolio_proj_2', label: 'Projeto 2: Drywall Corporativo' },
+        { value: 'portfolio_proj_3', label: 'Projeto 3: Molduras' },
+        { value: 'portfolio_proj_4', label: 'Projeto 4: Rebaixamento LED' },
+        { value: 'portfolio_proj_5', label: 'Projeto 5: Parede Acústica' },
+        { value: 'portfolio_proj_6', label: 'Projeto 6: Sanca Flutuante' },
+        { value: 'portfolio_proj_7', label: 'Projeto 7: Forro Modular' },
+        { value: 'portfolio_proj_8', label: 'Projeto 8: Sanca Aberta' }
+      ]
+    }
   ];
+
+  const getSectionLabel = (val) => {
+    for (const group of sectionGroups) {
+      const found = group.options.find(opt => opt.value === val);
+      if (found) return found.label;
+    }
+    return val;
+  };
 
   const filteredAssets = filter === 'all' 
     ? assets 
-    : assets.filter(item => item.section === filter);
+    : filter === 'services'
+      ? assets.filter(item => item.section.startsWith('services_'))
+      : filter === 'home'
+        ? assets.filter(item => ['hero', 'beforeafter'].includes(item.section))
+      : filter === 'portfolio'
+        ? assets.filter(item => item.section === 'portfolio' || item.section.startsWith('portfolio_proj_'))
+      : assets.filter(item => item.section === filter);
 
   return (
     <div>
@@ -149,7 +192,7 @@ export default function AdminAssets({ onError, filter = 'all' }) {
               </div>
               <div className={styles.infoArea} style={{ padding: '0' }}>
                 <h3 className={styles.itemName}>{item.title || 'Sem título'}</h3>
-                <p className={styles.itemDetail}>{sections.find(s => s.value === item.section)?.label || item.section}</p>
+                <p className={styles.itemDetail}>{getSectionLabel(item.section)}</p>
                 <p className={styles.itemMeta} style={{ marginTop: '8px' }}>
                   Adicionado em {new Date(item.created_at).toLocaleDateString('pt-BR')}
                 </p>
@@ -175,18 +218,21 @@ export default function AdminAssets({ onError, filter = 'all' }) {
             <form onSubmit={handleSubmit} className={styles.modalForm}>
               <div className={styles.inputGroup}>
                 <label className={styles.inputLabel}>Seção de Destino</label>
-                <div className={styles.sectionChips}>
-                  {sections.map(s => (
-                    <button
-                      key={s.value}
-                      type="button"
-                      onClick={() => setFormData({...formData, section: s.value})}
-                      className={`${styles.chipButton} ${formData.section === s.value ? styles.chipButtonActive : ''}`}
-                    >
-                      {s.label}
-                    </button>
-                  ))}
-                </div>
+                  <select
+                    value={formData.section}
+                    onChange={(e) => setFormData({...formData, section: e.target.value})}
+                    className={styles.modalInput}
+                  >
+                    {sectionGroups.map((group, idx) => (
+                      <optgroup key={idx} label={group.label}>
+                        {group.options.map(opt => (
+                          <option key={opt.value} value={opt.value}>
+                            {opt.label}
+                          </option>
+                        ))}
+                      </optgroup>
+                    ))}
+                  </select>
               </div>
               
               <div className={styles.inputGroup}>

@@ -127,10 +127,10 @@ export default function AdminDashboardPage() {
                 </button>
                 {activeTab.startsWith('assets') && (
                   <div className={styles.subMenu}>
-                    <button onClick={() => setActiveTab('assets_all')} className={activeTab === 'assets_all' ? styles.subNavItemActive : styles.subNavItem}>Todas</button>
-                    <button onClick={() => setActiveTab('assets_hero')} className={activeTab === 'assets_hero' ? styles.subNavItemActive : styles.subNavItem}>Carrossel Principal (Hero)</button>
-                    <button onClick={() => setActiveTab('assets_portfolio')} className={activeTab === 'assets_portfolio' ? styles.subNavItemActive : styles.subNavItem}>Carrossel Obras Recentes</button>
-                    <button onClick={() => setActiveTab('assets_services')} className={activeTab === 'assets_services' ? styles.subNavItemActive : styles.subNavItem}>Sessão de Serviços</button>
+                    <button onClick={() => setActiveTab('assets_all')} className={activeTab === 'assets_all' ? styles.subNavItemActive : styles.subNavItem}>Todas as Fotos</button>
+                    <button onClick={() => setActiveTab('assets_home')} className={activeTab === 'assets_home' ? styles.subNavItemActive : styles.subNavItem}>Home (Hero / Antes & Depois)</button>
+                    <button onClick={() => setActiveTab('assets_services')} className={activeTab === 'assets_services' ? styles.subNavItemActive : styles.subNavItem}>Páginas de Serviços</button>
+                    <button onClick={() => setActiveTab('assets_portfolio')} className={activeTab === 'assets_portfolio' ? styles.subNavItemActive : styles.subNavItem}>Página Portfólio & Obras</button>
                   </div>
                 )}
               </div>

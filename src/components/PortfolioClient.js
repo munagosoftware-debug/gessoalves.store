@@ -16,10 +16,10 @@ import {
   Users, 
   Maximize2 
 } from 'lucide-react';
-import { portfolioProjects, portfolioCategories } from '@/lib/portfolioData';
+import { portfolioCategories } from '@/lib/portfolioData';
 import styles from './PortfolioClient.module.css';
 
-export default function PortfolioClient() {
+export default function PortfolioClient({ initialProjects = [] }) {
   const [activeCategory, setActiveCategory] = useState('todos');
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedProject, setSelectedProject] = useState(null);
@@ -45,20 +45,19 @@ export default function PortfolioClient() {
     };
   }, [selectedProject]);
 
-  // Contagem por categoria
   const counts = useMemo(() => {
-    const countMap = { todos: portfolioProjects.length };
+    const countMap = { todos: initialProjects.length };
     portfolioCategories.forEach(cat => {
       if (cat.key !== 'todos') {
-        countMap[cat.key] = portfolioProjects.filter(p => p.type === cat.key).length;
+        countMap[cat.key] = initialProjects.filter(p => p.type === cat.key).length;
       }
     });
     return countMap;
-  }, []);
+  }, [initialProjects]);
 
   // Filtragem combinada
   const filteredProjects = useMemo(() => {
-    return portfolioProjects.filter((item) => {
+    return initialProjects.filter((item) => {
       const matchesCategory = activeCategory === 'todos' || item.type === activeCategory;
       const q = searchQuery.toLowerCase().trim();
       const matchesSearch = 
