@@ -100,6 +100,12 @@ export default async function Home() {
     .order('order_index', { ascending: true })
     .order('created_at', { ascending: false });
 
+  const { data: dbPinnedBeforeAfter } = await supabase
+    .from('site_assets')
+    .select('*')
+    .like('section', 'pinnedbeforeafter_%')
+    .order('created_at', { ascending: false });
+
   let beforeAfterProjects = [];
   if (dbBeforeAfter && dbBeforeAfter.length > 0) {
     for (let i = 0; i < dbBeforeAfter.length; i += 2) {
@@ -117,20 +123,22 @@ export default async function Home() {
   const { data: dbServices } = await supabase
     .from('site_assets')
     .select('*')
-    .eq('section', 'services')
-    .order('order_index', { ascending: true })
+    .like('section', 'services_%')
     .order('created_at', { ascending: false });
 
   let services = servicesData.map(s => ({ ...s }));
 
   if (dbServices && dbServices.length > 0) {
-    dbServices.forEach((dbService, idx) => {
-      if (services[idx]) {
-        services[idx].placeholderImg = dbService.image_url;
-        if (dbService.title) {
-          services[idx].title = dbService.title;
-        }
+    services = services.map(service => {
+      const dbService = dbServices.find(db => db.section === `services_${service.slug}`);
+      if (dbService) {
+        return {
+          ...service,
+          placeholderImg: dbService.image_url,
+          title: dbService.title || service.title
+        };
       }
+      return service;
     });
   }
 
@@ -239,7 +247,20 @@ export default async function Home() {
         </section>
 
         {/* SEÇÃO PINADA COMPARATIVO ANTES / DEPOIS */}
-        <PinnedBeforeAfter />
+        <PinnedBeforeAfter samples={[
+          {
+            title: 'Rebaixamento de Teto em Drywall com Sanca',
+            subtitle: 'Estruturação perfeita com iluminação embutida em LED',
+            beforeImg: dbPinnedBeforeAfter?.find(x => x.section === 'pinnedbeforeafter_1_before')?.image_url || 'https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&w=1200&q=80',
+            afterImg: dbPinnedBeforeAfter?.find(x => x.section === 'pinnedbeforeafter_1_after')?.image_url || 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1200&q=80',
+          },
+          {
+            title: 'Divisória Corporativa Acústica',
+            subtitle: 'Isolamento de ruídos e otimização de espaços empresariais',
+            beforeImg: dbPinnedBeforeAfter?.find(x => x.section === 'pinnedbeforeafter_2_before')?.image_url || 'https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=1200&q=80',
+            afterImg: dbPinnedBeforeAfter?.find(x => x.section === 'pinnedbeforeafter_2_after')?.image_url || 'https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1200&q=80',
+          },
+        ]} />
 
         {/* CARROSSEL COMPARATIVO ANTES / DEPOIS POR OBRA */}
         <section className={styles.sectionDark}>

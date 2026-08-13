@@ -1,4 +1,5 @@
 import BlogClient from '@/components/BlogClient';
+import { supabase } from '@/lib/supabase';
 
 export const metadata = {
   title: 'Blog & Tendências em Drywall e Gesso | Gessoalves São Paulo',
@@ -13,7 +14,23 @@ export const metadata = {
   },
 };
 
-export default function BlogPage() {
-  return <BlogClient />;
+export default async function BlogPage() {
+  const { data: dbBlogAssets } = await supabase
+    .from('site_assets')
+    .select('*')
+    .like('section', 'blog_%')
+    .order('created_at', { ascending: false });
+
+  let dynamicImages = {};
+  if (dbBlogAssets && dbBlogAssets.length > 0) {
+    dbBlogAssets.forEach(asset => {
+      // If there are duplicates, the first one encountered (newest because of order) is kept
+      if (!dynamicImages[asset.section]) {
+        dynamicImages[asset.section] = asset.image_url;
+      }
+    });
+  }
+
+  return <BlogClient dynamicImages={dynamicImages} />;
 }
 

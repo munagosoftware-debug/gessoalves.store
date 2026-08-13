@@ -113,15 +113,19 @@ export default function AdminAssets({ onError, filter = 'all' }) {
 
   const sectionGroups = [
     {
-      label: 'Home Page',
+      label: 'Home Page (Múltiplas Seções)',
       options: [
         { value: 'hero', label: 'Carrossel Principal (Hero)' },
-        { value: 'portfolio', label: 'Carrossel Obras Recentes (Home)' },
-        { value: 'beforeafter', label: 'Comparativo Antes/Depois (Home)' },
+        { value: 'portfolio', label: 'Nossas Obras Recentes (Carrossel)' },
+        { value: 'pinnedbeforeafter_1_before', label: 'Rebaixamento de Teto c/ Sanca (ANTES)' },
+        { value: 'pinnedbeforeafter_1_after', label: 'Rebaixamento de Teto c/ Sanca (DEPOIS)' },
+        { value: 'pinnedbeforeafter_2_before', label: 'Divisória Corporativa (ANTES)' },
+        { value: 'pinnedbeforeafter_2_after', label: 'Divisória Corporativa (DEPOIS)' },
+        { value: 'beforeafter', label: 'Antes & Depois Interativo por Obra' },
       ]
     },
     {
-      label: 'Páginas de Serviços (Capas e Galerias)',
+      label: 'Soluções Completas em Gesso e Drywall / Serviços',
       options: [
         { value: 'services_forro-de-gesso-acartonado', label: 'Serviço: Forro Acartonado' },
         { value: 'services_parede-de-drywall', label: 'Serviço: Parede de Drywall' },
@@ -132,7 +136,7 @@ export default function AdminAssets({ onError, filter = 'all' }) {
       ]
     },
     {
-      label: 'Página de Portfólio (Projetos Fixos)',
+      label: 'Página de Portfólio (Projetos Detalhados)',
       options: [
         { value: 'portfolio_proj_1', label: 'Projeto 1: Forro Acartonado' },
         { value: 'portfolio_proj_2', label: 'Projeto 2: Drywall Corporativo' },
@@ -142,6 +146,14 @@ export default function AdminAssets({ onError, filter = 'all' }) {
         { value: 'portfolio_proj_6', label: 'Projeto 6: Sanca Flutuante' },
         { value: 'portfolio_proj_7', label: 'Projeto 7: Forro Modular' },
         { value: 'portfolio_proj_8', label: 'Projeto 8: Sanca Aberta' }
+      ]
+    },
+    {
+      label: 'Página de Blog',
+      options: [
+        { value: 'blog_1', label: 'Post: Vantagens do Drywall' },
+        { value: 'blog_2', label: 'Post: Iluminação com Sancas' },
+        { value: 'blog_3', label: 'Post: Forro Modular vs Acartonado' }
       ]
     }
   ];
@@ -154,15 +166,23 @@ export default function AdminAssets({ onError, filter = 'all' }) {
     return val;
   };
 
-  const filteredAssets = filter === 'all' 
+  const filteredAssets = filter === 'assets_all' || filter === 'all'
     ? assets 
-    : filter === 'services'
+    : filter === 'assets_services'
       ? assets.filter(item => item.section.startsWith('services_'))
-      : filter === 'home'
-        ? assets.filter(item => ['hero', 'beforeafter'].includes(item.section))
-      : filter === 'portfolio'
-        ? assets.filter(item => item.section === 'portfolio' || item.section.startsWith('portfolio_proj_'))
-      : assets.filter(item => item.section === filter);
+    : filter === 'assets_portfolio'
+      ? assets.filter(item => item.section.startsWith('portfolio_proj_'))
+    : filter === 'assets_recentes'
+      ? assets.filter(item => item.section === 'portfolio')
+    : filter === 'assets_solucoes'
+      ? assets.filter(item => item.section.startsWith('services_'))
+    : filter === 'assets_pinnedbeforeafter'
+      ? assets.filter(item => item.section.startsWith('pinnedbeforeafter_'))
+    : filter === 'assets_beforeafter'
+      ? assets.filter(item => item.section === 'beforeafter')
+    : filter === 'assets_blog'
+      ? assets.filter(item => item.section.startsWith('blog_'))
+    : assets.filter(item => item.section === filter);
 
   return (
     <div>

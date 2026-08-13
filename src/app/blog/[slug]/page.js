@@ -4,11 +4,23 @@ import Link from 'next/link';
 import { ArrowLeft, Clock, Calendar, User, ArrowRight, Share2, Sparkles } from 'lucide-react';
 import WhatsAppCTAButton from '@/components/WhatsAppCTAButton';
 import { blogPosts } from '@/lib/blogData';
+import { supabase } from '@/lib/supabase';
 import { notFound } from 'next/navigation';
 
 export async function generateMetadata({ params }) {
   const { slug } = await params;
-  const post = blogPosts.find((p) => p.slug === slug) || blogPosts[0];
+  let post = blogPosts.find((p) => p.slug === slug) || blogPosts[0];
+
+  const { data: assetData, error } = await supabase
+    .from('site_assets')
+    .select('image_url')
+    .eq('section', `blog_${post.id}`)
+    .order('created_at', { ascending: false })
+    .limit(1);
+
+  if (!error && assetData && assetData.length > 0) {
+    post = { ...post, img: assetData[0].image_url };
+  }
 
   return {
     title: `${post.title} | Blog Gessoalves`,
@@ -24,16 +36,46 @@ export async function generateMetadata({ params }) {
 
 export default async function BlogPost({ params }) {
   const { slug } = await params;
-  const post = blogPosts.find((p) => p.slug === slug) || blogPosts[0];
+  let post = blogPosts.find((p) => p.slug === slug) || blogPosts[0];
 
   if (!post) {
     notFound();
   }
 
+  const { data: assetData2, error: error2 } = await supabase
+    .from('site_assets')
+    .select('image_url')
+    .eq('section', `blog_${post.id}`)
+    .order('created_at', { ascending: false })
+    .limit(1);
+
+  if (!error2 && assetData2 && assetData2.length > 0) {
+    post = { ...post, img: assetData2[0].image_url };
+  }
+
   // Artigos relacionados (mesma categoria ou outros)
-  const relatedPosts = blogPosts
+  let relatedPosts = blogPosts
     .filter((p) => p.id !== post.id)
     .slice(0, 2);
+    
+  const { data: relatedAssets } = await supabase
+    .from('site_assets')
+    .select('section, image_url')
+    .like('section', 'blog_%')
+    .order('created_at', { ascending: false });
+
+  if (relatedAssets && relatedAssets.length > 0) {
+    let dynImages = {};
+    relatedAssets.forEach(r => {
+      if (!dynImages[r.section]) dynImages[r.section] = r.image_url;
+    });
+    relatedPosts = relatedPosts.map(p => {
+      if (dynImages[`blog_${p.id}`]) {
+        return { ...p, img: dynImages[`blog_${p.id}`] };
+      }
+      return p;
+    });
+  }
 
   return (
     <>

@@ -17,13 +17,25 @@ import {
 import { blogPosts, blogCategories } from '@/lib/blogData';
 import styles from './BlogClient.module.css';
 
-export default function BlogClient() {
+export default function BlogClient({ dynamicImages = {} }) {
   const [selectedCategory, setSelectedCategory] = useState('Todos');
   const [searchQuery, setSearchQuery] = useState('');
 
+  // Update blogPosts with dynamic images
+  const dynamicBlogPosts = useMemo(() => {
+    return blogPosts.map(post => {
+      // blog_1, blog_2, blog_3
+      const dynKey = `blog_${post.id}`;
+      if (dynamicImages[dynKey]) {
+        return { ...post, img: dynamicImages[dynKey] };
+      }
+      return post;
+    });
+  }, [dynamicImages]);
+
   // Filtra os posts baseado na busca e na categoria selecionada
   const filteredPosts = useMemo(() => {
-    return blogPosts.filter((post) => {
+    return dynamicBlogPosts.filter((post) => {
       const matchesCategory =
         selectedCategory === 'Todos' || post.category === selectedCategory;
 
@@ -40,7 +52,7 @@ export default function BlogClient() {
   // Artigo em destaque (se não houver filtro ativo, exibe o primeiro post com featured: true)
   const featuredPost = useMemo(() => {
     if (selectedCategory === 'Todos' && searchQuery.trim() === '') {
-      return blogPosts.find((p) => p.featured) || blogPosts[0];
+      return dynamicBlogPosts.find((p) => p.featured) || dynamicBlogPosts[0];
     }
     return null;
   }, [selectedCategory, searchQuery]);
@@ -51,7 +63,7 @@ export default function BlogClient() {
       return filteredPosts.filter((p) => p.id !== featuredPost.id);
     }
     return filteredPosts;
-  }, [filteredPosts, featuredPost]);
+  }, [filteredPosts, featuredPost, dynamicBlogPosts]);
 
   return (
     <div className={styles.pageWrapper}>

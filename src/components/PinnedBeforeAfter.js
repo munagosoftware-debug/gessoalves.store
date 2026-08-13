@@ -4,22 +4,7 @@ import { useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
-const samples = [
-  {
-    title: 'Rebaixamento de Teto em Drywall com Sanca',
-    subtitle: 'Estruturação perfeita com iluminação embutida em LED',
-    beforeImg: 'https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&w=1200&q=80',
-    afterImg: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1200&q=80',
-  },
-  {
-    title: 'Divisória Corporativa Acústica',
-    subtitle: 'Isolamento de ruídos e otimização de espaços empresariais',
-    beforeImg: 'https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=1200&q=80',
-    afterImg: 'https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1200&q=80',
-  },
-];
-
-export default function PinnedBeforeAfter() {
+export default function PinnedBeforeAfter({ samples }) {
   const pinSectionRef = useRef(null);
   const clipRef = useRef(null);
   const [activeIdx, setActiveIdx] = useState(0);

@@ -3,18 +3,30 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { ArrowLeft, CheckCircle2, ShieldCheck, Clock, MessageSquare, Sparkles, Layers } from 'lucide-react';
 import { servicesData, getServiceBySlug } from '@/lib/servicesData';
+import { supabase } from '@/lib/supabase';
 import GallerySwiper from '@/components/GallerySwiper';
 import GsapProvider from '@/components/GsapProvider';
 import WhatsAppCTAButton from '@/components/WhatsAppCTAButton';
 
 export async function generateMetadata({ params }) {
   const { slug } = await params;
-  const service = getServiceBySlug(slug);
+  let service = getServiceBySlug(slug);
   
   if (!service) {
     return {
       title: 'Serviço não encontrado | Gessoalves',
     };
+  }
+
+  const { data: assetData, error } = await supabase
+    .from('site_assets')
+    .select('image_url')
+    .eq('section', `services_${slug}`)
+    .order('created_at', { ascending: false })
+    .limit(1);
+
+  if (!error && assetData && assetData.length > 0) {
+    service = { ...service, placeholderImg: assetData[0].image_url };
   }
 
   return {
@@ -37,10 +49,25 @@ export function generateStaticParams() {
 
 export default async function ServicoDetalhes({ params }) {
   const { slug } = await params;
-  const service = getServiceBySlug(slug);
+  let service = getServiceBySlug(slug);
 
   if (!service) {
     notFound();
+  }
+
+  const { data: assetData2, error: error2 } = await supabase
+    .from('site_assets')
+    .select('image_url, title')
+    .eq('section', `services_${slug}`)
+    .order('created_at', { ascending: false })
+    .limit(1);
+
+  if (!error2 && assetData2 && assetData2.length > 0) {
+    service = {
+      ...service,
+      placeholderImg: assetData2[0].image_url,
+      title: assetData2[0].title || service.title
+    };
   }
 
   return (
