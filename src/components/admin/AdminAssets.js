@@ -138,14 +138,14 @@ export default function AdminAssets({ onError, filter = 'all' }) {
     {
       label: 'Página de Portfólio (Projetos Detalhados)',
       options: [
-        { value: 'portfolio_proj_1', label: 'Projeto 1: Forro Acartonado' },
-        { value: 'portfolio_proj_2', label: 'Projeto 2: Drywall Corporativo' },
-        { value: 'portfolio_proj_3', label: 'Projeto 3: Molduras' },
-        { value: 'portfolio_proj_4', label: 'Projeto 4: Rebaixamento LED' },
-        { value: 'portfolio_proj_5', label: 'Projeto 5: Parede Acústica' },
-        { value: 'portfolio_proj_6', label: 'Projeto 6: Sanca Flutuante' },
-        { value: 'portfolio_proj_7', label: 'Projeto 7: Forro Modular' },
-        { value: 'portfolio_proj_8', label: 'Projeto 8: Sanca Aberta' }
+        { value: 'portfolio_proj_1', label: 'Forro de Gesso com Sanca e Iluminação Embutida' },
+        { value: 'portfolio_proj_2', label: 'Divisória Corporativa com Tratamento Acústico' },
+        { value: 'portfolio_proj_3', label: 'Molduras Clássicas e Rodateto Personalizado' },
+        { value: 'portfolio_proj_4', label: 'Rebaixamento de Teto com Iluminação Linear e Perfil LED' },
+        { value: 'portfolio_proj_5', label: 'Parede Acústica para Home Theater e Estúdio' },
+        { value: 'portfolio_proj_6', label: 'Sanca Invertida Iluminada com Efeito Flutuante' },
+        { value: 'portfolio_proj_7', label: 'Forro Modular Removível para Área Comercial' },
+        { value: 'portfolio_proj_8', label: 'Sanca Aberta com Spots e Iluminação Dupla' }
       ]
     },
     {
