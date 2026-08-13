@@ -8,7 +8,7 @@ import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
 
-const hardcodedProjects = [
+const projects = [
   {
     title: 'Reforma de Sala Residencial no Morumbi',
     before: 'https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&w=1000&q=80',
@@ -23,9 +23,8 @@ const hardcodedProjects = [
   },
 ];
 
-export default function BeforeAfterSlider({ projects = [] }) {
-  const displayProjects = projects && projects.length > 0 ? projects : hardcodedProjects;
-  const [slidersVal, setSlidersVal] = useState(displayProjects.map(() => 50));
+export default function BeforeAfterSlider() {
+  const [slidersVal, setSlidersVal] = useState(projects.map(() => 50));
 
   const handleSliderChange = (idx, val) => {
     const next = [...slidersVal];
@@ -43,7 +42,7 @@ export default function BeforeAfterSlider({ projects = [] }) {
         navigation
         style={{ paddingBottom: '3.5rem' }}
       >
-        {displayProjects.map((proj, idx) => {
+        {projects.map((proj, idx) => {
           const percent = slidersVal[idx] !== undefined ? slidersVal[idx] : 50;
           return (
             <SwiperSlide key={idx}>
@@ -59,10 +58,10 @@ export default function BeforeAfterSlider({ projects = [] }) {
                 <div className="metallic-screw screw-bl" />
                 <div className="metallic-screw screw-br" />
 
-                <h3 style={{ fontSize: '1.4rem', color: '#ffffff', marginBottom: '0.4rem' }}>
+                <h3 style={{ fontSize: '1.4rem', color: 'var(--color-navy)', marginBottom: '0.4rem' }}>
                   {proj.title}
                 </h3>
-                <p style={{ color: 'var(--color-silver-light)', fontSize: '0.95rem', marginBottom: '1.2rem' }}>
+                <p style={{ color: '#666', fontSize: '0.95rem', marginBottom: '1.2rem' }}>
                   {proj.details}
                 </p>
 

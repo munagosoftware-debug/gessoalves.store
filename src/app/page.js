@@ -90,7 +90,49 @@ export default async function Home() {
     .from('site_assets')
     .select('*')
     .eq('section', 'portfolio')
+    .order('order_index', { ascending: true })
     .order('created_at', { ascending: false });
+
+  const { data: dbBeforeAfter } = await supabase
+    .from('site_assets')
+    .select('*')
+    .eq('section', 'beforeafter')
+    .order('order_index', { ascending: true })
+    .order('created_at', { ascending: false });
+
+  let beforeAfterProjects = [];
+  if (dbBeforeAfter && dbBeforeAfter.length > 0) {
+    for (let i = 0; i < dbBeforeAfter.length; i += 2) {
+      if (dbBeforeAfter[i] && dbBeforeAfter[i+1]) {
+        beforeAfterProjects.push({
+          title: dbBeforeAfter[i].title || 'Transformação',
+          before: dbBeforeAfter[i].image_url,
+          after: dbBeforeAfter[i+1].image_url,
+          details: '',
+        });
+      }
+    }
+  }
+
+  const { data: dbServices } = await supabase
+    .from('site_assets')
+    .select('*')
+    .eq('section', 'services')
+    .order('order_index', { ascending: true })
+    .order('created_at', { ascending: false });
+
+  let services = servicesData.map(s => ({ ...s }));
+
+  if (dbServices && dbServices.length > 0) {
+    dbServices.forEach((dbService, idx) => {
+      if (services[idx]) {
+        services[idx].placeholderImg = dbService.image_url;
+        if (dbService.title) {
+          services[idx].title = dbService.title;
+        }
+      }
+    });
+  }
 
   let photos = MOCK_PHOTOS.map(p => ({ ...p }));
 
@@ -182,7 +224,7 @@ export default async function Home() {
             </div>
 
             <div className="gsap-stagger-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '2rem' }}>
-              {servicesData.map((service, idx) => (
+              {services.map((service, idx) => (
                 <ServiceCard3D
                   key={service.slug}
                   title={service.title}
@@ -212,7 +254,7 @@ export default async function Home() {
                 Arraste o divisor central para visualizar a transformação completa que executamos nos projetos.
               </p>
             </div>
-            <BeforeAfterSlider />
+            <BeforeAfterSlider projects={beforeAfterProjects} />
           </div>
         </section>
 
