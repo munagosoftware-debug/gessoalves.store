@@ -13,10 +13,16 @@ export const metadata = {
 };
 
 export default async function Portfolio() {
-  const { data: dbProjects } = await supabase
-    .from('site_assets')
-    .select('*')
-    .like('section', 'portfolio_proj_%');
+  let dbProjects = null;
+  try {
+    const { data } = await supabase
+      .from('site_assets')
+      .select('*')
+      .like('section', 'portfolio_proj_%');
+    dbProjects = data;
+  } catch (err) {
+    console.error('Failed to fetch portfolio projects', err);
+  }
 
   let updatedProjects = portfolioProjects.map(p => ({ ...p }));
   

@@ -69,7 +69,7 @@ export default function PortfolioClient({ initialProjects = [] }) {
 
       return matchesCategory && matchesSearch;
     });
-  }, [activeCategory, searchQuery]);
+  }, [activeCategory, searchQuery, initialProjects]);
 
   return (
     <div className={styles.pageWrapper}>
