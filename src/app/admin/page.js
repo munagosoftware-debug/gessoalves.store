@@ -129,8 +129,8 @@ export default function AdminDashboardPage() {
                   <div className={styles.subMenu}>
                     <button onClick={() => setActiveTab('assets_all')} className={activeTab === 'assets_all' ? styles.subNavItemActive : styles.subNavItem}>Todas as Fotos</button>
                     <button onClick={() => setActiveTab('assets_services')} className={activeTab === 'assets_services' ? styles.subNavItemActive : styles.subNavItem}>Serviços</button>
-                    <button onClick={() => setActiveTab('assets_portfolio')} className={activeTab === 'assets_portfolio' ? styles.subNavItemActive : styles.subNavItem}>Portfólio</button>
-                    <button onClick={() => setActiveTab('assets_recentes')} className={activeTab === 'assets_recentes' ? styles.subNavItemActive : styles.subNavItem}>Nossas Obras Recentes</button>
+                    <button onClick={() => setActiveTab('assets_portfolio')} className={activeTab === 'assets_portfolio' ? styles.subNavItemActive : styles.subNavItem}>Nossas Obras Recentes</button>
+                    <button onClick={() => setActiveTab('assets_recentes')} className={activeTab === 'assets_recentes' ? styles.subNavItemActive : styles.subNavItem}>Portfólio</button>
                     <button onClick={() => setActiveTab('assets_solucoes')} className={activeTab === 'assets_solucoes' ? styles.subNavItemActive : styles.subNavItem}>Soluções Completas em Gesso e Drywall</button>
                     <button onClick={() => setActiveTab('assets_pinnedbeforeafter')} className={activeTab === 'assets_pinnedbeforeafter' ? styles.subNavItemActive : styles.subNavItem}>Rebaixamento de Teto em Drywall com Sanca</button>
                     <button onClick={() => setActiveTab('assets_beforeafter')} className={activeTab === 'assets_beforeafter' ? styles.subNavItemActive : styles.subNavItem}>Antes & Depois Interativo por Obra</button>
